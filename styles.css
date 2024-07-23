@@ -1,17 +1,16 @@
-/* General styles */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Playfair Display', serif;
     line-height: 1.6;
     margin: 0;
     padding: 0;
-    color: #333;
+    background-color: #1a1a1a;
+    color: #d4af37;
 }
 
-/* Header and navigation */
 header {
-    background-color: #333;
-    color: #fff;
+    background-color: #0a0a0a;
     padding: 1rem;
+    border-bottom: 1px solid #d4af37;
 }
 
 nav {
@@ -21,8 +20,9 @@ nav {
 }
 
 .logo {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     font-weight: bold;
+    color: #d4af37;
 }
 
 nav ul {
@@ -33,51 +33,45 @@ nav ul {
 }
 
 nav ul li {
-    margin-left: 1rem;
+    margin-left: 1.5rem;
 }
 
 nav ul li a {
-    color: #fff;
+    color: #d4af37;
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
 nav ul li a:hover {
-    color: #ddd;
+    color: #fff;
 }
 
-nav ul li a.active {
-    font-weight: bold;
-}
-
-/* Main content area */
 main {
     padding: 2rem;
-    max-width: 800px;
+    max-width: 1000px;
     margin: 0 auto;
 }
 
-h1 {
-    color: #333;
-    margin-bottom: 1rem;
+h1, h2 {
+    color: #d4af37;
 }
 
-/* Project grid */
 .project-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
 }
 
 .project-card {
-    border: 1px solid #ddd;
+    background-color: #2a2a2a;
+    border: 1px solid #d4af37;
     border-radius: 5px;
-    padding: 1rem;
-    transition: box-shadow 0.3s ease;
+    padding: 1.5rem;
+    transition: transform 0.3s ease;
 }
 
 .project-card:hover {
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transform: translateY(-5px);
 }
 
 .project-card img {
@@ -86,119 +80,90 @@ h1 {
     border-radius: 4px;
 }
 
-.project-card h2 {
-    margin-top: 0.5rem;
-}
-
 .project-card a {
     display: inline-block;
-    margin-top: 0.5rem;
-    margin-right: 0.5rem;
-    padding: 0.25rem 0.5rem;
-    background-color: #333;
-    color: #fff;
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: #d4af37;
+    color: #1a1a1a;
     text-decoration: none;
     border-radius: 3px;
-    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
 }
 
 .project-card a:hover {
-    background-color: #555;
+    background-color: #fff;
 }
 
 /* Contact form styles */
 .form-group {
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
 }
 
 label {
     display: block;
     margin-bottom: 0.5rem;
+    color: #d4af37;
 }
 
 input[type="text"],
 input[type="email"],
 textarea {
     width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #ddd;
+    padding: 0.8rem;
+    background-color: #2a2a2a;
+    border: 1px solid #d4af37;
     border-radius: 4px;
-    font-size: 1rem;
+    color: #fff;
 }
 
 textarea {
     height: 150px;
-    resize: vertical;
 }
 
 button[type="submit"] {
-    background-color: #333;
-    color: #fff;
-    padding: 0.5rem 1rem;
+    background-color: #d4af37;
+    color: #1a1a1a;
+    padding: 0.8rem 1.5rem;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 1rem;
     transition: background-color 0.3s ease;
 }
 
 button[type="submit"]:hover {
-    background-color: #555;
+    background-color: #fff;
 }
 
-/* Social links */
-.social-links {
-    margin-top: 2rem;
-}
-
-.social-links ul {
-    list-style: none;
-    padding: 0;
-}
-
-.social-links li {
-    margin-bottom: 0.5rem;
-}
-
-.social-links a {
-    color: #333;
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-.social-links a:hover {
-    color: #555;
-    text-decoration: underline;
-}
-
-/* Footer */
 footer {
-    background-color: #333;
-    color: #fff;
+    background-color: #0a0a0a;
+    color: #d4af37;
     text-align: center;
     padding: 1rem;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
+    border-top: 1px solid #d4af37;
 }
 
-/* Responsive adjustments */
-@media (max-width: 600px) {
+/* Add some sophisticated animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.fade-in {
+    animation: fadeIn 1s ease-in;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
     nav {
         flex-direction: column;
-        align-items: flex-start;
     }
-
+    
     nav ul {
         margin-top: 1rem;
     }
-
+    
     nav ul li {
-        margin-left: 0;
-        margin-right: 1rem;
-    }
-
-    .project-grid {
-        grid-template-columns: 1fr;
+        margin: 0.5rem 0;
     }
 }
