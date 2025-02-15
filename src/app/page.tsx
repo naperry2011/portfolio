@@ -84,9 +84,9 @@ export default function Home() {
       <div className="absolute inset-0 cyber-grid"></div>
       
       {/* Enhanced Hero Section */}
-      <section className="min-h-screen flex items-center justify-center relative px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto w-full py-12 sm:py-20 relative">
-          <div className="text-center mb-8 sm:mb-16">
+      <section className="min-h-screen relative flex flex-col justify-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
+          <div className="text-center relative pb-16 sm:pb-32">
             <div className="mb-4 sm:mb-8 inline-block">
               <span className="text-sm font-mono text-primary/80 animate-pulse">&gt; initializing system...</span>
             </div>
@@ -135,12 +135,16 @@ export default function Home() {
                 <span className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity">→</span>
               </a>
             </div>
-          </div>
 
-          {/* Scroll Indicator */}
-          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-            <BsArrowDownCircle className="text-2xl text-primary/80" />
-            <span className="block text-sm text-foreground/60 mt-2">Explore Skills</span>
+            {/* Updated Scroll Indicator positioning */}
+            <div className="absolute left-1/2 transform -translate-x-1/2 bottom-0 sm:bottom-8 w-full">
+              <div className="flex flex-col items-center space-y-2">
+                <BsArrowDownCircle className="text-2xl text-primary/80 animate-bounce" />
+                <span className="text-sm text-foreground/60">
+                  Explore Skills
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -194,7 +198,7 @@ export default function Home() {
       </section>
 
       {/* Existing Skills Sections */}
-      <section className="py-20 relative">
+      <section className="py-12 sm:py-20 relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Your existing skills sections here */}
           <div className="space-y-16">

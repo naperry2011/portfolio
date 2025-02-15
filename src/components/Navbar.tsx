@@ -77,32 +77,32 @@ export default function Navbar() {
             </button>
           </div>
         </div>
-      </div>
 
-      {/* Mobile Menu */}
-      {isMobileMenuOpen && (
-        <div className="sm:hidden">
-          <div className="px-2 pt-2 pb-3 space-y-1 bg-background/95 backdrop-blur-md border-b border-primary/20">
-            {navLinks.map(([name, path]) => (
-              <Link
-                key={path}
-                href={path}
-                className={`block px-3 py-2 rounded-md text-base font-medium transition-all duration-300
-                  ${pathname === path 
-                    ? 'text-primary bg-primary/10 neon-glow' 
-                    : 'text-foreground/80 hover:text-gradient hover:neon-glow'
-                  }
-                  hover:bg-primary/5`}
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                <span className="text-primary/60 mr-1">&lt;</span>
-                {name}
-                <span className="text-primary/60 ml-1">&gt;</span>
-              </Link>
-            ))}
+        {/* Mobile Menu Dropdown */}
+        {isMobileMenuOpen && (
+          <div className="sm:hidden absolute top-16 left-0 right-0 bg-background border-b border-primary/20">
+            <div className="px-2 pt-2 pb-3 space-y-1">
+              {navLinks.map(([name, path]) => (
+                <Link
+                  key={path}
+                  href={path}
+                  className={`block px-3 py-2 rounded-md text-base font-medium transition-all duration-300
+                    ${pathname === path 
+                      ? 'text-primary bg-primary/10 neon-glow' 
+                      : 'text-foreground/80 hover:text-gradient hover:neon-glow'
+                    }
+                    hover:bg-primary/5`}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <span className="text-primary/60 mr-1">&lt;</span>
+                  {name}
+                  <span className="text-primary/60 ml-1">&gt;</span>
+                </Link>
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </nav>
   );
 } 
