@@ -28,7 +28,8 @@ interface Project {
 }
 
 export default function Projects() {
-  const softwareProjects = [
+  // Type the project arrays with Project interface
+  const softwareProjects: Project[] = [
     {
       title: "Pantry Chef",
       description: "A modern recipe management application built with Next.js 14 and Supabase, offering a seamless experience for discovering and managing recipes based on available ingredients. Currently in active development with new features being added.",
@@ -89,7 +90,7 @@ export default function Projects() {
     }
   ];
 
-  const cloudProjects = [
+  const cloudProjects: Project[] = [
     {
       title: "Gaming Leaderboard on AWS",
       description: "A serverless API system for tracking and displaying player high scores, built with AWS services and automated with Jenkins and Ansible. In planning phase with infrastructure design underway.",
@@ -164,7 +165,14 @@ export default function Projects() {
     </div>
   );
 
-  const ProjectSection = ({ title, projects }) => (
+  // Add interface for ProjectSection props
+  interface ProjectSectionProps {
+    title: string;
+    projects: Project[];
+  }
+
+  // Type the ProjectSection component
+  const ProjectSection = ({ title, projects }: ProjectSectionProps) => (
     <div className="mb-20">
       <h2 className="text-3xl font-bold mb-12 text-center">
         <span className="text-gradient neon-glow">{title}</span>
