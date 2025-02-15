@@ -4,6 +4,26 @@ import { SiKubernetes, SiAnsible, SiJavascript, SiTypescript, SiHtml5, SiCss3, S
 import { BsCursorFill, BsStars, BsArrowDownCircle } from "react-icons/bs";
 import Link from "next/link";
 import { MotionDiv } from '@/components/MotionWrapper';
+import { ReactNode } from 'react';
+
+// Add interface for skill type
+interface Skill {
+  name: string;
+  icon: ReactNode;
+  level: number;
+}
+
+// Update SkillCard component with proper typing
+const SkillCard = ({ skill }: { skill: Skill }) => (
+  <div className="flex items-center gap-4 p-4 border border-primary/20 rounded-lg bg-primary/5 backdrop-blur-sm hover:border-primary/50 transition-all group">
+    <div className="text-primary">
+      {skill.icon}
+    </div>
+    <span className="font-medium group-hover:text-primary transition-colors">
+      {skill.name}
+    </span>
+  </div>
+);
 
 export default function Home() {
   const developmentSkills = [
@@ -387,15 +407,3 @@ export default function Home() {
     </div>
   );
 }
-
-// Skill Card Component
-const SkillCard = ({ skill }: { skill: { name: string; icon: JSX.Element; level: number } }) => (
-  <div className="flex items-center gap-4 p-4 border border-primary/20 rounded-lg bg-primary/5 backdrop-blur-sm hover:border-primary/50 transition-all group">
-    <div className="text-primary">
-      {skill.icon}
-    </div>
-    <span className="font-medium group-hover:text-primary transition-colors">
-      {skill.name}
-    </span>
-  </div>
-);
