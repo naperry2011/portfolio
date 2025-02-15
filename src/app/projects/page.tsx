@@ -23,7 +23,7 @@ interface Project {
   futureFeatures?: string[];
   github: string;
   live: string;
-  status: string;
+  status: StatusBadgeProps['status'];
   isLive: boolean;
 }
 
@@ -54,7 +54,7 @@ export default function Projects() {
       ],
       github: "https://github.com/naperry2011/pantry-chef",
       live: "https://pantry-chef.cyberlounge.net",
-      status: "In Progress",
+      status: "in-progress",
       isLive: false
     },
     {
@@ -85,7 +85,7 @@ export default function Projects() {
       ],
       github: "https://github.com/naperry2011/fit-hero",
       live: "https://fit-hero.cyberlounge.net",
-      status: "Planned",
+      status: "planned",
       isLive: false
     }
   ];
@@ -106,7 +106,7 @@ export default function Projects() {
       ],
       github: "https://github.com/naperry2011/gaming-leaderboard",
       live: "https://leaderboard-demo.cyberlounge.net",
-      status: "Planned",
+      status: "planned",
       isLive: false
     },
     {
@@ -124,7 +124,7 @@ export default function Projects() {
       ],
       github: "https://github.com/naperry2011/restaurant-analytics",
       live: "https://analytics-demo.cyberlounge.net",
-      status: "Planned",
+      status: "planned",
       isLive: false
     }
   ];
