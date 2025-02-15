@@ -5,9 +5,26 @@ import Image from 'next/image';
 import { FaGithub, FaLink } from 'react-icons/fa';
 import { MotionDiv } from '@/components/MotionWrapper';
 
-// Add this interface for project status
+// Add interfaces for project and component props
 interface StatusBadgeProps {
   status: 'completed' | 'in-progress' | 'planned';
+}
+
+interface FutureFeaturesProps {
+  features: string[];
+}
+
+interface Project {
+  title: string;
+  description: string;
+  image: string;
+  tech: string[];
+  features: string[];
+  futureFeatures?: string[];
+  github: string;
+  live: string;
+  status: string;
+  isLive: boolean;
 }
 
 export default function Projects() {
@@ -133,26 +150,16 @@ export default function Projects() {
     );
   };
 
-  const FutureFeatures = ({ features }) => (
+  // Update the FutureFeatures component with proper typing
+  const FutureFeatures = ({ features }: FutureFeaturesProps) => (
     <div>
       <h4 className="text-lg font-semibold mb-3 text-primary">Future Roadmap</h4>
       <div className="space-y-2">
-        {features.map((feature) => (
-          <div 
-            key={feature}
-            className="flex items-center gap-2 text-foreground/70"
-          >
-            <svg
-              className="w-4 h-4 text-primary/50"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-            </svg>
-            <span>{feature}</span>
-          </div>
-        ))}
+        <ul className="list-disc list-inside text-foreground/70 space-y-1">
+          {features.map((feature, index) => (
+            <li key={index}>{feature}</li>
+          ))}
+        </ul>
       </div>
     </div>
   );
