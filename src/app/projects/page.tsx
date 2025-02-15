@@ -5,6 +5,11 @@ import Image from 'next/image';
 import { FaGithub, FaLink } from 'react-icons/fa';
 import { MotionDiv } from '@/components/MotionWrapper';
 
+// Add this interface for project status
+interface StatusBadgeProps {
+  status: 'completed' | 'in-progress' | 'planned';
+}
+
 export default function Projects() {
   const softwareProjects = [
     {
@@ -106,23 +111,24 @@ export default function Projects() {
     }
   ];
 
-  const StatusBadge = ({ status }) => {
-    const getStatusColor = (status) => {
+  // Update the StatusBadge component with proper typing
+  const StatusBadge = ({ status }: StatusBadgeProps) => {
+    const getStatusColor = (status: StatusBadgeProps['status']) => {
       switch (status.toLowerCase()) {
         case 'completed':
           return 'bg-green-500/10 text-green-500 border-green-500/20';
-        case 'in progress':
-          return 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20';
-        case 'planned':
+        case 'in-progress':
           return 'bg-blue-500/10 text-blue-500 border-blue-500/20';
+        case 'planned':
+          return 'bg-orange-500/10 text-orange-500 border-orange-500/20';
         default:
-          return 'bg-primary/10 text-primary border-primary/20';
+          return 'bg-gray-500/10 text-gray-500 border-gray-500/20';
       }
     };
 
     return (
-      <span className={`px-3 py-1 rounded-full text-sm border ${getStatusColor(status)} font-medium`}>
-        {status}
+      <span className={`px-3 py-1 rounded-full text-sm border ${getStatusColor(status)}`}>
+        {status.charAt(0).toUpperCase() + status.slice(1)}
       </span>
     );
   };
