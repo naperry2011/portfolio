@@ -7,12 +7,13 @@ const parser = new Parser({
   }
 });
 
-interface MediumPost {
-  title: string;
-  link: string;
-  pubDate: string;
-  content: string;
-  // Add other properties as needed
+interface MediumFeedItem {
+  title?: string;
+  link?: string;
+  pubDate?: string;
+  content?: string;
+  'content:encoded'?: string;
+  categories?: string[];
 }
 
 export async function GET() {
@@ -68,7 +69,7 @@ export async function GET() {
 }
 
 // Helper function to extract thumbnail
-function extractThumbnail(item: any) {
+function extractThumbnail(item: MediumFeedItem) {
   // Try to get image from content
   const imgMatch = item['content:encoded']?.match(/<img[^>]+src="([^">]+)"/);
   if (imgMatch) return imgMatch[1];

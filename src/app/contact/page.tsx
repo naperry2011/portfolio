@@ -32,10 +32,10 @@ export default function Contact() {
         transition={{ duration: 0.6 }}
       >
         <h1 className="text-4xl sm:text-5xl font-bold mb-6">
-          Let's <span className="text-gradient neon-glow">Connect</span>
+          Let&apos;s <span className="text-gradient neon-glow">Connect</span>
         </h1>
         <p className="text-xl text-foreground/80 max-w-3xl mx-auto">
-          Have a project in mind? Let's discuss how we can work together to bring your ideas to life.
+          Have a project in mind? Let&apos;s discuss how we can work together to bring your ideas to life.
         </p>
       </motion.div>
 
@@ -79,7 +79,7 @@ export default function Contact() {
             <h2 className="text-2xl font-semibold mb-4 text-center">Schedule a Consultation</h2>
             <p className="text-foreground/60 mb-6 text-center">
               Book a free 15-minute introduction call to discuss your project ideas and explore how we can work together.
-              During our call, we'll:
+              During our call, we&apos;ll:
             </p>
             <ul className="space-y-3 mb-6 text-foreground/60">
               <li className="flex items-start gap-2">

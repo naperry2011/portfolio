@@ -51,13 +51,13 @@ export default function About() {
             <div className="prose dark:prose-invert max-w-none flex-1">
               <h2 className="text-2xl font-bold mb-4 text-gradient">The Journey</h2>
               <p className="text-foreground/80 leading-relaxed">
-                Since 2018, I've been on an exciting journey through the tech landscape, 
+                Since 2018, I&apos;ve been on an exciting journey through the tech landscape, 
                 starting from helpdesk and evolving into a cloud and infrastructure specialist. 
                 What drives me? The power to transform ideas into reality through code and innovation.
               </p>
               <p className="text-foreground/80 leading-relaxed mt-4">
-                I believe technology is more than just tools and systems - it's a canvas for creativity. 
-                Whether I'm architecting cloud solutions or optimizing infrastructure, I bring both 
+                I believe technology is more than just tools and systems - it&apos;s a canvas for creativity. 
+                Whether I&apos;m architecting cloud solutions or optimizing infrastructure, I bring both 
                 technical expertise and creative problem-solving to every challenge.
               </p>
               <div className="mt-6 flex gap-4">
