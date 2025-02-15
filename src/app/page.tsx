@@ -1,8 +1,7 @@
 import Image from "next/image";
-import { FaAws, FaDocker, FaGithub, FaNode, FaReact, FaDatabase, FaRobot, FaTerminal, FaCode, FaRocket } from "react-icons/fa";
+import { FaAws, FaDocker, FaNode, FaReact, FaRobot, FaTerminal, FaCode, FaRocket } from "react-icons/fa";
 import { SiKubernetes, SiAnsible, SiJavascript, SiTypescript, SiHtml5, SiCss3, SiTerraform, SiNextdotjs, SiMongodb, SiPostgresql, SiPython, SiGrafana, SiCanva, SiSupabase } from "react-icons/si";
 import { BsCursorFill, BsStars, BsArrowDownCircle } from "react-icons/bs";
-import { motion } from "framer-motion";
 import Link from "next/link";
 import { MotionDiv } from '@/components/MotionWrapper';
 

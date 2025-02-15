@@ -1,6 +1,6 @@
 'use client';
 
-import { FaServer, FaCloud, FaRobot, FaGraduationCap } from 'react-icons/fa';
+import { FaServer, FaCloud } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 

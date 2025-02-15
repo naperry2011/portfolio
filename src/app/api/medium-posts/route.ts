@@ -7,6 +7,14 @@ const parser = new Parser({
   }
 });
 
+interface MediumPost {
+  title: string;
+  link: string;
+  pubDate: string;
+  content: string;
+  // Add other properties as needed
+}
+
 export async function GET() {
   try {
     console.log('Fetching Medium feed...');

@@ -3,8 +3,7 @@
 import { motion } from 'framer-motion';
 import { MotionDiv } from '@/components/MotionWrapper';
 import Image from 'next/image';
-import Link from 'next/link';
-import { FaClock, FaTag, FaMedium } from 'react-icons/fa';
+import { FaTag, FaMedium } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 
 // Types for Medium posts

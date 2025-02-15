@@ -46,7 +46,7 @@ export default function Contact() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
       >
-        {services.map((service, index) => (
+        {services.map((service) => (
           <div
             key={service.title}
             className="p-6 border border-primary/20 rounded-lg bg-primary/5 backdrop-blur-sm hover:border-primary/50 transition-all group"
