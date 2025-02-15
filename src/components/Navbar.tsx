@@ -41,9 +41,16 @@ export default function Navbar() {
                 <Link
                   key={path}
                   href={path}
-                  className={`relative px-3 py-1 transition-all duration-300 tracking-wider
-                    ${pathname === path ? 'text-primary neon-glow' : 'text-foreground/80'}
-                    hover:text-primary`}
+                  className={`relative px-3 py-1 transition-all duration-300 tracking-wider font-medium
+                    ${pathname === path 
+                      ? 'text-primary neon-glow' 
+                      : 'text-foreground/80 hover:text-gradient hover:neon-glow'
+                    }
+                    before:content-['<'] before:opacity-0 before:mr-1
+                    after:content-['>'] after:opacity-0 after:ml-1
+                    hover:before:opacity-100 hover:after:opacity-100
+                    before:transition-opacity after:transition-opacity
+                    before:text-primary/60 after:text-primary/60`}
                   onMouseEnter={() => setIsHovered(path)}
                   onMouseLeave={() => setIsHovered(null)}
                 >
@@ -73,22 +80,29 @@ export default function Navbar() {
       </div>
 
       {/* Mobile Menu */}
-      <div className={`sm:hidden ${isMobileMenuOpen ? 'block' : 'hidden'}`}>
-        <div className="px-2 pt-2 pb-3 space-y-1 bg-background/95 backdrop-blur-md border-b border-primary/20">
-          {navLinks.map(([name, path]) => (
-            <Link
-              key={path}
-              href={path}
-              className={`block px-3 py-2 rounded-md text-base font-medium transition-all duration-300
-                ${pathname === path ? 'text-primary bg-primary/10 neon-glow' : 'text-foreground/80'}
-                hover:text-primary hover:bg-primary/5`}
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              {name}
-            </Link>
-          ))}
+      {isMobileMenuOpen && (
+        <div className="sm:hidden">
+          <div className="px-2 pt-2 pb-3 space-y-1 bg-background/95 backdrop-blur-md border-b border-primary/20">
+            {navLinks.map(([name, path]) => (
+              <Link
+                key={path}
+                href={path}
+                className={`block px-3 py-2 rounded-md text-base font-medium transition-all duration-300
+                  ${pathname === path 
+                    ? 'text-primary bg-primary/10 neon-glow' 
+                    : 'text-foreground/80 hover:text-gradient hover:neon-glow'
+                  }
+                  hover:bg-primary/5`}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <span className="text-primary/60 mr-1">&lt;</span>
+                {name}
+                <span className="text-primary/60 ml-1">&gt;</span>
+              </Link>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </nav>
   );
 } 

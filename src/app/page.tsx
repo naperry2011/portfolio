@@ -184,7 +184,7 @@ export default function Home() {
               <h2 className="text-2xl sm:text-3xl font-bold mb-8">
                 <span className="text-gradient neon-glow">WEB & SOFTWARE DEVELOPMENT</span>
               </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {developmentSkills.map((skill) => (
                   <SkillCard key={skill.name} skill={skill} />
                 ))}
@@ -390,19 +390,13 @@ export default function Home() {
 }
 
 // Skill Card Component
-const SkillCard = ({ skill }: { skill: { name: string; icon: React.ReactNode; level: number } }) => (
-  <div className="p-4 rounded-lg border border-primary/20 bg-background/40 backdrop-blur-sm hover:border-primary/50 transition-all group">
-    <div className="flex items-center gap-3 mb-3">
-      <div className="text-2xl transform group-hover:scale-110 transition-transform">
-        {skill.icon}
-      </div>
-      <h3 className="font-semibold tracking-wide">{skill.name}</h3>
+const SkillCard = ({ skill }: { skill: { name: string; icon: JSX.Element; level: number } }) => (
+  <div className="flex items-center gap-4 p-4 border border-primary/20 rounded-lg bg-primary/5 backdrop-blur-sm hover:border-primary/50 transition-all group">
+    <div className="text-primary">
+      {skill.icon}
     </div>
-    <div className="h-2 bg-background/50 rounded-full overflow-hidden">
-      <div
-        className="h-full bg-gradient-to-r from-gradient-start to-gradient-end group-hover:animate-pulse"
-        style={{ width: `${skill.level}%` }}
-      />
-    </div>
+    <span className="font-medium group-hover:text-primary transition-colors">
+      {skill.name}
+    </span>
   </div>
 );
