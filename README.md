@@ -119,15 +119,3 @@ cyberlounge-portfolio/
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
 
-## 🤝 Contact Information
-
-Connect with us through:
-- Website: [cyberlounge.net](https://cyberlounge.net)
-- GitHub: [@yourusername](https://github.com/yourusername)
-- LinkedIn: [Your Name](https://linkedin.com/in/yourusername)
-
----
-
-<p align="center">
-  Built with ❤️ using Next.js and Tailwind CSS
-</p>
