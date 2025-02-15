@@ -11,6 +11,28 @@ const geist = Geist({
 export const metadata: Metadata = {
   title: "Cyberlounge.net | Software & Cloud Development",
   description: "Professional software and cloud development services powered by AI",
+  openGraph: {
+    title: 'Cyberlounge.net | Software & Cloud Development',
+    description: 'Professional software and cloud development services powered by AI',
+    url: 'https://cyberlounge.net',
+    siteName: 'Cyberlounge',
+    images: [
+      {
+        url: '/cyberpunk-profile.jpg', // Update to your new image name
+        width: 1200,
+        height: 630,
+        alt: 'CyberCap - Professional Software Development',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Cyberlounge.net | Software & Cloud Development',
+    description: 'Professional software and cloud development services powered by AI',
+    images: ['/cyberpunk-profile.jpg'], // Same image as OG
+  },
 };
 
 export default function RootLayout({
