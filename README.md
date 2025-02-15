@@ -2,7 +2,7 @@
 
 A cutting-edge portfolio website built with Next.js, featuring a cyberpunk design aesthetic and modern web technologies.
 
-![Cyberlounge Portfolio](public/portfolio-preview.jpg)
+
 
 ## 🌟 Overview
 
