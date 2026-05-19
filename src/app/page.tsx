@@ -11,6 +11,7 @@ import Frame from "@/components/Frame";
 import SplitText from "@/components/SplitText";
 import Marquee from "@/components/Marquee";
 import TiltCard from "@/components/TiltCard";
+import ReactiveText from "@/components/ReactiveText";
 
 interface Skill {
   name: string;
@@ -99,11 +100,10 @@ export default function Home() {
           <div className="mt-16 grid grid-cols-1 lg:grid-cols-12 gap-8">
             <div className="lg:col-span-7 lg:col-start-6">
               <p className="label mb-4">PRACTICE</p>
-              <p className="text-lg sm:text-xl text-ink leading-relaxed">
-                Independent software &amp; cloud development. I build production-ready
-                web applications and infrastructure for founders, small businesses,
-                and consultancies.
-              </p>
+              <ReactiveText
+                text="Independent software & cloud development. I build production-ready web applications and infrastructure for founders, small businesses, and consultancies."
+                className="text-lg sm:text-xl text-ink leading-relaxed"
+              />
               <div className="flex flex-col sm:flex-row gap-4 mt-10">
                 <Link
                   href="/projects"
