@@ -16,7 +16,6 @@ Active work. Update as items are completed and new work is identified.
 - [ ] Drop screenshots at `public/projects/rooted-legacy.jpg`, `public/projects/reality-saving.jpg`, `public/projects/the-motions.jpg` (~1600×1200, ~4:3) — XS
 - [ ] Add `public/og-cover.jpg` (1200×630) for OpenGraph + Twitter card — XS
 - [ ] Update README.md to reflect Next.js 15 + the new four-route shape + drop `NEXT_PUBLIC_MEDIUM_USERNAME` — S
-- [ ] Set `metadataBase` in `src/app/layout.tsx` to silence Next.js build warning — XS
 - [ ] Re-verify About page bio copy with user (current text was migrated from prior version) — S
 
 ## Blocked
@@ -25,6 +24,7 @@ Active work. Update as items are completed and new work is identified.
 
 ## Recently Completed
 
+- [x] Architect redesign Tier 1: design tokens, type scale, Frame component, 4 page rewrites, metadataBase fix — 2026-05-19
 - [x] Full visual redesign: minimal dark editorial system (charcoal + Fraunces serif + muted gold accent) — 2026-05-19
 - [x] Projects page rewrite with three live projects (Rooted Legacy, Reality Saving, The Motions) — 2026-05-19
 - [x] Removed AI Augmented Development section from home — 2026-05-19

@@ -10,6 +10,7 @@ Primary Files:
 - src/app/layout.tsx
 - src/components/Navbar.tsx
 - src/components/Footer.tsx
+- src/components/Frame.tsx
 
 Supporting Files:
 - src/app/globals.css

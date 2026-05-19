@@ -25,6 +25,11 @@ Running history of what's been built and current state. Update after major chang
 
 ## Implementation History
 
+### 2026-05-19 — Tier 1 Architect redesign foundation
+**What was built:** New design tokens (paper-cream ink `#f4f0e8`, oxidized-brass accent `#b8966d`, refined dark background `#0a0a0c`). Strict 1.250 type scale. Reusable `<Frame>` component for the title-block motif. All 4 pages (Home / About / Projects / Contact) rewritten with framed sections, corner metadata, and the architectural "title block" treatment. Navbar and Footer updated for the new palette. `metadataBase` set in layout to silence Next build warning.
+**Why:** Position site as "digital architect with defined taste" — visible system, deliberate ratios. Foundation for Tier 2 (Expressive layer).
+**Files affected:** `src/app/globals.css`, `tailwind.config.ts`, `src/components/{Frame,Navbar,Footer}.tsx`, `src/app/{layout,page,about,projects,contact}/*.tsx`.
+
 ### 2026-05-19 — Portfolio redesign to minimal dark editorial
 **What was built:** Full visual redesign away from cyberpunk neon. New design tokens (charcoal/gold), Fraunces serif headings, restyled Navbar/Footer wordmark (no brackets/neon), full rewrite of `/`, `/projects`, `/about`, `/contact`. Blog page + Medium RSS API removed entirely. AI Augmented Development section removed from home. Added "GoHighLevel CRM Development" under new "Platforms & CRM" skill group. Removed dead deps (rss-parser, nodemailer, @types/nodemailer).
 **Why:** User wanted a professional, mature aesthetic and refreshed project lineup.
