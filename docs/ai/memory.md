@@ -6,22 +6,24 @@ Running history of what's been built and current state. Update after major chang
 
 **Status:** Active Development (personal portfolio site, deployed to Vercel)
 **Last Updated:** 2026-05-19
-**Version:** main (post-redesign)
+**Version:** main @ e0aa8e2 — Architect Tier 1 landed
 
 ### What's Working
-- Next.js 15 App Router site with 4 page routes: `/`, `/about`, `/projects`, `/contact`
-- Persistent chrome (Navbar + Footer) wrapping all routes via `src/app/layout.tsx`
-- Minimal dark editorial design system: near-black background, Fraunces serif headings, Geist body, single muted-gold accent (`#c9a96a`)
+- Next.js 15.5.18 App Router site with 4 page routes: `/`, `/about`, `/projects`, `/contact`
+- Architect design system: near-black `#0a0a0c` background, paper-cream `#f4f0e8` ink, oxidized-brass `#b8966d` accent, Fraunces serif display + Geist sans body + Geist Mono labels
+- Strict 1.250 major-third type scale (custom Tailwind `fontSize` map, up to `9xl` 168px for hero)
+- Reusable `<Frame>` component encapsulating the title-block motif (corner metadata + hairlines) used across all pages
 - All four routes prerender as static at build time
-- Projects page shows three live external projects: Rooted Legacy, Reality Saving, The Motions
+- Projects page shows three live external projects with live screenshots: Rooted Legacy (logo), Reality Saving (founder portrait), The Motions (Quake character art) — all pulled directly from each project's Vercel deployment
+- About page uses the new black-and-white portrait at `public/profile.jpg`
+- `metadataBase` set in layout — no Next build warnings
 
 ### Known Issues
-- Project images at `public/projects/{rooted-legacy,reality-saving,the-motions}.jpg` are referenced but not yet present — user supplies screenshots
-- OpenGraph image `/og-cover.jpg` referenced in layout metadata but not present yet
-- `metadataBase` not set in layout — Next.js warns during build (cosmetic only)
+- `public/og-cover.jpg` referenced in layout metadata but not present yet — OG/Twitter cards fall back gracefully
+- About page bio copy was migrated from the prior version; user may want to refresh
 
 ### In Progress
-- (none tracked in repo)
+- (none — waiting on user review of T1 before kicking off Tier 2 Expressive layer)
 
 ## Implementation History
 
@@ -50,4 +52,6 @@ Single Next.js 15 App Router project, deployed to Vercel. React 19, TypeScript, 
 
 - `framer-motion`'s `motion.*` cannot be used directly inside a server component, so `src/components/MotionWrapper.tsx` re-exports `motion.div` as `MotionDiv` behind a `'use client'` boundary.
 - `next/font/google` rejects an explicit `weight` array when `axes` is specified for a variable font (Fraunces in this case). The fix is to omit `weight` so the variable axis takes over.
-- Tailwind theme tokens that point at CSS variables (e.g. `background: "var(--background)"`) must be defined in both `tailwind.config.ts` *and* `src/app/globals.css` — neither file is authoritative alone.
+- Tailwind theme tokens that point at CSS variables (e.g. `background: "var(--background)"`) must be defined in both `tailwind.config.ts` *and* `src/app/globals.css` — neither file is authoritative alone. Renaming a token requires editing both.
+- Vercel flags Next.js CVEs at deploy time but still ships the build. The `Vulnerable version of Next.js detected, please update immediately.` line is a security advisory, not a build failure — bump within the 15.x patch line to clear it.
+- Vision-attached images in chat have no filesystem path tools can read from; users must save the file manually before code can reference it.

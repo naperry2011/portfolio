@@ -46,7 +46,7 @@ Tokens are defined in two places that must stay in sync:
 - CSS variables in `src/app/globals.css` (`--background`, `--surface`, `--border`, `--foreground`, `--muted`, `--accent`)
 - Tailwind theme tokens in `tailwind.config.ts` (which reference those CSS variables)
 
-Utility classes: `.eyebrow`, `.divider`, `.link-accent` (defined in `globals.css`).
+Utility classes: `.label`, `.label-ink`, `.rule`, `.hero-opsz`, `.link-accent` (defined in `globals.css`).
 
 ## Project Structure
 

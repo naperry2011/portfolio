@@ -74,7 +74,7 @@ Adopt a "minimal dark editorial" system: near-black background (`#0b0b0d`), Frau
 ## ADR-004: Remove blog + Medium RSS proxy
 
 **Date:** 2026-05-19
-**Status:** Accepted (supersedes ADR-003 from the prior decision log iteration)
+**Status:** Accepted
 
 **Context**
 Blog page fetched a Medium RSS feed via a server-side proxy (`/api/medium-posts`) to bypass CORS. With the redesign, the blog was de-prioritized and the user wanted it gone entirely.
@@ -90,5 +90,50 @@ Delete `src/app/blog/`, `src/app/api/medium-posts/`, and uninstall `rss-parser`,
 **Alternatives considered**
 - Keep blog page, cache Medium responses — rejected (not worth the maintenance)
 - Migrate to MDX local content — deferred (no current writing pipeline)
+
+---
+
+## ADR-005: Architect redesign — visible system motif
+
+**Date:** 2026-05-19
+**Status:** Accepted (extends ADR-003)
+
+**Context**
+After ADR-003 (minimal dark editorial) shipped, the result read as competent but generic. User wanted a sharper, more distinctive identity — positioning as a "digital architect with defined taste" rather than another minimalist consultancy.
+
+**Decision**
+Adopt a *visible-system* aesthetic centered on three signature elements: (1) a title-block frame motif (corner metadata + hairlines on every meaningful surface, encapsulated in a reusable `<Frame>` component), (2) scroll-driven kinetic typography (Fraunces opsz axis, deferred to Tier 2), and (3) an optional toggle-able Spec view overlay (Tier 3). Refresh palette to `#0a0a0c` background + `#f4f0e8` paper-cream ink + `#b8966d` oxidized-brass accent. Replace ad-hoc spacing with a strict 1.250 (major third) type scale.
+
+**Consequences**
+- **Positive:** A memorable, ownable identity. Every page carries the same frame motif, making the system *visible*. Architectural numbering (`001 / NICHOLAS PERRY`, `02 / CAPABILITIES`, etc.) signals deliberation.
+- **Negative:** Heavier visual language than the previous pass. Every new section must be designed to fit inside a frame.
+- **Neutral:** No new deps in Tier 1. Implemented entirely with `<Frame>` + CSS variables + Tailwind theme.
+
+**Alternatives considered**
+- Quiet Authority (refined editorial) — too generic
+- The OS (themed interface) — too high-risk for solo maintenance
+- Workshop (motion-led only) — replaced by Bundle B Expressive in ADR-006
+
+---
+
+## ADR-006: Expressive layer over Architect foundation (Tier 2)
+
+**Date:** 2026-05-19
+**Status:** Accepted (extends ADR-005) — *planned, not yet shipped*
+
+**Context**
+After designing the Architect foundation, the user judged it still too restrained: *"I want some animation, something that feels artistic."* The Architect's discipline needed expressive layers to feel authored rather than designed-by-template.
+
+**Decision**
+Adopt **Bundle B (Expressive)**: ten artistic moves layered on top of Architect, planned for Tier 2 implementation. Smooth scroll (Lenis), animated film-grain overlay, cursor-following ambient gradient, char-by-char hero reveal with Fraunces weight morph, marquee word strip, scroll-draw title-block frames, color-flood project images on scroll-into-view, 3D card tilt on hover, cursor-reactive body type, View Transitions API curtain wipe between routes. Single new dependency: Lenis (~12kb).
+
+**Consequences**
+- **Positive:** Site reads as authored within five seconds of cursor movement. Combination of system thinking + expressive motion is rare and memorable.
+- **Negative:** Higher animation budget; perf must be watched.
+- **Neutral:** All effects respect `prefers-reduced-motion` and `pointer: coarse`.
+
+**Alternatives considered**
+- Bundle A (Alive) — smaller win, less distinctive
+- Bundle C (Maximalist with sticky scroll storytelling + word-swap) — too much; risk of feeling like Too Much
 
 ---

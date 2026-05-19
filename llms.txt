@@ -1,11 +1,11 @@
 # Cyberlounge Portfolio
 
-> Personal portfolio + lead-gen site (cyberlounge.net) for Nicholas Perry's software & cloud consulting, built on Next.js 15 App Router.
+> Personal portfolio + lead-gen site (cyberlounge.net) for Nicholas Perry — positioned as a digital architect with defined taste. Built on Next.js 15 App Router.
 
 ## Project Overview
 
-**Tech Stack:** Next.js 15.1.7, React 19, TypeScript, Tailwind CSS 3, Framer Motion 12
-**Status:** Active (deployed to Vercel)
+**Tech Stack:** Next.js 15.5.18, React 19, TypeScript, Tailwind CSS 3, Framer Motion 12
+**Status:** Active (Architect Tier 1 landed on `main`; Tier 2 Expressive layer planned)
 **Purpose:** Showcase projects, communicate capabilities, route prospects to a Cal.com booking flow
 
 ## Core Documentation
@@ -15,8 +15,10 @@
 - `docs/ai/memory.md` — Project history and current state
 - `docs/ai/roadmap.md` — Forward-looking priorities
 - `docs/ai/tasks.md` — Active work + tech-debt list
-- `docs/ai/decisions.md` — Architecture decisions (ADRs)
-- `docs/ai/architecture.md` — System design + design tokens
+- `docs/ai/decisions.md` — Architecture decisions (ADR-001 through ADR-006)
+- `docs/ai/architecture.md` — System design + Architect design tokens
+- `docs/plans/2026-05-19-architect-redesign-design.md` — Approved design doc for the Architect direction
+- `docs/plans/2026-05-19-architect-redesign-implementation.md` — 24-task implementation plan across 3 tiers
 - `ENTRY_POINTS.md` — Where execution starts
 - `DATA_FLOW.md` — System-level data movement
 - `FEATURE_BOUNDARIES.md` — Component responsibilities
@@ -25,17 +27,18 @@
 ## Key Files by Area
 
 ### Site shell
-- `src/app/layout.tsx` — Root layout, fonts (Geist, Geist Mono, Fraunces), metadata, Navbar/Footer mount
-- `src/components/Navbar.tsx` — Top nav with active-state underline + mobile menu
-- `src/components/Footer.tsx` — Footer (quick links + socials)
-- `src/app/globals.css` — Design tokens + utility classes (`.eyebrow`, `.divider`, `.link-accent`)
-- `tailwind.config.ts` — Tailwind theme mapping CSS variables to color/font tokens
+- `src/app/layout.tsx` — Root layout, fonts (Geist sans/mono + Fraunces serif), metadata + metadataBase, Navbar/Footer mount
+- `src/components/Navbar.tsx` — Top nav with accent underline on active route + mobile menu
+- `src/components/Footer.tsx` — Footer with title-block treatment (corner labels + hairlines)
+- `src/components/Frame.tsx` — Reusable title-block motif (corner-metadata slots + hairlines around content)
+- `src/app/globals.css` — Design tokens (`--background`, `--ink`, `--muted`, `--rule`, `--surface`, `--accent`, `--hero-opsz`) + utility classes (`.label`, `.label-ink`, `.rule`, `.hero-opsz`, `.link-accent`)
+- `tailwind.config.ts` — Tailwind theme mapping CSS variables + strict 1.250 type scale (up to `9xl` 168px)
 
 ### Pages (all static)
-- `src/app/page.tsx` — Home (hero + capabilities + featured projects)
-- `src/app/about/page.tsx` — Bio, expertise, timeline, principles
-- `src/app/projects/page.tsx` — Three project entries (Rooted Legacy, Reality Saving, The Motions)
-- `src/app/contact/page.tsx` — Services + Cal.com booking + social channels
+- `src/app/page.tsx` — Home: top title-block strip, massive Fraunces "Nicholas / Perry" hero, framed Capabilities (4 skill groups incl. Platforms & CRM / GoHighLevel), framed Selected Work
+- `src/app/about/page.tsx` — `002 / ABOUT` strip, portrait+dossier hero, framed Expertise / Experience / Practice sections
+- `src/app/projects/page.tsx` — `003 / PROJECTS — INDEX` strip, "Projects." hero, three full-width framed plates with corner metadata
+- `src/app/contact/page.tsx` — `004 / CONTACT` strip, "Let's talk." hero, two-column card (Schedule / Channels)
 
 ### Shared
 - `src/components/MotionWrapper.tsx` — Client-boundary `MotionDiv` re-export
@@ -45,8 +48,9 @@
 **To run locally:** `npm install && npm run dev` → http://localhost:3000
 **To build:** `npm run build && npm start`
 **To lint:** `npm run lint`
-**To change the design system:** edit both `src/app/globals.css` (CSS vars) and `tailwind.config.ts` (theme tokens) — they must stay in sync.
-**To add a project:** append to the `projects` array in `src/app/projects/page.tsx` and the `featuredProjects` array in `src/app/page.tsx`; drop the image at `public/projects/<slug>.jpg`.
+**To change the design system:** edit both `src/app/globals.css` (CSS vars) AND `tailwind.config.ts` (theme tokens) — they must stay in sync.
+**To add a project:** append to the `projects` array in `src/app/projects/page.tsx` and the `featuredProjects` array in `src/app/page.tsx`; drop the image at `public/projects/<slug>.{jpg,webp}`.
+**To kick off Tier 2:** follow `docs/plans/2026-05-19-architect-redesign-implementation.md` tasks 12–22.
 
 ## Environment Variables
 
