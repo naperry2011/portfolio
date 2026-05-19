@@ -3,12 +3,15 @@
 @tailwind utilities;
 
 :root {
-  --background: #0b0b0d;
-  --surface: #141416;
-  --border: #26262b;
-  --foreground: #ededed;
-  --muted: #9a9a9f;
-  --accent: #c9a96a;
+  --background: #0a0a0c;
+  --ink: #f4f0e8;
+  --muted: #8a8a90;
+  --rule: #1c1c20;
+  --surface: #111114;
+  --accent: #b8966d;
+
+  /* Scroll-driven hero opsz axis (T2 will animate this; T1 sets default) */
+  --hero-opsz: 144;
 }
 
 html {
@@ -16,10 +19,11 @@ html {
 }
 
 body {
-  color: var(--foreground);
+  color: var(--ink);
   background: var(--background);
   min-height: 100vh;
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-feature-settings: "tnum" 1, "cv01" 1;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -39,20 +43,34 @@ body {
     font-family: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
   }
 
-  .eyebrow {
+  /* Title-block mono labels (eyebrows, corner metadata) */
+  .label {
     font-family: var(--font-mono), ui-monospace, SFMono-Regular, monospace;
-    font-size: 0.7rem;
-    letter-spacing: 0.18em;
+    font-size: 0.6875rem;       /* 11px */
+    line-height: 1;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--muted);
+    font-variant-numeric: tabular-nums;
   }
 
-  .divider {
+  .label-ink {
+    color: var(--ink);
+  }
+
+  /* Hairline rule used inside frames and between sections */
+  .rule {
     height: 1px;
-    background: var(--border);
+    background: var(--rule);
     width: 100%;
   }
 
+  /* Hero variable-font axis target */
+  .hero-opsz {
+    font-variation-settings: "opsz" var(--hero-opsz);
+  }
+
+  /* Magnetic / accent link affordance */
   .link-accent {
     color: var(--accent);
     transition: opacity 200ms ease;
