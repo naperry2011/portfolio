@@ -87,7 +87,7 @@ export default function About() {
         >
           <div className="relative w-full max-w-xs aspect-[3/4] border border-border bg-surface overflow-hidden">
             <Image
-              src="/profile-cyber.jpg"
+              src="/profile.jpg"
               alt="Nicholas Perry"
               fill
               className="object-cover"
