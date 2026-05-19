@@ -79,3 +79,18 @@ body {
     opacity: 0.8;
   }
 }
+
+@layer utilities {
+  ::view-transition-group(root) { animation-duration: 600ms; }
+  ::view-transition-old(root) {
+    animation: vt-curtain-out 500ms cubic-bezier(0.83, 0, 0.17, 1) both;
+  }
+  ::view-transition-new(root) {
+    animation: vt-curtain-in 500ms 100ms cubic-bezier(0.83, 0, 0.17, 1) both;
+  }
+  @keyframes vt-curtain-out { to { clip-path: inset(0 0 100% 0); } }
+  @keyframes vt-curtain-in {
+    from { clip-path: inset(100% 0 0 0); }
+    to   { clip-path: inset(0 0 0 0); }
+  }
+}
