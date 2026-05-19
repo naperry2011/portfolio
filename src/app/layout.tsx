@@ -4,23 +4,12 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-const sans = Geist({
-  subsets: ["latin"],
-  variable: "--font-sans",
-});
-
-const mono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-});
-
-const serif = Fraunces({
-  subsets: ["latin"],
-  variable: "--font-serif",
-  axes: ["opsz"],
-});
+const sans = Geist({ subsets: ["latin"], variable: "--font-sans" });
+const mono = Geist_Mono({ subsets: ["latin"], variable: "--font-mono" });
+const serif = Fraunces({ subsets: ["latin"], variable: "--font-serif", axes: ["opsz"] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://cyberlounge.net"),
   title: "Cyberlounge | Software & Cloud Consulting",
   description: "Independent software and cloud development for teams that need to ship.",
   openGraph: {
@@ -28,14 +17,7 @@ export const metadata: Metadata = {
     description: "Independent software and cloud development for teams that need to ship.",
     url: "https://cyberlounge.net",
     siteName: "Cyberlounge",
-    images: [
-      {
-        url: "/og-cover.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Cyberlounge — Software & Cloud Consulting",
-      },
-    ],
+    images: [{ url: "/og-cover.jpg", width: 1200, height: 630, alt: "Cyberlounge — Software & Cloud Consulting" }],
     locale: "en_US",
     type: "website",
   },
@@ -47,11 +29,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${sans.variable} ${mono.variable} ${serif.variable}`}>
       <body className="antialiased">
