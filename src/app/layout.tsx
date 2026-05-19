@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SmoothScroll from "@/components/SmoothScroll";
 import Grain from "@/components/Grain";
+import AmbientCursor from "@/components/AmbientCursor";
 
 const sans = Geist({ subsets: ["latin"], variable: "--font-sans" });
 const mono = Geist_Mono({ subsets: ["latin"], variable: "--font-mono" });
@@ -37,6 +38,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body className="antialiased">
         <SmoothScroll />
         <Grain />
+        <AmbientCursor />
         <Navbar />
         <main className="pt-16">{children}</main>
         <Footer />
