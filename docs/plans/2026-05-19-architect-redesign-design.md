@@ -182,7 +182,32 @@ Ship T1 first as a complete release. T2 follows. T3 is the polish lap.
 - Lighthouse Performance ≥ 90 on `/` after Tier 2.
 - Site remains fully static (no API routes introduced).
 
-## 8. Out of Scope
+## 8. Expressive Layer (Amendment — 2026-05-19)
+
+After reviewing the original Tier 2 (custom cursor + magnetic CTAs + kinetic hero + view transitions), the user pushed for more: *"I want some animation, something that feels artistic."*
+
+**Decision:** Replace the original Tier 2 with **Bundle B (Expressive)**, layered on top of the Architect foundation. The architectural discipline (title-block frames, system tokens) remains the *bones*; the expressive layer is the *skin*.
+
+The expressive moves:
+
+1. **Smooth scroll (Lenis)** — every scroll glides; foundational to an "alive" feel
+2. **Char-by-char hero reveal** — letters of the hero name arrive one-by-one with stagger + Fraunces weight morph
+3. **Animated film-grain overlay** — subtle moving grain across the whole site, fixed-position canvas
+4. **Scroll-draw title-block frames** — hairlines around each Frame draw themselves in via `stroke-dashoffset` as the section enters the viewport
+5. **Marquee word strip** — massive running text between sections (your tech stack, or a single repeated word)
+6. **Cursor-reactive body type** — words near the cursor displace slightly; signals motion-as-craft
+7. **Color-flood project images** — desaturated by default; bloom to full color when scrolled into view
+8. **Cursor-following ambient gradient** — soft warm-amber blob lazily following the cursor in the page background
+9. **Page transition curtain** — accent-colored panel sweeps across the screen between routes (uses View Transitions API)
+10. **3D card tilt on hover** — project cards tilt under the cursor like a physical printed plate
+
+Refs that combine these well: Olivier Larose, Igor Bedesqui, Locomotive, Vlad Moroz, Trent Walton, Hello Monday.
+
+**New deps:** **Lenis only** (~12kb). Everything else uses framer-motion (installed) + web platform.
+
+**What drops** from the original Tier 2: the custom cursor (redundant with the ambient gradient) and standalone magnetic CTAs (the broader cursor-reactive type system covers the same emotional ground). The Spec view (Tier 3) is preserved as optional polish.
+
+## 9. Out of Scope
 
 - New content surfaces (Principles, Stack, Blog) — confirmed by user
 - Light mode toggle — not requested

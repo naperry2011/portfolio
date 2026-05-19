@@ -1441,411 +1441,492 @@ Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>"
 
 ---
 
-## TIER 2 — Signature interactions
+## TIER 2 — Expressive Layer (Bundle B)
 
-> Ship T2 only after T1 is merged + visually approved.
+> Ship T2 only after T1 is merged + visually approved. T2 layers artistic motion on top of the Architect foundation. New dep: **Lenis only** (~12kb).
+>
+> Order: install Lenis (Task 12), global overlays (Tasks 13–14), per-component effects (Tasks 15–20), page transitions (Task 21), docs (22).
 
-### Task 12: Custom cursor
+### Task 12: Install Lenis + wire smooth scroll
 
-**Files:**
-- Create: `src/components/Cursor.tsx`
-- Modify: `src/app/layout.tsx` (mount the cursor)
+**Files:** `package.json` (via npm), `src/components/SmoothScroll.tsx` (create), `src/app/layout.tsx` (modify)
 
-**Step 1: Write `Cursor.tsx`**
+Install: `npm install lenis@^1`
+
+`src/components/SmoothScroll.tsx`:
+```tsx
+'use client';
+import { useEffect } from 'react';
+import Lenis from 'lenis';
+
+export default function SmoothScroll() {
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const lenis = new Lenis({
+      duration: 1.1,
+      easing: (t) => 1 - Math.pow(1 - t, 3),
+      smoothWheel: true,
+      touchMultiplier: 1.2,
+    });
+    let raf = 0;
+    const tick = (t: number) => { lenis.raf(t); raf = requestAnimationFrame(tick); };
+    raf = requestAnimationFrame(tick);
+    return () => { cancelAnimationFrame(raf); lenis.destroy(); };
+  }, []);
+  return null;
+}
+```
+
+Mount in `src/app/layout.tsx` before `<Navbar />`.
+
+Verify: lint + build clean; mousewheel glides on `npm run dev`.
+
+Commit: `feat(t2): smooth scroll via Lenis`
+
+---
+
+### Task 13: Animated film-grain overlay
+
+**Files:** `src/components/Grain.tsx` (create), `src/app/layout.tsx` (modify)
 
 ```tsx
 'use client';
+import { useEffect, useState } from 'react';
 
-import { useEffect, useState, useRef } from 'react';
-
-export default function Cursor() {
-  const [enabled, setEnabled] = useState(false);
-  const [hovering, setHovering] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
+export default function Grain() {
+  const [url, setUrl] = useState<string>('');
   useEffect(() => {
-    // Disable on touch + reduced-motion.
-    if (window.matchMedia('(pointer: coarse)').matches) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    setEnabled(true);
-
-    const onMove = (e: MouseEvent) => {
-      if (ref.current) {
-        ref.current.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+    const size = 128;
+    const c = document.createElement('canvas');
+    c.width = c.height = size;
+    const ctx = c.getContext('2d', { alpha: true })!;
+    const draw = () => {
+      const img = ctx.createImageData(size, size);
+      const d = img.data;
+      for (let i = 0; i < d.length; i += 4) {
+        const v = Math.floor(Math.random() * 255);
+        d[i] = d[i + 1] = d[i + 2] = v;
+        d[i + 3] = 255;
       }
+      ctx.putImageData(img, 0, 0);
+      setUrl(c.toDataURL('image/png'));
     };
-    const onOver = (e: MouseEvent) => {
-      const t = e.target as HTMLElement;
-      setHovering(!!t.closest('a, button, [role="button"], [data-cursor="hover"]'));
-    };
-    window.addEventListener('mousemove', onMove);
-    window.addEventListener('mouseover', onOver);
-    return () => {
-      window.removeEventListener('mousemove', onMove);
-      window.removeEventListener('mouseover', onOver);
-    };
+    draw();
+    const id = setInterval(draw, 120);
+    return () => clearInterval(id);
   }, []);
-
-  if (!enabled) return null;
+  if (!url) return null;
   return (
     <div
-      ref={ref}
       aria-hidden
-      className={`pointer-events-none fixed top-0 left-0 z-[100] -translate-x-1/2 -translate-y-1/2 mix-blend-difference transition-[width,height,border-radius] duration-150 ease-out ${
-        hovering ? 'w-8 h-8 rounded-full bg-ink/90' : 'w-3 h-3 rounded-full bg-ink'
-      }`}
+      className="pointer-events-none fixed inset-0 z-[90] opacity-[0.06] mix-blend-overlay"
+      style={{ backgroundImage: `url(${url})`, backgroundRepeat: 'repeat' }}
     />
   );
 }
 ```
 
-**Step 2: Mount it in layout**
+Mount after `<SmoothScroll />` in layout.
 
-In `src/app/layout.tsx`, import and place inside `<body>` BEFORE `<Navbar />`:
-
-```tsx
-import Cursor from "@/components/Cursor";
-// ...
-<body className="antialiased">
-  <Cursor />
-  <Navbar />
-  ...
-</body>
-```
-
-**Step 3: Verify**
-- lint + build clean
-- `npm run dev`: cursor appears on desktop, hides on touch device emulation, scales over links/buttons
-- `prefers-reduced-motion: reduce` (DevTools rendering emulation) → cursor absent
-
-**Step 4: Commit**
-
-```bash
-git add src/components/Cursor.tsx src/app/layout.tsx
-git commit -m "feat(t2): custom cursor with hover state
-
-Hides on touch and prefers-reduced-motion. Mix-blend-difference so
-it reads on both dark backgrounds and project images.
-
-Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>"
-```
+Commit: `feat(t2): animated film-grain overlay`
 
 ---
 
-### Task 13: Magnetic button wrapper
+### Task 14: Cursor-following ambient gradient
 
-**Files:**
-- Create: `src/components/Magnetic.tsx`
-- Modify: `src/app/page.tsx`, `src/app/contact/page.tsx`, `src/app/projects/page.tsx`
-
-**Step 1: Write `Magnetic.tsx`**
+**Files:** `src/components/AmbientCursor.tsx` (create), `src/app/layout.tsx` (modify)
 
 ```tsx
 'use client';
+import { useEffect, useRef } from 'react';
 
-import { useRef, ReactNode } from 'react';
-
-export default function Magnetic({
-  children,
-  strength = 0.25,
-  className,
-}: {
-  children: ReactNode;
-  strength?: number;
-  className?: string;
-}) {
-  const ref = useRef<HTMLSpanElement>(null);
-
-  const onMove = (e: React.MouseEvent) => {
-    const el = ref.current;
-    if (!el) return;
+export default function AmbientCursor() {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (window.matchMedia('(pointer: coarse)').matches) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const rect = el.getBoundingClientRect();
-    const x = e.clientX - (rect.left + rect.width / 2);
-    const y = e.clientY - (rect.top + rect.height / 2);
-    el.style.transform = `translate(${x * strength}px, ${y * strength}px)`;
-  };
-  const onLeave = () => {
-    if (ref.current) ref.current.style.transform = '';
-  };
+    const el = ref.current; if (!el) return;
+    let tx = window.innerWidth / 2, ty = window.innerHeight / 2, x = tx, y = ty, raf = 0;
+    const onMove = (e: MouseEvent) => { tx = e.clientX; ty = e.clientY; };
+    const tick = () => {
+      x += (tx - x) * 0.06;
+      y += (ty - y) * 0.06;
+      el.style.background = `radial-gradient(600px circle at ${x}px ${y}px, rgba(184,150,109,0.10), transparent 60%)`;
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    window.addEventListener('mousemove', onMove, { passive: true });
+    return () => { window.removeEventListener('mousemove', onMove); cancelAnimationFrame(raf); };
+  }, []);
+  return <div ref={ref} aria-hidden className="pointer-events-none fixed inset-0 z-0" />;
+}
+```
 
+Mount after `<Grain />` in layout. The page background lazily glows where the cursor sits.
+
+Commit: `feat(t2): cursor-following ambient gradient`
+
+---
+
+### Task 15: Char-by-char hero reveal with weight morph
+
+**Files:** `src/components/SplitText.tsx` (create), `src/app/page.tsx` (modify)
+
+```tsx
+'use client';
+import { motion } from 'framer-motion';
+
+interface Props { text: string; stagger?: number; delay?: number; className?: string; }
+
+export default function SplitText({ text, stagger = 0.04, delay = 0, className = '' }: Props) {
+  const chars = Array.from(text);
   return (
-    <span
-      ref={ref}
-      onMouseMove={onMove}
-      onMouseLeave={onLeave}
-      className={`inline-block transition-transform duration-300 ease-out ${className ?? ''}`}
-    >
-      {children}
+    <span className={className} aria-label={text}>
+      {chars.map((c, i) => (
+        <motion.span
+          key={`${c}-${i}`}
+          aria-hidden
+          initial={{ y: '0.4em', opacity: 0, fontWeight: 300 }}
+          animate={{ y: 0, opacity: 1, fontWeight: 600 }}
+          transition={{ duration: 0.8, delay: delay + i * stagger, ease: [0.16, 1, 0.3, 1] }}
+          style={{ display: 'inline-block', whiteSpace: 'pre' }}
+        >{c}</motion.span>
+      ))}
     </span>
   );
 }
 ```
 
-**Step 2: Wrap primary CTAs**
+In `src/app/page.tsx`, replace the hero `<h1>` content with `<SplitText text="Nicholas" />` then `<br />` then `<SplitText text="Perry" delay={0.3} />`.
 
-In `src/app/page.tsx`, wrap the two hero CTAs:
-
-```tsx
-import Magnetic from "@/components/Magnetic";
-// ...
-<Magnetic><Link href="/projects" className="...">View Projects →</Link></Magnetic>
-<Magnetic><Link href="/contact" className="...">Get in Touch</Link></Magnetic>
-```
-
-In `src/app/contact/page.tsx`, wrap the "Schedule Meeting" anchor.
-In `src/app/projects/page.tsx`, wrap the closing "Start a Conversation" anchor.
-
-**Step 3: Verify**
-- lint + build clean
-- Hover the wrapped CTAs: they tilt toward cursor; respect reduced-motion.
-
-**Step 4: Commit**
-
-```bash
-git add src/components/Magnetic.tsx src/app/page.tsx src/app/contact/page.tsx src/app/projects/page.tsx
-git commit -m "feat(t2): magnetic primary CTAs
-
-Adds a <Magnetic> wrapper that pulls children toward the cursor on
-hover. Wraps the hero CTAs on /, the schedule CTA on /contact, and
-the closing CTA on /projects.
-
-Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>"
-```
+Commit: `feat(t2): char-by-char hero reveal with weight morph`
 
 ---
 
-### Task 14: Kinetic hero name (scroll-driven `opsz`)
+### Task 16: Marquee word strip
 
-**Files:**
-- Create: `src/components/KineticHero.tsx`
-- Modify: `src/app/page.tsx` (use the new component for the hero name)
-
-**Step 1: Write `KineticHero.tsx`**
+**Files:** `src/components/Marquee.tsx` (create), `src/app/page.tsx` (modify)
 
 ```tsx
 'use client';
+import { motion } from 'framer-motion';
 
-import { useEffect, useRef } from 'react';
+interface Props { items: string[]; duration?: number; className?: string; }
 
-/**
- * Scroll-driven Fraunces opsz axis: as the user scrolls the first viewport,
- * the heading's opsz axis grows from 8 → 144 (refined → display).
- */
-export default function KineticHero({ children }: { children: React.ReactNode }) {
-  const ref = useRef<HTMLHeadingElement>(null);
-
-  useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const el = ref.current;
-    if (!el) return;
-
-    let raf = 0;
-    const update = () => {
-      const vh = window.innerHeight;
-      const progress = Math.min(1, Math.max(0, window.scrollY / vh));
-      const opsz = 8 + (144 - 8) * progress;
-      el.style.setProperty('--hero-opsz', String(opsz));
-    };
-    const onScroll = () => {
-      cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(update);
-    };
-    update();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => {
-      window.removeEventListener('scroll', onScroll);
-      cancelAnimationFrame(raf);
-    };
-  }, []);
-
+export default function Marquee({ items, duration = 40, className = '' }: Props) {
+  const looped = [...items, ...items];
   return (
-    <h1
-      ref={ref}
-      className="font-serif hero-opsz text-ink leading-[0.95] tracking-tight text-6xl sm:text-7xl md:text-8xl lg:text-9xl"
-    >
-      {children}
-    </h1>
+    <div className={`overflow-hidden border-y border-rule py-8 ${className}`}>
+      <motion.div
+        className="flex gap-12 whitespace-nowrap"
+        animate={{ x: ['0%', '-50%'] }}
+        transition={{ duration, ease: 'linear', repeat: Infinity }}
+      >
+        {looped.map((item, i) => (
+          <span key={`${item}-${i}`} className="font-serif text-4xl sm:text-5xl md:text-6xl text-ink/70 tracking-tight">
+            {item} <span className="text-accent">·</span>
+          </span>
+        ))}
+      </motion.div>
+    </div>
   );
 }
 ```
 
-**Step 2: Use in home hero**
-
-In `src/app/page.tsx`, replace the existing hero `<h1>` with `<KineticHero>Nicholas<br />Perry</KineticHero>`.
-
-**Step 3: Verify**
-- lint + build clean
-- `/`: scrolling the first viewport visibly refines the hero letterforms (opsz axis change).
-
-**Step 4: Commit**
-
-```bash
-git add src/components/KineticHero.tsx src/app/page.tsx
-git commit -m "feat(t2): scroll-driven kinetic hero name
-
-Uses Fraunces opsz variable axis to refine letterforms as the
-visitor commits to scrolling the first viewport.
-
-Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>"
+In `src/app/page.tsx` between hero and Capabilities:
+```tsx
+<Marquee items={['INDEPENDENT', 'SHIP', 'CRAFT', 'SYSTEMS']} className="my-16" />
 ```
+
+Commit: `feat(t2): marquee word strip`
 
 ---
 
-### Task 15: Page transitions via View Transitions API
+### Task 17: Scroll-draw title-block frames
 
-**Files:**
-- Modify: `next.config.ts` (enable view transitions)
-- Modify: `src/app/globals.css` (define the transition keyframes)
+**Files:** `src/components/Frame.tsx` (modify — make client + add motion)
 
-**Step 1: Enable in `next.config.ts`**
+Replace Frame implementation entirely:
 
-```ts
-import type { NextConfig } from "next";
+```tsx
+'use client';
+import { ReactNode, useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 
-const nextConfig: NextConfig = {
-  experimental: { viewTransition: true },
+interface FrameProps {
+  topLeft?: ReactNode; topRight?: ReactNode;
+  bottomLeft?: ReactNode; bottomRight?: ReactNode;
+  noTopRule?: boolean; noBottomRule?: boolean;
+  as?: 'article' | 'section' | 'div';
+  children: ReactNode; className?: string;
+}
+
+const lineVariants = {
+  hidden: { scaleX: 0 },
+  show:   { scaleX: 1, transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] } },
 };
 
+export default function Frame({
+  topLeft, topRight, bottomLeft, bottomRight,
+  noTopRule = false, noBottomRule = false,
+  as: Tag = 'article', children, className = '',
+}: FrameProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: '-80px' });
+  const TagAny = Tag as keyof JSX.IntrinsicElements;
+  return (
+    <TagAny ref={ref} className={`relative ${className}`}>
+      {(topLeft || topRight) && (
+        <div className="flex items-end justify-between pb-3">
+          <span className="label">{topLeft}</span>
+          <span className="label label-ink">{topRight}</span>
+        </div>
+      )}
+      {!noTopRule && (
+        <motion.div className="rule origin-left" variants={lineVariants}
+          initial="hidden" animate={inView ? 'show' : 'hidden'} />
+      )}
+      <div className="py-10 sm:py-14">{children}</div>
+      {!noBottomRule && (
+        <motion.div className="rule origin-right" variants={lineVariants}
+          initial="hidden" animate={inView ? 'show' : 'hidden'}
+          transition={{ delay: 0.15 }} />
+      )}
+      {(bottomLeft || bottomRight) && (
+        <div className="flex items-start justify-between pt-3">
+          <span className="label">{bottomLeft}</span>
+          <span className="label">{bottomRight}</span>
+        </div>
+      )}
+    </TagAny>
+  );
+}
+```
+
+Frame hairlines now draw left→right (top) and right→left (bottom) as sections enter viewport.
+
+Commit: `feat(t2): scroll-draw title-block frames`
+
+---
+
+### Task 18: Color-flood project images
+
+**Files:** `src/components/RevealImage.tsx` (create), `src/app/page.tsx` + `src/app/projects/page.tsx` (modify)
+
+```tsx
+'use client';
+import Image, { ImageProps } from 'next/image';
+import { motion, useInView } from 'framer-motion';
+import { useRef } from 'react';
+
+export default function RevealImage(props: ImageProps & { className?: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: '-100px' });
+  const { className = '', ...rest } = props;
+  return (
+    <motion.div ref={ref} className={`relative h-full w-full ${className}`}
+      animate={{ filter: inView ? 'grayscale(0) brightness(1)' : 'grayscale(1) brightness(0.7)' }}
+      transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}>
+      <Image {...rest} alt={rest.alt} />
+    </motion.div>
+  );
+}
+```
+
+Replace every project `<Image>` with `<RevealImage>` (drop-in; same props) in `src/app/page.tsx` Selected Work cards and `src/app/projects/page.tsx` project plates.
+
+Commit: `feat(t2): color-flood project images on scroll-into-view`
+
+---
+
+### Task 19: 3D card tilt on hover
+
+**Files:** `src/components/TiltCard.tsx` (create), `src/app/page.tsx` + `src/app/projects/page.tsx` (modify)
+
+```tsx
+'use client';
+import { ReactNode, useRef } from 'react';
+
+interface Props { children: ReactNode; max?: number; className?: string; }
+
+export default function TiltCard({ children, max = 6, className = '' }: Props) {
+  const ref = useRef<HTMLDivElement>(null);
+  const onMove = (e: React.MouseEvent) => {
+    const el = ref.current; if (!el) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const r = el.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width - 0.5;
+    const py = (e.clientY - r.top) / r.height - 0.5;
+    el.style.transform = `perspective(900px) rotateX(${-py * max}deg) rotateY(${px * max}deg) scale(1.01)`;
+  };
+  const reset = () => { if (ref.current) ref.current.style.transform = ''; };
+  return (
+    <div ref={ref} onMouseMove={onMove} onMouseLeave={reset}
+      className={`transition-transform duration-300 ease-out will-change-transform ${className}`}>
+      {children}
+    </div>
+  );
+}
+```
+
+Wrap each project card in `src/app/page.tsx` Selected Work and each plate in `src/app/projects/page.tsx`.
+
+Commit: `feat(t2): 3D tilt on project cards`
+
+---
+
+### Task 20: Cursor-reactive body type
+
+**Files:** `src/components/ReactiveText.tsx` (create), `src/app/page.tsx` (modify)
+
+```tsx
+'use client';
+import { useEffect, useRef } from 'react';
+
+interface Props { text: string; className?: string; }
+
+export default function ReactiveText({ text, className = '' }: Props) {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (window.matchMedia('(pointer: coarse)').matches) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const root = ref.current; if (!root) return;
+    const spans = Array.from(root.querySelectorAll<HTMLSpanElement>('[data-word]'));
+    let raf = 0, mx = 0, my = 0;
+    const onMove = (e: MouseEvent) => { mx = e.clientX; my = e.clientY; };
+    const tick = () => {
+      for (const s of spans) {
+        const r = s.getBoundingClientRect();
+        const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+        const dx = mx - cx, dy = my - cy;
+        const d2 = dx * dx + dy * dy, max2 = 240 * 240;
+        if (d2 < max2) {
+          const f = (1 - d2 / max2) * 0.04;
+          s.style.transform = `translate(${dx * f}px, ${dy * f}px)`;
+        } else { s.style.transform = ''; }
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    window.addEventListener('mousemove', onMove, { passive: true });
+    return () => { window.removeEventListener('mousemove', onMove); cancelAnimationFrame(raf); };
+  }, []);
+  const words = text.split(' ');
+  return (
+    <div ref={ref} className={className}>
+      {words.map((w, i) => (
+        <span key={i} data-word className="inline-block transition-transform duration-100 ease-out will-change-transform">
+          {w}{i < words.length - 1 ? ' ' : ''}
+        </span>
+      ))}
+    </div>
+  );
+}
+```
+
+In `src/app/page.tsx`, replace the positioning `<p>` with `<ReactiveText text="..." className="text-lg sm:text-xl text-ink leading-relaxed" />`.
+
+Commit: `feat(t2): cursor-reactive body type on hero subtext`
+
+---
+
+### Task 21: Page transition curtain
+
+**Files:** `next.config.ts` (modify), `src/app/globals.css` (append), `src/app/template.tsx` (create)
+
+`next.config.ts`:
+```ts
+import type { NextConfig } from "next";
+const nextConfig: NextConfig = { experimental: { viewTransition: true } };
 export default nextConfig;
 ```
 
-**Step 2: Define transition CSS** — append to `src/app/globals.css`:
-
+Append to `src/app/globals.css`:
 ```css
 @layer utilities {
-  ::view-transition-old(root),
+  ::view-transition-group(root) { animation-duration: 600ms; }
+  ::view-transition-old(root) {
+    animation: vt-curtain-out 500ms cubic-bezier(0.83, 0, 0.17, 1) both;
+  }
   ::view-transition-new(root) {
-    animation-duration: 350ms;
-    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    animation: vt-curtain-in 500ms 100ms cubic-bezier(0.83, 0, 0.17, 1) both;
   }
-  ::view-transition-old(root) { animation-name: vt-fade-out; }
-  ::view-transition-new(root) { animation-name: vt-fade-in; }
-
-  @keyframes vt-fade-out {
-    to { opacity: 0; transform: translateY(-6px); }
-  }
-  @keyframes vt-fade-in {
-    from { opacity: 0; transform: translateY(6px); }
+  @keyframes vt-curtain-out { to { clip-path: inset(0 0 100% 0); } }
+  @keyframes vt-curtain-in {
+    from { clip-path: inset(100% 0 0 0); }
+    to   { clip-path: inset(0 0 0 0); }
   }
 }
 ```
 
-**Step 3: Wrap router transitions** — create `src/app/template.tsx`:
-
+`src/app/template.tsx`:
 ```tsx
 'use client';
 import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
-
 export default function Template({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-
-  useEffect(() => {
-    if (typeof document === 'undefined') return;
-    // No-op marker so React keys distinct render trees per pathname.
-  }, [pathname]);
-
+  useEffect(() => {}, [pathname]);
   return <>{children}</>;
 }
 ```
 
-The actual route-change-with-view-transition wiring is provided by Next 15.5 when `experimental.viewTransition` is on; navigations automatically run inside `document.startViewTransition` when supported. The CSS above defines what that transition looks like.
+Verify: Chromium browsers wipe between routes; Safari/Firefox fall back gracefully.
 
-**Step 4: Verify**
-- lint + build clean
-- Click between `/`, `/projects`, `/about`, `/contact`. On Chromium-based browsers the transition is a smooth fade+slide; on Firefox/Safari (no support) navigation is instant — graceful fallback.
-
-**Step 5: Commit**
-
-```bash
-git add next.config.ts src/app/globals.css src/app/template.tsx
-git commit -m "feat(t2): cross-page view transitions
-
-Enables Next 15.5 experimental.viewTransition + defines fade+slide
-keyframes for the root transition. Progressive enhancement —
-unsupported browsers navigate instantly.
-
-Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>"
-```
+Commit: `feat(t2): page transition curtain via View Transitions API`
 
 ---
 
-### Task 16: Refined frame-on-hover
+### Task 22: Final T2 verification + doc refresh
 
-**Files:**
-- Modify: `src/app/page.tsx` (Selected Work frames), `src/app/projects/page.tsx` (project plates)
+`npm run dev` smoke test — confirm all 10 expressive moves are live:
+1. Smooth scroll
+2. Grain (~6%)
+3. Ambient gradient trails cursor
+4. Hero chars stagger in with weight morph
+5. Marquee runs
+6. Frame hairlines draw on scroll
+7. Project images bloom from grayscale
+8. Cards tilt under cursor
+9. Positioning text displaces near cursor
+10. Page transitions wipe (Chromium)
 
-Add a CSS-only hover treatment on each framed project card: corner metadata moves slightly outward and ink saturates. Implement by appending to `src/app/globals.css`:
+`npm run lint && npm run build` clean.
 
-```css
-@layer utilities {
-  .frame-hoverable .label { transition: transform 250ms ease, color 250ms ease; }
-  .frame-hoverable:hover .label-tl { transform: translate(-2px, -2px); }
-  .frame-hoverable:hover .label-tr { transform: translate( 2px, -2px); }
-  .frame-hoverable:hover .label-bl { transform: translate(-2px,  2px); }
-  .frame-hoverable:hover .label-br { transform: translate( 2px,  2px); }
-  .frame-hoverable:hover .label    { color: var(--ink); }
-}
+Append to `docs/ai/memory.md`:
+```markdown
+### 2026-05-19 — Tier 2 Expressive layer
+**What was built:** Bundle B (10 moves) on top of Architect foundation. Lenis smooth scroll, animated grain, ambient gradient, char-by-char hero, marquee, scroll-draw frames, color-flood images, 3D tilt, reactive type, View Transitions curtain.
+**Files affected:** new SmoothScroll/Grain/AmbientCursor/SplitText/Marquee/RevealImage/TiltCard/ReactiveText components; modified Frame, layout, all pages, globals.css, next.config.ts; added template.tsx. New dep: `lenis`.
 ```
 
-In `src/app/page.tsx` Selected Work card and `src/app/projects/page.tsx` project plate:
-- Add `frame-hoverable` to the outer card wrapper.
-- Add `label-tl` / `label-tr` / `label-bl` / `label-br` classes to the four corner labels.
+Update `docs/ai/tasks.md` (move T2 to Recently Completed) + `CODE_MAP.md` (add 8 new components).
 
-**Step 2: Verify**
-- lint + build clean
-- Hover over a project plate: corner metadata nudges outward and brightens.
-
-**Step 3: Commit**
-
-```bash
-git add src/app/globals.css src/app/page.tsx src/app/projects/page.tsx
-git commit -m "feat(t2): refined frame-on-hover corner reveals
-
-Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>"
-```
+Commit: `docs: record Tier 2 Expressive layer`
 
 ---
 
-## TIER 3 — Spec view overlay
+## TIER 3 — Spec view overlay (optional polish)
 
-> Ship T3 after T2 is approved.
+### Task 23: SpecView overlay component
 
-### Task 17: SpecView overlay component
-
-**Files:**
-- Create: `src/components/SpecView.tsx`
-- Modify: `src/app/layout.tsx` (mount at root)
-
-**Step 1: Write `SpecView.tsx`**
+**Files:** `src/components/SpecView.tsx` (create), `src/app/layout.tsx` (modify)
 
 ```tsx
 'use client';
-
 import { useEffect, useState } from 'react';
 
-/**
- * Architect's "Spec view" — toggle-able overlay that exposes the
- * 12-column grid, baseline rhythm, and major spacing tokens.
- *
- * Toggle: click [SPEC] in the bottom-right corner, OR press "g s".
- */
 export default function SpecView() {
   const [on, setOn] = useState(false);
-
   useEffect(() => {
     let lastKey = '';
     let timer: ReturnType<typeof setTimeout>;
     const onKey = (e: KeyboardEvent) => {
-      const target = e.target as HTMLElement;
-      if (target?.matches('input, textarea, [contenteditable=true]')) return;
+      const t = e.target as HTMLElement;
+      if (t?.matches('input, textarea, [contenteditable=true]')) return;
       const k = e.key.toLowerCase();
-      if (lastKey === 'g' && k === 's') {
-        setOn((v) => !v);
-        lastKey = '';
-        return;
-      }
+      if (lastKey === 'g' && k === 's') { setOn((v) => !v); lastKey = ''; return; }
       lastKey = k;
       clearTimeout(timer);
       timer = setTimeout(() => (lastKey = ''), 800);
@@ -1853,22 +1934,15 @@ export default function SpecView() {
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, []);
-
   return (
     <>
-      <button
-        type="button"
-        onClick={() => setOn((v) => !v)}
+      <button type="button" onClick={() => setOn((v) => !v)}
         className="fixed bottom-4 right-4 z-[60] label border border-rule bg-background/90 backdrop-blur px-3 py-2 hover:text-ink transition-colors"
-        aria-pressed={on}
-        aria-label="Toggle spec view"
-      >
+        aria-pressed={on} aria-label="Toggle spec view">
         [ {on ? 'SPEC · ON' : 'SPEC'} ]
       </button>
-
       {on && (
         <div className="pointer-events-none fixed inset-0 z-[55]" aria-hidden>
-          {/* 12-col grid (within max-w-6xl container = 1152px) */}
           <div className="absolute inset-x-0 top-0 bottom-0 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-12 gap-8 h-full">
               {Array.from({ length: 12 }).map((_, i) => (
@@ -1876,15 +1950,8 @@ export default function SpecView() {
               ))}
             </div>
           </div>
-          {/* Baseline (every 8px) */}
-          <div
-            className="absolute inset-0 opacity-[0.07]"
-            style={{
-              backgroundImage:
-                'repeating-linear-gradient(to bottom, var(--accent) 0 1px, transparent 1px 8px)',
-            }}
-          />
-          {/* Corner readout */}
+          <div className="absolute inset-0 opacity-[0.07]"
+            style={{ backgroundImage: 'repeating-linear-gradient(to bottom, var(--accent) 0 1px, transparent 1px 8px)' }} />
           <div className="absolute top-4 left-4 label">SPEC VIEW · 12 COL · 8PX BASELINE</div>
           <div className="absolute top-4 right-4 label">PRESS G THEN S TO TOGGLE</div>
         </div>
@@ -1894,86 +1961,30 @@ export default function SpecView() {
 }
 ```
 
-**Step 2: Mount it** — in `src/app/layout.tsx`, add `<SpecView />` inside `<body>` (after `<Navbar />`):
+Mount `<SpecView />` near the end of `<body>` in `src/app/layout.tsx`.
 
-```tsx
-import SpecView from "@/components/SpecView";
-// ...
-<body className="antialiased">
-  <Cursor />
-  <Navbar />
-  <main className="pt-16">{children}</main>
-  <Footer />
-  <SpecView />
-</body>
-```
-
-**Step 3: Verify**
-- lint + build clean
-- `npm run dev`: bottom-right `[ SPEC ]` button toggles the overlay. Press `g` then `s` — also toggles. Overlay shows 12-col guides + 8px baseline. Hidden by default; persists in DOM not in localStorage (intentional: it's a power-user moment, not a sticky setting).
-
-**Step 4: Commit**
-
-```bash
-git add src/components/SpecView.tsx src/app/layout.tsx
-git commit -m "feat(t3): Spec view overlay (the Architect's signature)
-
-Toggle in bottom-right corner or press 'g s'. Reveals the 12-column
-grid + 8px baseline rhythm on the current page. The visible system.
-
-Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>"
-```
+Commit: `feat(t3): Spec view overlay`
 
 ---
 
-### Task 18: Final docs refresh after T3
+### Task 24: Final docs + ADR-006
 
-**Files:**
-- Modify: `docs/ai/memory.md`, `docs/ai/tasks.md`, `CODE_MAP.md`, `docs/ai/decisions.md`
-
-**Step 1: Append to `decisions.md`**
-
+Append to `docs/ai/decisions.md`:
 ```markdown
-## ADR-005: Architect redesign — visible system motif
+## ADR-006: Expressive layer over Architect foundation
 
 **Date:** 2026-05-19
-**Status:** Accepted (extends ADR-003)
+**Status:** Accepted (extends ADR-005)
 
-**Context**
-After the minimal-dark-editorial pass shipped, the user wanted a sharper, more distinctive identity — positioning as a "digital architect with defined taste" rather than a generic developer.
-
-**Decision**
-Adopt a visible-system aesthetic centered on three signature elements: a title-block frame motif (corner metadata + hairlines on every meaningful surface), scroll-driven kinetic typography (Fraunces opsz axis), and a toggle-able Spec view overlay that exposes the 12-col grid + 8px baseline on demand.
-
-**Consequences**
-- **Positive:** A memorable, ownable identity. The site signals systems thinking the moment a visitor scrolls or hovers.
-- **Negative:** Heavier visual language than the previous pass. Every new section must be designed to fit inside a frame.
-- **Neutral:** No new deps — implemented entirely with framer-motion (already installed) + web platform (View Transitions API, variable fonts).
-
-**Alternatives considered**
-- Quiet Authority (refined editorial) — too generic
-- The OS (themed interface) — too high-risk for solo maintenance
+**Context** — User judged pure Architect too restrained: *"I want some animation, something that feels artistic."*
+**Decision** — Adopt Bundle B (Expressive): ten artistic moves on top of Architect. New dep: Lenis (~12kb).
+**Consequences** — Positive: authored feel within 5s of cursor movement. Negative: higher animation budget; watch perf. Neutral: all effects respect `prefers-reduced-motion` and `pointer: coarse`.
+**Alternatives** — A (Alive) too quiet; C (Maximalist) too much.
 ```
 
-**Step 2: Update `CODE_MAP.md`** — add to Site Shell / Layout Primary Files:
-- `src/components/Frame.tsx`
-- `src/components/Cursor.tsx`
-- `src/components/Magnetic.tsx`
-- `src/components/KineticHero.tsx`
-- `src/components/SpecView.tsx`
+Finalize memory/tasks/CODE_MAP entries.
 
-**Step 3: Move all Architect tasks in `docs/ai/tasks.md` to Recently Completed.**
-
-**Step 4: Append a final note to `docs/ai/memory.md` under Implementation History.**
-
-**Step 5: Commit**
-
-```bash
-git add docs/ai/memory.md docs/ai/tasks.md docs/ai/decisions.md CODE_MAP.md
-git commit -m "docs: record full Architect redesign (T1+T2+T3)
-
-Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>"
-```
+Commit: `docs: record full Architect+Expressive redesign (T1+T2+T3)`
 
 ---
 
@@ -1981,7 +1992,7 @@ Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>"
 
 - Light mode toggle
 - New content surfaces (Principles, Stack, Blog)
-- 3D / WebGL
+- 3D / WebGL — explicitly avoided; expressive feel achieved via DOM/CSS/canvas
 - Real OG cover image (still user-supplied; out of code scope)
 - Privacy/Terms pages
 - Server-side contact form
@@ -1990,6 +2001,8 @@ Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>"
 
 ## Plan Complete
 
-Plan saved. The implementation covers 18 tasks across 3 tiers, with each task scoped to 2–10 minutes of editing + verify + commit.
+**24 tasks across 3 tiers.** Each task scoped to 2–10 minutes of edit + verify + commit.
 
-**Recommended sequencing:** Land T1 (tasks 1–11) and push to Vercel. Sit with the foundation for a day or two before starting T2 — sometimes the foundation alone is already strong enough that some T2 moves feel like over-decoration. Then T2 (tasks 12–16). Then T3 (tasks 17–18).
+**Single new dep:** Lenis (~12kb).
+
+**Recommended sequencing:** Ship Tier 1 (tasks 1–11), push to Vercel, sit with the Architect foundation overnight. Then Tier 2 (tasks 12–22) — the artistic dimension where the site comes alive. Then optional Tier 3 (tasks 23–24) for the Spec view polish.
