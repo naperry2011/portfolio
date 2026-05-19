@@ -1,23 +1,25 @@
-import { ReactNode, HTMLAttributes } from "react";
+'use client';
 
-interface FrameProps extends HTMLAttributes<HTMLElement> {
+import React, { ReactNode, useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
+
+interface FrameProps {
   topLeft?: ReactNode;
   topRight?: ReactNode;
   bottomLeft?: ReactNode;
   bottomRight?: ReactNode;
-  /** Hide the top hairline rule (e.g. when stacking frames). */
   noTopRule?: boolean;
-  /** Hide the bottom hairline rule. */
   noBottomRule?: boolean;
-  /** Render as <section> instead of the default <article>. */
-  as?: "article" | "section" | "div";
+  as?: 'article' | 'section' | 'div';
   children: ReactNode;
+  className?: string;
 }
 
-/**
- * Title-block frame motif (architectural drawing block).
- * Corners hold metadata labels; content sits between two hairlines.
- */
+const lineVariants = {
+  hidden: { scaleX: 0 },
+  show:   { scaleX: 1, transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] } },
+};
+
 export default function Frame({
   topLeft,
   topRight,
@@ -25,33 +27,46 @@ export default function Frame({
   bottomRight,
   noTopRule = false,
   noBottomRule = false,
-  as: Tag = "article",
+  as: Tag = 'article',
   children,
-  className = "",
-  ...rest
+  className = '',
 }: FrameProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: '-80px' });
+  const TagAny = Tag as React.ElementType;
+
   return (
-    <Tag className={`relative ${className}`} {...rest}>
-      {/* Top corner labels */}
+    <TagAny ref={ref} className={`relative ${className}`}>
       {(topLeft || topRight) && (
         <div className="flex items-end justify-between pb-3">
           <span className="label">{topLeft}</span>
           <span className="label label-ink">{topRight}</span>
         </div>
       )}
-
-      {!noTopRule && <div className="rule" />}
-
+      {!noTopRule && (
+        <motion.div
+          className="rule origin-left"
+          variants={lineVariants}
+          initial="hidden"
+          animate={inView ? 'show' : 'hidden'}
+        />
+      )}
       <div className="py-10 sm:py-14">{children}</div>
-
-      {!noBottomRule && <div className="rule" />}
-
+      {!noBottomRule && (
+        <motion.div
+          className="rule origin-right"
+          variants={lineVariants}
+          initial="hidden"
+          animate={inView ? 'show' : 'hidden'}
+          transition={{ delay: 0.15 }}
+        />
+      )}
       {(bottomLeft || bottomRight) && (
         <div className="flex items-start justify-between pt-3">
           <span className="label">{bottomLeft}</span>
           <span className="label">{bottomRight}</span>
         </div>
       )}
-    </Tag>
+    </TagAny>
   );
 }
