@@ -9,6 +9,7 @@ import {
 import { MotionDiv } from "@/components/MotionWrapper";
 import Frame from "@/components/Frame";
 import SplitText from "@/components/SplitText";
+import Marquee from "@/components/Marquee";
 
 interface Skill {
   name: string;
@@ -119,6 +120,9 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        {/* Marquee */}
+        <Marquee items={['INDEPENDENT', 'SHIP', 'CRAFT', 'SYSTEMS']} className="my-16" />
 
         {/* Capabilities */}
         <Frame
