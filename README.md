@@ -1,121 +1,81 @@
-# <CYBERLOUNGE/> Portfolio
+# Cyberlounge Portfolio
 
-A cutting-edge portfolio website built with Next.js, featuring a cyberpunk design aesthetic and modern web technologies.
+Personal portfolio site for Nicholas Perry — independent software and cloud development consulting.
 
+## Tech Stack
 
+- **Framework:** Next.js 15 (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS 3 with a custom minimal-dark-editorial design system
+- **Type:** Fraunces (variable serif) + Geist (sans + mono) via `next/font/google`
+- **Animation:** Framer Motion 12
+- **Icons:** react-icons
+- **Hosting:** Vercel
 
-## 🌟 Overview
+## Pages
 
-CyberLounge is a professionally crafted portfolio website that combines cyberpunk aesthetics with modern web development practices. Built using Next.js 14 and enhanced with custom animations, this portfolio showcases both technical expertise and creative design principles.
+- `/` — Hero, capabilities, featured projects
+- `/about` — Bio, expertise, professional timeline
+- `/projects` — Selected work (Rooted Legacy, Reality Saving, The Motions)
+- `/contact` — Services + Cal.com booking + social channels
 
-## 🚀 Features
+All routes are static (prerendered at build time). No API routes, no database.
 
-- **Immersive Cyberpunk Design**
-  - Custom-crafted UI with neon effects
-  - Cyber-grid backgrounds
-  - Dynamic color schemes
-  - Interactive hover states
+## Getting Started
 
-- **Advanced Technical Implementation**
-  - Server-side rendering with Next.js 14
-  - Responsive layout for all devices
-  - Integration with Medium API for blog content
-  - Smooth animations powered by Framer Motion
-  - Cyberpunk-themed dark mode
-  - Performance-optimized loading
-
-## 🛠️ Technology Stack
-
-- **Core Framework**: Next.js 14
-- **Programming Language**: TypeScript
-- **Styling Solution**: Tailwind CSS
-- **Animation Library**: Framer Motion
-- **Icon Package**: React Icons
-- **Typography**: Geist Font Family
-- **Hosting Platform**: Vercel
-
-## 📱 Key Sections
-
-- **Home**: Dynamic landing page featuring animated components
-- **About**: Professional background and technical expertise
-- **Projects**: Showcase of software development and cloud projects
-- **Blog**: Dynamic blog integration with Medium API
-- **Contact**: Professional contact information and scheduling system
-
-## 🚀 Getting Started
-
-1. **Clone the Repository**
-   ```bash
-   git clone https://github.com/yourusername/cyberlounge-portfolio.git
-   ```
-
-2. **Install Dependencies**
-   ```bash
-   cd cyberlounge-portfolio
-   npm install
-   ```
-
-3. **Configure Environment**
-   Create `.env.local` in the root directory:
-   ```env
-   NEXT_PUBLIC_MEDIUM_USERNAME=your-medium-username
-   ```
-
-4. **Start Development Server**
-   ```bash
-   npm run dev
-   ```
-
-5. **View Website**
-   Open [http://localhost:3000](http://localhost:3000) in your browser
-
-## 📦 Project Structure
-
-```
-cyberlounge-portfolio/
-├── src/
-│   ├── app/
-│   │   ├── about/
-│   │   ├── blog/
-│   │   ├── contact/
-│   │   ├── projects/
-│   │   └── page.tsx
-│   ├── components/
-│   │   ├── Navbar.tsx
-│   │   ├── Footer.tsx
-│   │   └── MotionWrapper.tsx
-│   └── styles/
-│       └── globals.css
-├── public/
-│   └── images/
-└── package.json
+```bash
+git clone https://github.com/naperry2011/portfolio.git
+cd portfolio
+npm install
+npm run dev
 ```
 
-## 🎨 Design Implementation
+Open [http://localhost:3000](http://localhost:3000).
 
-- Custom cyberpunk-inspired color palette
-- Animated neon glow effects
-- Dynamic gradient text animations
-- Responsive cyber-grid backgrounds
-- Animated bracket navigation
-- Custom hover state interactions
-- Smooth page transition effects
+## Scripts
 
-## 📱 Responsive Design Strategy
+- `npm run dev` — Start the dev server
+- `npm run build` — Production build
+- `npm start` — Run the production server
+- `npm run lint` — ESLint (eslint-config-next)
 
-- Mobile-first development approach
-- Comprehensive device breakpoint coverage
-- Mobile-optimized navigation system
-- Responsive image and grid implementations
+## Design System
 
-## 🚀 Deployment Guide
+Tokens are defined in two places that must stay in sync:
 
-1. Push your repository to GitHub
-2. Connect your repository to Vercel
-3. Configure your environment variables
-4. Deploy your application
+- CSS variables in `src/app/globals.css` (`--background`, `--surface`, `--border`, `--foreground`, `--muted`, `--accent`)
+- Tailwind theme tokens in `tailwind.config.ts` (which reference those CSS variables)
 
-## 📄 License
+Utility classes: `.eyebrow`, `.divider`, `.link-accent` (defined in `globals.css`).
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+## Project Structure
 
+```
+src/
+├── app/
+│   ├── about/page.tsx
+│   ├── contact/page.tsx
+│   ├── projects/page.tsx
+│   ├── layout.tsx
+│   ├── page.tsx
+│   └── globals.css
+├── components/
+│   ├── Navbar.tsx
+│   ├── Footer.tsx
+│   └── MotionWrapper.tsx
+public/
+├── projects/  (screenshots — see docs/ai/tasks.md)
+└── ...
+```
+
+## AI Context Docs
+
+Structural indexes and AI-facing context live at the repo root and `docs/ai/`. See `llms.txt` for the full map.
+
+## Deployment
+
+Push to `main` — Vercel deploys automatically.
+
+## License
+
+MIT

@@ -7,59 +7,48 @@ import { FaBars, FaTimes } from 'react-icons/fa';
 
 export default function Navbar() {
   const pathname = usePathname();
-  const [isHovered, setIsHovered] = useState<string | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const navLinks = [
-    ['HOME', '/'],
-    ['ABOUT', '/about'],
-    ['PROJECTS', '/projects'],
-    ['BLOG', '/blog'],
-    ['CONTACT', '/contact'],
+  const navLinks: [string, string][] = [
+    ['Home', '/'],
+    ['About', '/about'],
+    ['Projects', '/projects'],
+    ['Contact', '/contact'],
   ];
 
   return (
-    <nav className="fixed top-0 w-full bg-background/90 backdrop-blur-md border-b border-primary/20 z-50">
-      <div className="absolute inset-0 cyber-grid"></div>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+    <nav className="fixed top-0 w-full bg-background/85 backdrop-blur-md border-b border-border z-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex-shrink-0">
-            <Link 
-              href="/" 
-              className="text-xl font-bold text-gradient neon-glow"
-              onMouseEnter={() => setIsHovered('logo')}
-              onMouseLeave={() => setIsHovered(null)}
+            <Link
+              href="/"
+              className="font-serif text-xl tracking-wide text-foreground hover:text-accent transition-colors"
             >
-              <span className="tracking-wider">&lt;CYBERLOUNGE/&gt;</span>
+              Cyberlounge
             </Link>
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden sm:block">
-            <div className="flex space-x-8">
-              {navLinks.map(([name, path]) => (
-                <Link
-                  key={path}
-                  href={path}
-                  className={`relative px-3 py-1 transition-all duration-300 tracking-wider font-medium
-                    ${pathname === path 
-                      ? 'text-primary neon-glow' 
-                      : 'text-foreground/80 hover:text-gradient hover:neon-glow'
-                    }
-                    before:content-['<'] before:opacity-0 before:mr-1
-                    after:content-['>'] after:opacity-0 after:ml-1
-                    hover:before:opacity-100 hover:after:opacity-100
-                    before:transition-opacity after:transition-opacity
-                    before:text-primary/60 after:text-primary/60`}
-                  onMouseEnter={() => setIsHovered(path)}
-                  onMouseLeave={() => setIsHovered(null)}
-                >
-                  {name}
-                  {(pathname === path || isHovered === path) && (
-                    <span className="absolute -bottom-1 left-0 w-full h-[2px] bg-gradient-to-r from-gradient-start to-gradient-end neon-glow" />
-                  )}
-                </Link>
-              ))}
+            <div className="flex items-center space-x-10">
+              {navLinks.map(([name, path]) => {
+                const isActive = pathname === path;
+                return (
+                  <Link
+                    key={path}
+                    href={path}
+                    className={`relative text-sm tracking-wide transition-colors ${
+                      isActive ? 'text-foreground' : 'text-muted hover:text-foreground'
+                    }`}
+                  >
+                    {name}
+                    {isActive && (
+                      <span className="absolute -bottom-1 left-0 w-full h-px bg-accent" />
+                    )}
+                  </Link>
+                );
+              })}
             </div>
           </div>
 
@@ -67,42 +56,39 @@ export default function Navbar() {
           <div className="sm:hidden">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="text-foreground/80 hover:text-primary transition-colors p-2"
+              className="text-muted hover:text-foreground transition-colors p-2"
+              aria-label="Toggle menu"
             >
-              {isMobileMenuOpen ? (
-                <FaTimes className="h-6 w-6" />
-              ) : (
-                <FaBars className="h-6 w-6" />
-              )}
+              {isMobileMenuOpen ? <FaTimes className="h-5 w-5" /> : <FaBars className="h-5 w-5" />}
             </button>
           </div>
         </div>
 
         {/* Mobile Menu Dropdown */}
         {isMobileMenuOpen && (
-          <div className="sm:hidden absolute top-16 left-0 right-0 bg-background border-b border-primary/20">
-            <div className="px-2 pt-2 pb-3 space-y-1">
-              {navLinks.map(([name, path]) => (
-                <Link
-                  key={path}
-                  href={path}
-                  className={`block px-3 py-2 rounded-md text-base font-medium transition-all duration-300
-                    ${pathname === path 
-                      ? 'text-primary bg-primary/10 neon-glow' 
-                      : 'text-foreground/80 hover:text-gradient hover:neon-glow'
-                    }
-                    hover:bg-primary/5`}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  <span className="text-primary/60 mr-1">&lt;</span>
-                  {name}
-                  <span className="text-primary/60 ml-1">&gt;</span>
-                </Link>
-              ))}
+          <div className="sm:hidden absolute top-16 left-0 right-0 bg-background border-b border-border">
+            <div className="px-4 py-4 space-y-1">
+              {navLinks.map(([name, path]) => {
+                const isActive = pathname === path;
+                return (
+                  <Link
+                    key={path}
+                    href={path}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className={`block px-2 py-3 text-base tracking-wide border-l-2 ${
+                      isActive
+                        ? 'text-foreground border-accent'
+                        : 'text-muted border-transparent hover:text-foreground'
+                    }`}
+                  >
+                    {name}
+                  </Link>
+                );
+              })}
             </div>
           </div>
         )}
       </div>
     </nav>
   );
-} 
+}

@@ -2,7 +2,7 @@
 
 System-level data movement.
 
-## Static / SSR Page Render
+## Static Page Render
 
 Source: Browser request to `/`, `/about`, `/projects`, `/contact`
 Transport: HTTP
@@ -10,40 +10,26 @@ Processor: Next.js App Router → RootLayout (src/app/layout.tsx) → route segm
 Storage: None (no DB; content is in source + public/ assets)
 Downstream Consumers: Browser DOM
 
-## Blog Page Load (with Medium Posts)
+All four routes are prerendered as static content at build time.
 
-Source: Browser request to `/blog`
-Transport: HTTP
-Processor: Next.js renders src/app/blog/page.tsx (client component) → `useEffect` triggers `fetch('/api/medium-posts')`
-Storage: React component state (in-memory, client-side)
-Downstream Consumers: Blog UI render
+## Outbound Project Links
 
-## Medium Posts API
-
-Source: Client `fetch('/api/medium-posts')` from blog page
-Transport: HTTP (internal, same-origin)
-Processor: src/app/api/medium-posts/route.ts → rss-parser
-Storage: None (no caching layer in code)
-Downstream Consumers: Blog page client component
-
-## Medium RSS Fetch (external)
-
-Source: medium-posts route handler
-Transport: HTTPS GET to `https://medium.com/feed/@naperry2011`
-Processor: rss-parser → strip HTML, normalize items, extract first `<img>` as thumbnail
+Source: Browser click on a project card (`/` or `/projects`)
+Transport: HTTP (target="_blank", noopener noreferrer)
+Processor: Browser navigation to external Vercel-hosted project sites
 Storage: None
-Downstream Consumers: NextResponse JSON → client
+Downstream Consumers: Live project sites (rooted-legacy-phi.vercel.app, reality-saving.vercel.app, the-motions.vercel.app)
 
 ## Contact Actions
 
 Source: Browser click on contact page
 Transport: HTTP redirect / mailto handler / external link
-Processor: None server-side (no form submission, no Nodemailer wiring)
+Processor: None server-side
 Storage: None
 Downstream Consumers: Cal.com (scheduling), user's mail client, external social sites
 
 ## Notes
 
 - No database, queue, cache, or object store integrations.
-- No server actions defined.
-- No streaming/SSE endpoints.
+- No API routes, server actions, or streaming endpoints.
+- All dynamic content is hardcoded in the page components.

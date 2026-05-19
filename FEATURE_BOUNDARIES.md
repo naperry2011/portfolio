@@ -5,14 +5,12 @@ Responsibility boundaries between components.
 ## Root Layout (src/app/layout.tsx)
 
 Owns:
-- HTML document shell, `<body>` font class, metadata/OpenGraph/Twitter tags
+- HTML document shell, `<body>` class, metadata/OpenGraph/Twitter tags
 - Mounting Navbar and Footer around every route
-- Loading global CSS
+- Loading global CSS and font variables (Geist sans/mono, Fraunces serif)
 
 Does NOT Own:
-- Page content
-- Navigation state (delegated to Navbar)
-- Data fetching
+- Page content, routing, data fetching
 
 Communicates With:
 - src/components/Navbar.tsx, src/components/Footer.tsx (render)
@@ -23,13 +21,12 @@ Isolation Level: Strong
 ## Navbar (src/components/Navbar.tsx)
 
 Owns:
-- Top navigation bar, route highlighting (via `usePathname`)
+- Top navigation bar, active-route underline (via `usePathname`)
 - Mobile menu open/close state
-- Hover state for nav links
+- Cyberlounge wordmark (serif treatment)
 
 Does NOT Own:
 - Routing logic (delegated to next/link)
-- Auth, user identity (none in app)
 
 Communicates With:
 - next/navigation (read-only pathname)
@@ -39,7 +36,7 @@ Isolation Level: Strong
 ## Footer (src/components/Footer.tsx)
 
 Owns:
-- Footer chrome, quick links, social icons, copyright line
+- Footer chrome, navigation quick links, social icons, copyright
 
 Does NOT Own:
 - Newsletter signup, analytics, contact form
@@ -52,7 +49,7 @@ Isolation Level: Strong
 ## MotionWrapper (src/components/MotionWrapper.tsx)
 
 Owns:
-- Client-boundary re-export of `framer-motion`'s `motion.div` as `MotionDiv` so server components can use animated divs by reference.
+- Client-boundary re-export of `framer-motion`'s `motion.div` as `MotionDiv`
 
 Does NOT Own:
 - Animation variants, transition configs (declared at call site)
@@ -62,38 +59,21 @@ Communicates With:
 
 Isolation Level: Strong
 
-## Page Segments (home / about / projects / blog / contact)
+## Page Segments (home / about / projects / contact)
 
 Owns:
 - Page-specific layout, copy, animations, image references
-- Page-local React state (blog uses `useState`/`useEffect` for posts; contact/about/projects are presentation only)
+- Page-local React state where applicable (none currently — all data is static)
 
 Does NOT Own:
 - Site chrome (provided by layout)
-- API endpoints (blog calls `/api/medium-posts`, does not implement it)
+- API endpoints (none exist)
 
 Communicates With:
-- `@/components/MotionWrapper` (home, projects, blog)
-- `/api/medium-posts` over HTTP (blog only)
-- External services via anchor links (contact)
+- `@/components/MotionWrapper` (home, projects)
+- External services via anchor links (contact, projects)
 
 Isolation Level: Strong (no page imports another page or another page's helpers)
-
-## Medium Posts API (src/app/api/medium-posts/route.ts)
-
-Owns:
-- Medium RSS fetch, HTML stripping, excerpt generation, thumbnail extraction
-- Error shape for the `/api/medium-posts` endpoint
-
-Does NOT Own:
-- Persistence, caching, auth
-- UI rendering of posts (delegated to blog page)
-
-Communicates With:
-- Medium RSS endpoint (HTTPS)
-- Blog page (HTTP response)
-
-Isolation Level: Strong
 
 ## Build / Tooling
 

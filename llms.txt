@@ -4,19 +4,19 @@
 
 ## Project Overview
 
-**Tech Stack:** Next.js 15.1.7, React 19, TypeScript, Tailwind CSS 3, Framer Motion 12, rss-parser
+**Tech Stack:** Next.js 15.1.7, React 19, TypeScript, Tailwind CSS 3, Framer Motion 12
 **Status:** Active (deployed to Vercel)
-**Purpose:** Showcase projects, surface Medium writing, route prospects to a Cal.com booking flow
+**Purpose:** Showcase projects, communicate capabilities, route prospects to a Cal.com booking flow
 
 ## Core Documentation
 
-- `README.md` — Setup and getting started (note: references stale Next.js 14)
+- `README.md` — Setup and getting started
 - `CODE_MAP.md` — Feature-to-file map
 - `docs/ai/memory.md` — Project history and current state
 - `docs/ai/roadmap.md` — Forward-looking priorities
 - `docs/ai/tasks.md` — Active work + tech-debt list
 - `docs/ai/decisions.md` — Architecture decisions (ADRs)
-- `docs/ai/architecture.md` — System design
+- `docs/ai/architecture.md` — System design + design tokens
 - `ENTRY_POINTS.md` — Where execution starts
 - `DATA_FLOW.md` — System-level data movement
 - `FEATURE_BOUNDARIES.md` — Component responsibilities
@@ -25,20 +25,17 @@
 ## Key Files by Area
 
 ### Site shell
-- `src/app/layout.tsx` — Root layout, metadata, Navbar/Footer mount
-- `src/components/Navbar.tsx` — Top nav with route highlighting + mobile menu
+- `src/app/layout.tsx` — Root layout, fonts (Geist, Geist Mono, Fraunces), metadata, Navbar/Footer mount
+- `src/components/Navbar.tsx` — Top nav with active-state underline + mobile menu
 - `src/components/Footer.tsx` — Footer (quick links + socials)
-- `src/app/globals.css` — Global Tailwind styles, cyberpunk theme
+- `src/app/globals.css` — Design tokens + utility classes (`.eyebrow`, `.divider`, `.link-accent`)
+- `tailwind.config.ts` — Tailwind theme mapping CSS variables to color/font tokens
 
-### Pages
-- `src/app/page.tsx` — Home
-- `src/app/about/page.tsx` — About
-- `src/app/projects/page.tsx` — Projects gallery
-- `src/app/blog/page.tsx` — Blog (fetches Medium posts client-side)
-- `src/app/contact/page.tsx` — Contact (Cal.com + social links)
-
-### API
-- `src/app/api/medium-posts/route.ts` — `GET /api/medium-posts`: Medium RSS proxy
+### Pages (all static)
+- `src/app/page.tsx` — Home (hero + capabilities + featured projects)
+- `src/app/about/page.tsx` — Bio, expertise, timeline, principles
+- `src/app/projects/page.tsx` — Three project entries (Rooted Legacy, Reality Saving, The Motions)
+- `src/app/contact/page.tsx` — Services + Cal.com booking + social channels
 
 ### Shared
 - `src/components/MotionWrapper.tsx` — Client-boundary `MotionDiv` re-export
@@ -48,8 +45,9 @@
 **To run locally:** `npm install && npm run dev` → http://localhost:3000
 **To build:** `npm run build && npm start`
 **To lint:** `npm run lint`
-**To change which Medium account is shown:** edit the hardcoded URL in `src/app/api/medium-posts/route.ts` (env var path is documented in README but not wired)
+**To change the design system:** edit both `src/app/globals.css` (CSS vars) and `tailwind.config.ts` (theme tokens) — they must stay in sync.
+**To add a project:** append to the `projects` array in `src/app/projects/page.tsx` and the `featuredProjects` array in `src/app/page.tsx`; drop the image at `public/projects/<slug>.jpg`.
 
 ## Environment Variables
 
-- `NEXT_PUBLIC_MEDIUM_USERNAME` — Documented in README but not consumed by current code. Update the route handler before relying on it.
+- None currently consumed by the codebase.

@@ -1,10 +1,10 @@
 # Architecture
 
-System design at a glance. Pair with root-level `CODE_MAP.md` (file map), `DATA_FLOW.md` (system flows), `ENTRY_POINTS.md`, `FEATURE_BOUNDARIES.md`.
+System design at a glance. Pair with root-level `CODE_MAP.md`, `DATA_FLOW.md`, `ENTRY_POINTS.md`, `FEATURE_BOUNDARIES.md`.
 
 ## System Overview
 
-Cyberlounge.net is a personal portfolio site built on Next.js 15 App Router. It serves 5 static-leaning page routes plus a single dynamic API route that proxies a Medium RSS feed. No persistent storage, no auth, no background jobs.
+Cyberlounge.net is a personal portfolio site built on Next.js 15 App Router. It serves 4 fully-static page routes. No persistent storage, no API routes, no auth, no background jobs.
 
 **Style:** Monolith (Next.js single deployable)
 **Hosting:** Vercel
@@ -12,61 +12,75 @@ Cyberlounge.net is a personal portfolio site built on Next.js 15 App Router. It 
 ## Core Components
 
 ### Root Layout
-- **Responsibility:** HTML shell, global font (Geist), global CSS, persistent Navbar + Footer, page metadata / OpenGraph / Twitter cards
+- **Responsibility:** HTML shell, font variables (Geist sans, Geist Mono, Fraunces serif), global CSS, persistent Navbar + Footer, page metadata / OG / Twitter cards
 - **Tech:** Next.js Server Component
 - **Key files:** `src/app/layout.tsx`, `src/app/globals.css`
-- **Depends on:** `src/components/Navbar.tsx`, `src/components/Footer.tsx`
+- **Depends on:** `src/components/Navbar.tsx`, `src/components/Footer.tsx`, `next/font/google`
 
 ### Navigation Chrome
-- **Responsibility:** Top nav (with active-route highlighting + mobile menu) and footer (quick links, socials, copyright)
+- **Responsibility:** Top nav (active-route underline + mobile menu) and footer (quick links, socials, copyright)
 - **Tech:** React client components
 - **Key files:** `src/components/Navbar.tsx`, `src/components/Footer.tsx`
 - **Depends on:** `next/link`, `next/navigation`, `react-icons`
 
 ### Page Segments
-- **Responsibility:** Page-specific content + animations for `/`, `/about`, `/projects`, `/blog`, `/contact`
-- **Tech:** Mix of server and client components; blog uses `useEffect`/`useState` for the Medium feed
-- **Key files:** `src/app/page.tsx`, `src/app/about/page.tsx`, `src/app/projects/page.tsx`, `src/app/blog/page.tsx`, `src/app/contact/page.tsx`
+- **Responsibility:** Page-specific content + animations for `/`, `/about`, `/projects`, `/contact`
+- **Tech:** Mix of server and client components; all data hardcoded
+- **Key files:** `src/app/page.tsx`, `src/app/about/page.tsx`, `src/app/projects/page.tsx`, `src/app/contact/page.tsx`
 - **Depends on:** `@/components/MotionWrapper`, `framer-motion`, `react-icons`, `next/image`
 
 ### Motion Wrapper
 - **Responsibility:** Re-export `framer-motion`'s `motion.div` as `MotionDiv` from a `'use client'` module so server components can compose animated divs
 - **Key files:** `src/components/MotionWrapper.tsx`
 
-### Medium Posts API
-- **Responsibility:** Fetch `https://medium.com/feed/@naperry2011`, strip HTML, build 150-char excerpts, extract thumbnails, return JSON
-- **Tech:** Next.js Route Handler, `rss-parser`
-- **Key files:** `src/app/api/medium-posts/route.ts`
-- **Depends on:** `rss-parser`, `next/server`
+## Design System
+
+Source of truth: CSS variables in `src/app/globals.css`, mirrored as Tailwind theme tokens in `tailwind.config.ts`.
+
+**Palette:**
+- `--background`: `#0b0b0d` (near-black)
+- `--surface`: `#141416` (elevated cards)
+- `--border`: `#26262b`
+- `--foreground`: `#ededed`
+- `--muted`: `#9a9a9f`
+- `--accent`: `#c9a96a` (muted warm gold — single chromatic accent)
+
+**Typography:**
+- Display: Fraunces (variable serif, opsz axis) via `next/font/google` → `--font-serif`
+- Body / UI: Geist sans → `--font-sans`
+- Monospace (eyebrow labels, code): Geist Mono → `--font-mono`
+
+**Utilities** (defined in `globals.css`):
+- `.eyebrow` — small-caps mono label for section headers
+- `.divider` — 1px horizontal rule
+- `.link-accent` — accent-colored link with hover fade
 
 ## Data Flow (Critical Path)
 
 1. Browser → Vercel edge → Next.js App Router
-2. RootLayout renders → Navbar + page segment + Footer
-3. For `/blog`: client component mounts → `fetch('/api/medium-posts')`
-4. Route handler → `rss-parser.parseURL` → Medium RSS feed
-5. Route handler shapes payload → JSON → browser → React render
+2. All 4 routes prerendered as static at build time
+3. RootLayout renders → Navbar + page segment + Footer
+4. Outbound clicks (project cards, contact CTAs) navigate to external URLs
 
 ## Data Stores
 
-- None. No database, cache, KV, or object store.
+- None.
 
 ## External Integrations
 
-- **Medium RSS** — Source of blog content (`https://medium.com/feed/@naperry2011`)
 - **Cal.com** — Booking link on contact page (`cal.com/cybercap2011`)
+- **Live project sites** (rooted-legacy-phi, reality-saving, the-motions) — Outbound links only
 - **GitHub / LinkedIn / Medium / mailto** — Outbound profile links
 - **Vercel** — Hosting + build pipeline
 
 ## Security Boundaries
 
 - All routes are public; no auth model.
-- Only outbound network call from server code is Medium RSS. No secrets in repo.
-- `NEXT_PUBLIC_MEDIUM_USERNAME` is documented in README but not consumed by current code.
+- No outbound network call from server code.
+- No secrets in repo.
 
 ## Known Constraints / Trade-offs
 
-- Medium RSS fetch has no caching — every blog page load reaches out to medium.com.
-- Username is hardcoded in the API route; redeploys are required to change it.
-- `nodemailer` is a declared but unused dependency — supply-chain footprint without runtime use.
-- Footer links to `/privacy` and `/terms` which do not exist as routes (404).
+- Project images are referenced (`/projects/*.jpg`) but the user must drop the actual files in `public/projects/`.
+- OG image (`/og-cover.jpg`) similarly user-supplied.
+- Site is fully static — any future dynamic content (analytics, form submissions) would require introducing a route handler.

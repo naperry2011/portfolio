@@ -5,7 +5,7 @@ Active work. Update as items are completed and new work is identified.
 ## Sprint / Iteration
 
 **Range:** 2026-05-19 to [open]
-**Goal:** Documentation alignment + remove dead surface area
+**Goal:** Finish redesign polish — supply real assets, fix small content drift
 
 ## In Progress
 
@@ -13,11 +13,11 @@ Active work. Update as items are completed and new work is identified.
 
 ## Up Next
 
-- [ ] Update README.md to reflect Next.js 15 (currently says 14) — XS
-- [ ] Decide on `nodemailer` deps: remove or wire up a contact form handler — S
-- [ ] Wire `NEXT_PUBLIC_MEDIUM_USERNAME` into `src/app/api/medium-posts/route.ts` (or drop from README) — XS
-- [ ] Add `public/blog/default-thumbnail.jpg` fallback image referenced by the route handler — XS
-- [ ] Resolve footer `/privacy` and `/terms` links (create pages or remove links) — S
+- [ ] Drop screenshots at `public/projects/rooted-legacy.jpg`, `public/projects/reality-saving.jpg`, `public/projects/the-motions.jpg` (~1600×1200, ~4:3) — XS
+- [ ] Add `public/og-cover.jpg` (1200×630) for OpenGraph + Twitter card — XS
+- [ ] Update README.md to reflect Next.js 15 + the new four-route shape + drop `NEXT_PUBLIC_MEDIUM_USERNAME` — S
+- [ ] Set `metadataBase` in `src/app/layout.tsx` to silence Next.js build warning — XS
+- [ ] Re-verify About page bio copy with user (current text was migrated from prior version) — S
 
 ## Blocked
 
@@ -25,17 +25,20 @@ Active work. Update as items are completed and new work is identified.
 
 ## Recently Completed
 
-- [x] Generate `CODE_MAP.md`, `ENTRY_POINTS.md`, `DATA_FLOW.md`, `IMPORT_GRAPH_SUMMARY.md`, `FEATURE_BOUNDARIES.md` — 2026-05-19
-- [x] Scaffold `docs/ai/*` and `llms.txt` — 2026-05-19
+- [x] Full visual redesign: minimal dark editorial system (charcoal + Fraunces serif + muted gold accent) — 2026-05-19
+- [x] Projects page rewrite with three live projects (Rooted Legacy, Reality Saving, The Motions) — 2026-05-19
+- [x] Removed AI Augmented Development section from home — 2026-05-19
+- [x] Added "GoHighLevel CRM Development" under new "Platforms & CRM" skill group — 2026-05-19
+- [x] Removed blog page + Medium RSS API + rss-parser / nodemailer deps — 2026-05-19
+- [x] Generated `CODE_MAP.md` + 4 companion structural docs — 2026-05-19
+- [x] Scaffolded `docs/ai/*` and `llms.txt` — 2026-05-19
 
 ## Bugs
 
-- [ ] Footer links to `/privacy` and `/terms` produce 404s — P3
-- [ ] Medium thumbnail fallback path `/blog/default-thumbnail.jpg` 404s — P3
+- [ ] Project image paths return 404 until screenshots are dropped in `public/projects/` — P2
+- [ ] OG image `/og-cover.jpg` returns 404 — P3
 
 ## Tech Debt
 
-- [ ] Hardcoded Medium username in API route — Impact: blocks reuse / env-based config
-- [ ] No caching on Medium RSS fetch — Impact: every blog page load hits Medium
-- [ ] `framer-motion` imported both directly and via `MotionWrapper` — Impact: inconsistent pattern, minor
-- [ ] Unused `nodemailer` dependency — Impact: bundle / supply-chain surface
+- [ ] `framer-motion` imported both directly (about/contact/projects) and via `MotionDiv` wrapper (home/projects) — minor inconsistency
+- [ ] Hardcoded social URLs (GitHub/LinkedIn/Cal.com) — fine for now; revisit if rebrand happens

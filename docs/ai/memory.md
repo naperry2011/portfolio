@@ -6,42 +6,43 @@ Running history of what's been built and current state. Update after major chang
 
 **Status:** Active Development (personal portfolio site, deployed to Vercel)
 **Last Updated:** 2026-05-19
-**Version:** main @ 31114d3
+**Version:** main (post-redesign)
 
 ### What's Working
-- Next.js 15 App Router site with 5 page routes: `/`, `/about`, `/projects`, `/blog`, `/contact`
+- Next.js 15 App Router site with 4 page routes: `/`, `/about`, `/projects`, `/contact`
 - Persistent chrome (Navbar + Footer) wrapping all routes via `src/app/layout.tsx`
-- Medium RSS proxy at `GET /api/medium-posts` powering the blog page (rss-parser, strips HTML, builds 150-char excerpt, extracts thumbnail from first `<img>`)
-- Framer Motion animations across pages via `MotionDiv` client-boundary re-export
-- Tailwind-based cyberpunk styling, Geist font, OpenGraph/Twitter meta
+- Minimal dark editorial design system: near-black background, Fraunces serif headings, Geist body, single muted-gold accent (`#c9a96a`)
+- All four routes prerender as static at build time
+- Projects page shows three live external projects: Rooted Legacy, Reality Saving, The Motions
 
 ### Known Issues
-- `nodemailer` and `@types/nodemailer` are declared in `package.json` but unused — no server email path is wired; contact page is link-only (Cal.com + mailto)
-- README still says "Next.js 14"; repo is on Next.js 15.1.7
-- README references `NEXT_PUBLIC_MEDIUM_USERNAME` env var, but the medium-posts route hardcodes `@naperry2011` in the RSS URL — env var is not actually read
-- Default thumbnail fallback `/blog/default-thumbnail.jpg` is referenced but not present in `public/`
-- Footer links to `/privacy` and `/terms` routes that don't exist
+- Project images at `public/projects/{rooted-legacy,reality-saving,the-motions}.jpg` are referenced but not yet present — user supplies screenshots
+- OpenGraph image `/og-cover.jpg` referenced in layout metadata but not present yet
+- `metadataBase` not set in layout — Next.js warns during build (cosmetic only)
 
 ### In Progress
 - (none tracked in repo)
 
 ## Implementation History
 
-### 2025 - Initial portfolio build
-**What was built:** Next.js App Router scaffold with home/about/projects/blog/contact pages, Medium RSS integration, Tailwind cyberpunk theme.
-**Why:** Personal portfolio + lead-gen site for software/cloud consulting (Cyberlounge.net).
-**Files affected:** `src/app/*`, `src/components/*`, `public/*`
+### 2026-05-19 — Portfolio redesign to minimal dark editorial
+**What was built:** Full visual redesign away from cyberpunk neon. New design tokens (charcoal/gold), Fraunces serif headings, restyled Navbar/Footer wordmark (no brackets/neon), full rewrite of `/`, `/projects`, `/about`, `/contact`. Blog page + Medium RSS API removed entirely. AI Augmented Development section removed from home. Added "GoHighLevel CRM Development" under new "Platforms & CRM" skill group. Removed dead deps (rss-parser, nodemailer, @types/nodemailer).
+**Why:** User wanted a professional, mature aesthetic and refreshed project lineup.
+**Files affected:** `src/app/{layout,page,globals.css}`, `src/app/{about,projects,contact}/page.tsx`, `src/components/{Navbar,Footer}.tsx`, `tailwind.config.ts`, `package.json`. Deleted: `src/app/blog/`, `src/app/api/`.
 
-### 2026-05-19 - Structural indexing pass
+### 2026-05-19 — Structural indexing pass
 **What was built:** `CODE_MAP.md`, `ENTRY_POINTS.md`, `DATA_FLOW.md`, `IMPORT_GRAPH_SUMMARY.md`, `FEATURE_BOUNDARIES.md` at repo root.
 **Why:** Enable minimal-context AI operations.
-**Files affected:** repo root (docs only)
+
+### 2025 — Initial portfolio build
+**What was built:** Original cyberpunk-themed Next.js portfolio (now superseded by the 2026-05-19 redesign).
 
 ## Architecture Evolution
 
-Single Next.js 15 App Router project, deployed to Vercel. React 19, TypeScript, Tailwind 3, Framer Motion 12. One server route handler (`/api/medium-posts`) that proxies a Medium RSS feed via `rss-parser`. No database, queue, cache, auth, or middleware. See `docs/ai/architecture.md` and root-level `CODE_MAP.md` / `DATA_FLOW.md` for detail.
+Single Next.js 15 App Router project, deployed to Vercel. React 19, TypeScript, Tailwind 3, Framer Motion 12. No API routes, no database, no auth, no middleware. All content is hardcoded in page components; all four routes are static. See `docs/ai/architecture.md` and root-level `CODE_MAP.md` / `DATA_FLOW.md` for detail.
 
 ## Lessons Learned
 
-- `framer-motion`'s `motion.*` cannot be used directly inside a server component, so `src/components/MotionWrapper.tsx` re-exports `motion.div` as `MotionDiv` behind a `'use client'` boundary — pattern reused by home/projects/blog pages.
-- Medium's RSS feed embeds full HTML in `content:encoded`; the route handler strips tags and pulls the first `<img src>` as a thumbnail rather than relying on a dedicated image field.
+- `framer-motion`'s `motion.*` cannot be used directly inside a server component, so `src/components/MotionWrapper.tsx` re-exports `motion.div` as `MotionDiv` behind a `'use client'` boundary.
+- `next/font/google` rejects an explicit `weight` array when `axes` is specified for a variable font (Fraunces in this case). The fix is to omit `weight` so the variable axis takes over.
+- Tailwind theme tokens that point at CSS variables (e.g. `background: "var(--background)"`) must be defined in both `tailwind.config.ts` *and* `src/app/globals.css` — neither file is authoritative alone.

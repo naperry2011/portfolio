@@ -10,12 +10,20 @@ export default {
     extend: {
       colors: {
         background: "var(--background)",
+        surface: "var(--surface)",
+        border: "var(--border)",
         foreground: "var(--foreground)",
-        primary: "var(--primary)",
-        secondary: "var(--secondary)",
+        muted: "var(--muted)",
         accent: "var(--accent)",
-        'gradient-start': "var(--gradient-start)",
-        'gradient-end': "var(--gradient-end)",
+      },
+      fontFamily: {
+        sans: ["var(--font-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
+        serif: ["var(--font-serif)", "Georgia", "serif"],
+        mono: ["var(--font-mono)", "ui-monospace", "SFMono-Regular", "monospace"],
+      },
+      letterSpacing: {
+        wider: "0.05em",
+        widest: "0.18em",
       },
     },
   },

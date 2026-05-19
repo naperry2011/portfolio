@@ -14,10 +14,9 @@ Primary Files:
 Supporting Files:
 - src/app/globals.css
 - src/components/MotionWrapper.tsx
-- public/ (static assets, favicon, profile/project images)
 
 External Integrations:
-- next/font/google (Geist)
+- next/font/google (Geist sans, Geist Mono, Fraunces serif)
 - react-icons
 
 Entry Points:
@@ -32,11 +31,11 @@ Primary Files:
 
 Supporting Files:
 - src/components/MotionWrapper.tsx
-- public/cyberpunk-profile.jpg, public/profile-cyber.jpg
+- public/projects/{rooted-legacy,reality-saving,the-motions}.jpg (referenced; user supplies actual files)
 
 External Integrations:
 - framer-motion (via MotionDiv)
-- react-icons/{fa,si,bs}
+- react-icons/{fa,si}
 - next/image, next/link
 
 Entry Points:
@@ -66,34 +65,15 @@ Primary Files:
 
 Supporting Files:
 - src/components/MotionWrapper.tsx
-- public/{fit-hero,gaming-leaderboard,pantry-chef,restaurant-analytics,jiive}.jpg
+- public/projects/{rooted-legacy,reality-saving,the-motions}.jpg
 
 External Integrations:
 - framer-motion
-- react-icons/fa
 - next/image
+- Outbound: three live project URLs (rooted-legacy-phi.vercel.app, reality-saving.vercel.app, the-motions.vercel.app)
 
 Entry Points:
 - Route: `/projects`
-
-## Blog Page
-
-Category: UI
-
-Primary Files:
-- src/app/blog/page.tsx
-
-Supporting Files:
-- src/components/MotionWrapper.tsx
-
-External Integrations:
-- framer-motion
-- react-icons/fa
-- next/image
-- Internal API: `/api/medium-posts` (client fetch)
-
-Entry Points:
-- Route: `/blog`
 
 ## Contact Page
 
@@ -110,21 +90,6 @@ External Integrations:
 
 Entry Points:
 - Route: `/contact`
-
-## Medium Posts API
-
-Category: API
-
-Primary Files:
-- src/app/api/medium-posts/route.ts
-
-External Integrations:
-- rss-parser
-- Medium RSS feed: `https://medium.com/feed/@naperry2011`
-- next/server (NextResponse)
-
-Entry Points:
-- HTTP: `GET /api/medium-posts`
 
 ## Build / Tooling
 
@@ -149,5 +114,6 @@ Entry Points:
 
 ## Notes
 
-- `nodemailer` and `@types/nodemailer` are declared in package.json but not imported anywhere in `src/`. Treat as unused dependency for index purposes.
-- No tests, no workers, no cron, no lambdas defined in repo.
+- No API routes, no database, no workers, no cron, no tests.
+- Three font families loaded via next/font/google: Geist (sans), Geist Mono, Fraunces (serif).
+- Design system tokens are CSS variables in `src/app/globals.css`, mirrored as Tailwind theme colors in `tailwind.config.ts`.

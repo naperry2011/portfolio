@@ -1,241 +1,132 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { FaGithub, FaLink } from 'react-icons/fa';
+import { motion } from 'framer-motion';
 import { MotionDiv } from '@/components/MotionWrapper';
-
-// Add interfaces for project and component props
-interface StatusBadgeProps {
-  status: 'completed' | 'in-progress' | 'planned';
-}
-
-interface FutureFeaturesProps {
-  features: string[];
-}
 
 interface Project {
   title: string;
+  tagline: string;
   description: string;
+  role: string;
+  year: string;
+  stack: string[];
   image: string;
-  tech: string[];
-  features: string[];
-  futureFeatures?: string[];
-  github: string;
-  live: string;
-  status: StatusBadgeProps['status'];
-  isLive: boolean;
+  liveUrl: string;
 }
 
+const projects: Project[] = [
+  {
+    title: 'Rooted Legacy',
+    tagline: 'An Indianapolis urban farm growing food, classes, and gathering space.',
+    description:
+      'A community-focused web presence for an Indianapolis-based urban farm. The site introduces the farm, surfaces gardening classes and seasonal events, distributes information about produce shares, and integrates live weather data and mapping so visitors can plan a trip. Designed to feel personal and rooted rather than corporate — the brand is about land, neighborhood, and the people who tend it.',
+    role: 'Design & Development',
+    year: '2025',
+    stack: ['Next.js', 'React', 'Tailwind CSS', 'OpenWeather API', 'Google Maps', 'Vercel'],
+    image: '/projects/rooted-legacy.jpg',
+    liveUrl: 'https://rooted-legacy-phi.vercel.app/',
+  },
+  {
+    title: 'Reality Saving',
+    tagline: 'Strategic budgeting and financial systems for small businesses and professionals.',
+    description:
+      'A financial advisory platform that helps clients move from reactive spending to intentional planning. The site presents a clear diagnostic → design → implementation → monitoring framework, distinct service tracks for business advisory and personal finance, and a path for prospects to start a strategy conversation. Built with Astro for a fast, content-first delivery.',
+    role: 'Design & Development',
+    year: '2025',
+    stack: ['Astro', 'Tailwind CSS', 'Vercel'],
+    image: '/projects/reality-saving.jpg',
+    liveUrl: 'https://reality-saving.vercel.app/',
+  },
+  {
+    title: 'The Motions',
+    tagline: 'A solopreneur brand companion built on the Mo Town universe.',
+    description:
+      'A narrative-driven brand companion for solopreneurs. The Motions maps the internal psychological states of independent work through a cast of character archetypes — from Quake (anxiety) to Flo (flow). The site introduces the Mo Town universe, runs a 90-second motion-finding quiz, and gates access to a comprehensive workbook with 8 modules and 216 paths. Built as a digital product surface, not a marketing site.',
+    role: 'Design & Development',
+    year: '2025',
+    stack: ['Next.js', 'React', 'Tailwind CSS', 'Vercel'],
+    image: '/projects/the-motions.jpg',
+    liveUrl: 'https://the-motions.vercel.app/',
+  },
+];
+
 export default function Projects() {
-  // Type the project arrays with Project interface
-  const softwareProjects: Project[] = [
-    {
-      title: "Pantry Chef",
-      description: "A modern recipe management application built with Next.js 14 and Supabase, offering a seamless experience for discovering and managing recipes based on available ingredients. Currently in active development with new features being added.",
-      image: "/pantry-chef.jpg",
-      tech: [
-        "Next.js 14",
-        "TypeScript",
-        "TailwindCSS",
-        "Supabase",
-        "PostgreSQL",
-        "Vercel"
-      ],
-      features: [
-        "Server-side rendering for optimal performance",
-        "Type-safe development with TypeScript",
-        "Real-time database updates with Supabase",
-        "Responsive UI with custom Tailwind components",
-        "Secure authentication system",
-        "Toast notifications for better UX",
-        "Automated deployment with Vercel",
-        "Comprehensive recipe management system"
-      ],
-      github: "https://github.com/naperry2011/pantry-chef",
-      live: "https://pantry-chef.cyberlounge.net",
-      status: "in-progress",
-      isLive: false
-    },
-    {
-      title: "Fit-Hero",
-      description: "A gamified fitness tracking application that transforms your health journey into an RPG adventure. Level up your character by completing workouts, meditation sessions, and reading goals. Currently in planning phase with initial UI/UX design.",
-      image: "/fit-hero.jpg",
-      tech: [
-        "React.js",
-        "TypeScript",
-        "Firebase",
-        "Tailwind CSS",
-        "React Router"
-      ],
-      features: [
-        "RPG-style character progression system",
-        "Avatar customization based on achievements",
-        "Workout tracking and level progression",
-        "Community challenges and leaderboards",
-        "Meditation and reading activity tracking",
-        "Mobile-responsive design",
-        "Real-time progress synchronization"
-      ],
-      futureFeatures: [
-        "Mobile app development",
-        "Wearables integration",
-        "Multiplayer challenges",
-        "Advanced leaderboard system"
-      ],
-      github: "https://github.com/naperry2011/fit-hero",
-      live: "https://fit-hero.cyberlounge.net",
-      status: "planned",
-      isLive: false
-    }
-  ];
+  return (
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32">
+      {/* Hero */}
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="mb-24"
+      >
+        <p className="eyebrow mb-6">Selected work</p>
+        <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl leading-tight tracking-tight text-foreground mb-6">
+          Projects.
+        </h1>
+        <p className="text-lg text-muted max-w-2xl leading-relaxed">
+          A few of the sites and products I&apos;ve built recently. Each one was scoped, designed,
+          and shipped end-to-end.
+        </p>
+      </motion.div>
 
-  const cloudProjects: Project[] = [
-    {
-      title: "Gaming Leaderboard on AWS",
-      description: "A serverless API system for tracking and displaying player high scores, built with AWS services and automated with Jenkins and Ansible. In planning phase with infrastructure design underway.",
-      image: "/gaming-leaderboard.jpg",
-      tech: ["AWS Lambda", "DynamoDB", "API Gateway", "Jenkins", "Ansible", "CloudWatch"],
-      features: [
-        "Serverless API implementation with Lambda",
-        "Real-time data storage with DynamoDB",
-        "Automated CI/CD pipeline with Jenkins",
-        "Infrastructure as Code using Ansible",
-        "Comprehensive monitoring with CloudWatch",
-        "Automated testing and deployment"
-      ],
-      github: "https://github.com/naperry2011/gaming-leaderboard",
-      live: "https://leaderboard-demo.cyberlounge.net",
-      status: "planned",
-      isLive: false
-    },
-    {
-      title: "Restaurant Order Analytics",
-      description: "A real-time data streaming and analytics platform for restaurant order processing, featuring comprehensive visualization and monitoring capabilities. Currently in initial planning and architecture design phase.",
-      image: "/restaurant-analytics.jpg",
-      tech: ["AWS Kinesis", "PostgreSQL", "Grafana", "RabbitMQ", "Jenkins", "Ansible"],
-      features: [
-        "Real-time data streaming with Kinesis",
-        "Advanced data visualization with Grafana",
-        "Automated infrastructure deployment",
-        "Scalable data storage with PostgreSQL",
-        "Comprehensive monitoring system",
-        "Automated CI/CD workflows"
-      ],
-      github: "https://github.com/naperry2011/restaurant-analytics",
-      live: "https://analytics-demo.cyberlounge.net",
-      status: "planned",
-      isLive: false
-    }
-  ];
-
-  // Update the StatusBadge component with proper typing
-  const StatusBadge = ({ status }: StatusBadgeProps) => {
-    const getStatusColor = (status: StatusBadgeProps['status']) => {
-      switch (status.toLowerCase()) {
-        case 'completed':
-          return 'bg-green-500/10 text-green-500 border-green-500/20';
-        case 'in-progress':
-          return 'bg-blue-500/10 text-blue-500 border-blue-500/20';
-        case 'planned':
-          return 'bg-orange-500/10 text-orange-500 border-orange-500/20';
-        default:
-          return 'bg-gray-500/10 text-gray-500 border-gray-500/20';
-      }
-    };
-
-    return (
-      <span className={`px-3 py-1 rounded-full text-sm border ${getStatusColor(status)}`}>
-        {status.charAt(0).toUpperCase() + status.slice(1)}
-      </span>
-    );
-  };
-
-  // Update the FutureFeatures component with proper typing
-  const FutureFeatures = ({ features }: FutureFeaturesProps) => (
-    <div>
-      <h4 className="text-lg font-semibold mb-3 text-primary">Future Roadmap</h4>
-      <div className="space-y-2">
-        <ul className="list-disc list-inside text-foreground/70 space-y-1">
-          {features.map((feature, index) => (
-            <li key={index}>{feature}</li>
-          ))}
-        </ul>
-      </div>
-    </div>
-  );
-
-  // Add interface for ProjectSection props
-  interface ProjectSectionProps {
-    title: string;
-    projects: Project[];
-  }
-
-  // Type the ProjectSection component
-  const ProjectSection = ({ title, projects }: ProjectSectionProps) => (
-    <div className="mb-20">
-      <h2 className="text-3xl font-bold mb-12 text-center">
-        <span className="text-gradient neon-glow">{title}</span>
-      </h2>
-      <div className="grid grid-cols-1 gap-16">
-        {projects.map((project, index) => (
-          <MotionDiv
-            key={project.title}
-            className="relative"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: index * 0.2 }}
-          >
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-              {/* Project Image */}
-              <div className="relative h-[300px] rounded-lg overflow-hidden border border-primary/20 group">
-                <Image
-                  src={project.image}
-                  alt={project.title}
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/50 to-transparent opacity-60" />
+      {/* Project Entries */}
+      <div className="space-y-32">
+        {projects.map((project, index) => {
+          const isReversed = index % 2 === 1;
+          return (
+            <MotionDiv
+              key={project.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-80px' }}
+              transition={{ duration: 0.7 }}
+              className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start"
+            >
+              {/* Image */}
+              <div
+                className={`lg:col-span-7 ${
+                  isReversed ? 'lg:order-2' : 'lg:order-1'
+                }`}
+              >
+                <div className="relative aspect-[4/3] overflow-hidden border border-border bg-surface">
+                  <Image
+                    src={project.image}
+                    alt={project.title}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 1024px) 100vw, 60vw"
+                  />
+                </div>
               </div>
 
-              {/* Project Info */}
-              <div className="space-y-6">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-3xl font-bold text-gradient">{project.title}</h3>
-                  {project.status && <StatusBadge status={project.status} />}
-                </div>
-                
-                <p className="text-foreground/80 text-lg">{project.description}</p>
-                
-                {/* Database Schema - Only for Pantry Chef */}
-                {project.title === "Pantry Chef" && (
-                  <div>
-                    <h4 className="text-lg font-semibold mb-3 text-primary">Database Schema</h4>
-                    <div className="grid grid-cols-2 gap-4 text-sm">
-                      <div className="p-3 rounded-lg border border-primary/20 bg-primary/5">
-                        <span className="font-medium">recipes</span>
-                      </div>
-                      <div className="p-3 rounded-lg border border-primary/20 bg-primary/5">
-                        <span className="font-medium">ingredients</span>
-                      </div>
-                      <div className="p-3 rounded-lg border border-primary/20 bg-primary/5">
-                        <span className="font-medium">instructions</span>
-                      </div>
-                      <div className="p-3 rounded-lg border border-primary/20 bg-primary/5">
-                        <span className="font-medium">saved_recipes</span>
-                      </div>
-                    </div>
-                  </div>
-                )}
+              {/* Copy */}
+              <div
+                className={`lg:col-span-5 space-y-6 ${
+                  isReversed ? 'lg:order-1' : 'lg:order-2'
+                }`}
+              >
+                <p className="eyebrow">
+                  {project.role} · {project.year}
+                </p>
+                <h2 className="font-serif text-3xl sm:text-4xl leading-tight text-foreground">
+                  {project.title}
+                </h2>
+                <p className="text-base text-foreground/90 leading-relaxed">
+                  {project.tagline}
+                </p>
+                <p className="text-sm text-muted leading-relaxed">
+                  {project.description}
+                </p>
 
-                {/* Technologies */}
                 <div>
-                  <h4 className="text-lg font-semibold mb-3 text-primary">Technologies</h4>
+                  <p className="eyebrow mb-3">Stack</p>
                   <div className="flex flex-wrap gap-2">
-                    {project.tech.map((tech) => (
+                    {project.stack.map((tech) => (
                       <span
                         key={tech}
-                        className="px-3 py-1 rounded-full text-sm border border-primary/20 bg-primary/5 text-primary"
+                        className="px-3 py-1 text-xs tracking-wide border border-border text-muted"
                       >
                         {tech}
                       </span>
@@ -243,81 +134,40 @@ export default function Projects() {
                   </div>
                 </div>
 
-                {/* Key Features */}
-                <div>
-                  <h4 className="text-lg font-semibold mb-3 text-primary">Key Features</h4>
-                  <ul className="list-disc list-inside text-foreground/80 space-y-2">
-                    {project.features.map((feature) => (
-                      <li key={feature}>{feature}</li>
-                    ))}
-                  </ul>
+                <div className="pt-2">
+                  <a
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center text-sm text-foreground border-b border-accent pb-1 hover:text-accent transition-colors"
+                  >
+                    Visit live site
+                    <span className="ml-2">→</span>
+                  </a>
                 </div>
-
-                {/* Future Features */}
-                {project.futureFeatures && (
-                  <FutureFeatures features={project.futureFeatures} />
-                )}
-
-                {/* Project Links - Only show if project is live */}
-                {project.isLive && (
-                  <div className="flex flex-wrap gap-4 mt-6">
-                    <a
-                      href={project.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary/10 text-primary border border-primary/20 hover:border-primary/50 transition-all"
-                    >
-                      <FaGithub className="h-5 w-5" />
-                      View Code
-                    </a>
-                    <a
-                      href={project.live}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary/10 text-primary border border-primary/20 hover:border-primary/50 transition-all"
-                    >
-                      <FaLink className="h-5 w-5" />
-                      Live Demo
-                    </a>
-                  </div>
-                )}
-
-                {/* Optional: Add a "Coming Soon" message when project is not live */}
-                {!project.isLive && (
-                  <div className="mt-6 text-foreground/60 text-sm italic">
-                    Project in development - links coming soon
-                  </div>
-                )}
               </div>
-            </div>
-          </MotionDiv>
-        ))}
+            </MotionDiv>
+          );
+        })}
       </div>
-    </div>
-  );
 
-  return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-      {/* Hero Section */}
+      {/* Closing */}
       <motion.div
-        className="text-center mb-16"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
         transition={{ duration: 0.6 }}
+        className="mt-32 pt-16 border-t border-border text-center"
       >
-        <h1 className="text-4xl sm:text-5xl font-bold mb-6">
-          Featured <span className="text-gradient neon-glow">Projects</span>
-        </h1>
-        <p className="text-xl text-foreground/80 max-w-3xl mx-auto">
-          From web applications to cloud infrastructure, exploring the full spectrum of modern technology.
-        </p>
+        <p className="text-muted mb-6">Have a project in mind?</p>
+        <a
+          href="/contact"
+          className="inline-flex items-center justify-center px-6 py-3 text-sm tracking-wide bg-foreground text-background hover:bg-foreground/90 transition-colors"
+        >
+          Start a Conversation
+          <span className="ml-2">→</span>
+        </a>
       </motion.div>
-
-      {/* Software Development Projects */}
-      <ProjectSection title="Software Development" projects={softwareProjects} />
-
-      {/* Cloud & DevOps Projects */}
-      <ProjectSection title="Cloud & DevOps" projects={cloudProjects} />
     </div>
   );
-} 
+}

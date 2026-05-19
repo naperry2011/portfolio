@@ -3,73 +3,61 @@
 @tailwind utilities;
 
 :root {
-  --background: #0a0a1f;
-  --foreground: #ffffff;
-  --primary: #00ff9d;
-  --secondary: #ff00ff;
-  --accent: #00ffff;
-  --gradient-start: #00ff9d;
-  --gradient-end: #00ffff;
-  --neon-glow: 0 0 10px rgba(0, 255, 157, 0.5),
-               0 0 20px rgba(0, 255, 157, 0.3),
-               0 0 30px rgba(0, 255, 157, 0.1);
+  --background: #0b0b0d;
+  --surface: #141416;
+  --border: #26262b;
+  --foreground: #ededed;
+  --muted: #9a9a9f;
+  --accent: #c9a96a;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a1f;
-    --foreground: #ffffff;
-    --primary: #00ff9d;
-    --secondary: #ff00ff;
-    --accent: #00ffff;
-    --gradient-start: #00ff9d;
-    --gradient-end: #00ffff;
-  }
+html {
+  background: var(--background);
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  background-image: 
-    linear-gradient(
-      45deg,
-      rgba(0, 255, 157, 0.1) 0%,
-      transparent 20%
-    ),
-    radial-gradient(
-      circle at top right,
-      rgba(0, 255, 255, 0.1),
-      transparent 40%
-    ),
-    linear-gradient(
-      to bottom,
-      transparent,
-      rgba(255, 0, 255, 0.05)
-    );
   min-height: 100vh;
-  font-family: 'Geist', sans-serif;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--background);
 }
 
 @layer utilities {
-  .text-gradient {
-    background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+  .font-serif {
+    font-family: var(--font-serif), Georgia, serif;
+    font-feature-settings: "ss01", "ss02";
   }
 
-  .neon-glow {
-    text-shadow: var(--neon-glow);
+  .font-mono {
+    font-family: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
   }
 
-  .neon-border {
-    box-shadow: var(--neon-glow);
+  .eyebrow {
+    font-family: var(--font-mono), ui-monospace, SFMono-Regular, monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
   }
 
-  .cyber-grid {
-    background-image: linear-gradient(var(--primary) 1px, transparent 1px),
-                     linear-gradient(90deg, var(--primary) 1px, transparent 1px);
-    background-size: 50px 50px;
-    background-position: -1px -1px;
-    opacity: 0.05;
+  .divider {
+    height: 1px;
+    background: var(--border);
+    width: 100%;
+  }
+
+  .link-accent {
+    color: var(--accent);
+    transition: opacity 200ms ease;
+  }
+  .link-accent:hover {
+    opacity: 0.8;
   }
 }
