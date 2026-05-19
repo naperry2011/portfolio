@@ -8,6 +8,7 @@ import {
 } from "react-icons/si";
 import { MotionDiv } from "@/components/MotionWrapper";
 import Frame from "@/components/Frame";
+import SplitText from "@/components/SplitText";
 
 interface Skill {
   name: string;
@@ -88,10 +89,10 @@ export default function Home() {
 
         {/* Hero */}
         <section className="py-24 sm:py-32">
-          <h1
-            className="font-serif hero-opsz text-ink leading-[0.95] tracking-tight text-6xl sm:text-7xl md:text-8xl lg:text-9xl"
-          >
-            Nicholas<br />Perry
+          <h1 className="font-serif hero-opsz text-ink leading-[0.95] tracking-tight text-6xl sm:text-7xl md:text-8xl lg:text-9xl">
+            <SplitText text="Nicholas" />
+            <br />
+            <SplitText text="Perry" delay={0.3} />
           </h1>
           <div className="mt-16 grid grid-cols-1 lg:grid-cols-12 gap-8">
             <div className="lg:col-span-7 lg:col-start-6">
