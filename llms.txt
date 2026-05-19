@@ -1,0 +1,55 @@
+# Cyberlounge Portfolio
+
+> Personal portfolio + lead-gen site (cyberlounge.net) for Nicholas Perry's software & cloud consulting, built on Next.js 15 App Router.
+
+## Project Overview
+
+**Tech Stack:** Next.js 15.1.7, React 19, TypeScript, Tailwind CSS 3, Framer Motion 12, rss-parser
+**Status:** Active (deployed to Vercel)
+**Purpose:** Showcase projects, surface Medium writing, route prospects to a Cal.com booking flow
+
+## Core Documentation
+
+- `README.md` — Setup and getting started (note: references stale Next.js 14)
+- `CODE_MAP.md` — Feature-to-file map
+- `docs/ai/memory.md` — Project history and current state
+- `docs/ai/roadmap.md` — Forward-looking priorities
+- `docs/ai/tasks.md` — Active work + tech-debt list
+- `docs/ai/decisions.md` — Architecture decisions (ADRs)
+- `docs/ai/architecture.md` — System design
+- `ENTRY_POINTS.md` — Where execution starts
+- `DATA_FLOW.md` — System-level data movement
+- `FEATURE_BOUNDARIES.md` — Component responsibilities
+- `IMPORT_GRAPH_SUMMARY.md` — Coupling overview
+
+## Key Files by Area
+
+### Site shell
+- `src/app/layout.tsx` — Root layout, metadata, Navbar/Footer mount
+- `src/components/Navbar.tsx` — Top nav with route highlighting + mobile menu
+- `src/components/Footer.tsx` — Footer (quick links + socials)
+- `src/app/globals.css` — Global Tailwind styles, cyberpunk theme
+
+### Pages
+- `src/app/page.tsx` — Home
+- `src/app/about/page.tsx` — About
+- `src/app/projects/page.tsx` — Projects gallery
+- `src/app/blog/page.tsx` — Blog (fetches Medium posts client-side)
+- `src/app/contact/page.tsx` — Contact (Cal.com + social links)
+
+### API
+- `src/app/api/medium-posts/route.ts` — `GET /api/medium-posts`: Medium RSS proxy
+
+### Shared
+- `src/components/MotionWrapper.tsx` — Client-boundary `MotionDiv` re-export
+
+## Common Tasks
+
+**To run locally:** `npm install && npm run dev` → http://localhost:3000
+**To build:** `npm run build && npm start`
+**To lint:** `npm run lint`
+**To change which Medium account is shown:** edit the hardcoded URL in `src/app/api/medium-posts/route.ts` (env var path is documented in README but not wired)
+
+## Environment Variables
+
+- `NEXT_PUBLIC_MEDIUM_USERNAME` — Documented in README but not consumed by current code. Update the route handler before relying on it.
