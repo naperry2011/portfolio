@@ -8,9 +8,18 @@ Category: UI
 
 Primary Files:
 - src/app/layout.tsx
+- src/app/template.tsx
 - src/components/Navbar.tsx
 - src/components/Footer.tsx
 - src/components/Frame.tsx
+- src/components/SmoothScroll.tsx
+- src/components/Grain.tsx
+- src/components/AmbientCursor.tsx
+- src/components/SplitText.tsx
+- src/components/Marquee.tsx
+- src/components/RevealImage.tsx
+- src/components/TiltCard.tsx
+- src/components/ReactiveText.tsx
 
 Supporting Files:
 - src/app/globals.css

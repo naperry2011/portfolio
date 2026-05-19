@@ -13,8 +13,7 @@ Active work. Update as items are completed and new work is identified.
 
 ## Up Next
 
-- [ ] Push current main + verify Vercel deploy of T1 foundation — XS
-- [ ] Tier 2 (Expressive) — 10 artistic moves per `docs/plans/2026-05-19-architect-redesign-implementation.md` tasks 12–22. New dep: Lenis. — L
+- [ ] Push current main + verify Vercel deploy of T2 expressive layer — XS
 - [ ] Add `public/og-cover.jpg` (1200×630) for OpenGraph + Twitter card — XS (user-supplied)
 - [ ] Update README.md to mention Architect design system + `<Frame>` component — S
 - [ ] Re-verify About page bio copy with user (current text was migrated) — S
@@ -25,6 +24,7 @@ Active work. Update as items are completed and new work is identified.
 
 ## Recently Completed
 
+- [x] Architect redesign Tier 2 (Expressive): Lenis smooth scroll, grain, ambient gradient, char-by-char hero, marquee, scroll-draw frames, color-flood images, 3D tilt, reactive text, View Transitions curtain — 2026-05-19
 - [x] Architect redesign Tier 1: design tokens, type scale, Frame component, 4 page rewrites, metadataBase fix — 2026-05-19
 - [x] Real project screenshots (logo/portrait/character art) pulled from each project domain — 2026-05-19
 - [x] New About page portrait + cleanup of 7 orphaned `public/` images — 2026-05-19

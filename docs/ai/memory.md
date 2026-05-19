@@ -6,7 +6,7 @@ Running history of what's been built and current state. Update after major chang
 
 **Status:** Active Development (personal portfolio site, deployed to Vercel)
 **Last Updated:** 2026-05-19
-**Version:** main @ e0aa8e2 — Architect Tier 1 landed
+**Version:** main — Architect Tier 2 (Expressive) landed
 
 ### What's Working
 - Next.js 15.5.18 App Router site with 4 page routes: `/`, `/about`, `/projects`, `/contact`
@@ -17,6 +17,7 @@ Running history of what's been built and current state. Update after major chang
 - Projects page shows three live external projects with live screenshots: Rooted Legacy (logo), Reality Saving (founder portrait), The Motions (Quake character art) — all pulled directly from each project's Vercel deployment
 - About page uses the new black-and-white portrait at `public/profile.jpg`
 - `metadataBase` set in layout — no Next build warnings
+- Expressive layer (Tier 2): smooth scroll (Lenis), grain, ambient gradient, hero reveal, marquee, scroll-draw frames, color-flood project images, 3D tilt, reactive body type, View Transitions curtain wipe
 
 ### Known Issues
 - `public/og-cover.jpg` referenced in layout metadata but not present yet — OG/Twitter cards fall back gracefully
@@ -26,6 +27,11 @@ Running history of what's been built and current state. Update after major chang
 - (none — waiting on user review of T1 before kicking off Tier 2 Expressive layer)
 
 ## Implementation History
+
+### 2026-05-19 — Tier 2 Expressive layer
+**What was built:** Bundle B (10 artistic moves) layered on top of the Architect Tier 1 foundation. Lenis smooth scroll, animated film-grain overlay, cursor-following ambient gradient, char-by-char hero reveal with Fraunces weight morph, marquee word strip between hero and capabilities, scroll-draw title-block frames (Frame component now client-side with framer-motion useInView), color-flood project images on scroll-into-view, 3D card tilt on hover, cursor-reactive body type on hero subtext, View Transitions API curtain wipe between routes (clip-path inset).
+**Why:** User judged Tier 1 alone too restrained — *"I want some animation, something that feels artistic."*
+**Files affected:** new `src/components/{SmoothScroll,Grain,AmbientCursor,SplitText,Marquee,RevealImage,TiltCard,ReactiveText}.tsx` (8 new components); modified `src/components/Frame.tsx`, `src/app/layout.tsx`, `src/app/page.tsx`, `src/app/projects/page.tsx`, `src/app/globals.css`, `next.config.ts`; added `src/app/template.tsx`. New dep: `lenis`.
 
 ### 2026-05-19 — Tier 1 Architect redesign foundation
 **What was built:** New design tokens (paper-cream ink `#f4f0e8`, oxidized-brass accent `#b8966d`, refined dark background `#0a0a0c`). Strict 1.250 type scale. Reusable `<Frame>` component for the title-block motif. All 4 pages (Home / About / Projects / Contact) rewritten with framed sections, corner metadata, and the architectural "title block" treatment. Navbar and Footer updated for the new palette. `metadataBase` set in layout to silence Next build warning.
