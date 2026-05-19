@@ -10,6 +10,7 @@ import { MotionDiv } from "@/components/MotionWrapper";
 import Frame from "@/components/Frame";
 import SplitText from "@/components/SplitText";
 import Marquee from "@/components/Marquee";
+import TiltCard from "@/components/TiltCard";
 
 interface Skill {
   name: string;
@@ -178,26 +179,28 @@ export default function Home() {
                 transition={{ duration: 0.5, delay: i * 0.1 }}
                 className="group"
               >
-                <a href={p.url} target="_blank" rel="noopener noreferrer" className="block">
-                  <div className="flex items-end justify-between pb-2">
-                    <span className="label">{p.n} / 03</span>
-                    <span className="label">{p.kind}</span>
-                  </div>
-                  <div className="rule" />
-                  <div className="relative aspect-[4/3] my-3 overflow-hidden bg-surface">
-                    <RevealImage
-                      src={p.image}
-                      alt={p.title}
-                      fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-105"
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                    />
-                  </div>
-                  <h3 className="font-serif text-xl text-ink group-hover:text-accent transition-colors mb-2">
-                    {p.title}
-                  </h3>
-                  <p className="text-sm text-muted leading-relaxed">{p.tagline}</p>
-                </a>
+                <TiltCard>
+                  <a href={p.url} target="_blank" rel="noopener noreferrer" className="block">
+                    <div className="flex items-end justify-between pb-2">
+                      <span className="label">{p.n} / 03</span>
+                      <span className="label">{p.kind}</span>
+                    </div>
+                    <div className="rule" />
+                    <div className="relative aspect-[4/3] my-3 overflow-hidden bg-surface">
+                      <RevealImage
+                        src={p.image}
+                        alt={p.title}
+                        fill
+                        className="object-cover transition-transform duration-700 group-hover:scale-105"
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                      />
+                    </div>
+                    <h3 className="font-serif text-xl text-ink group-hover:text-accent transition-colors mb-2">
+                      {p.title}
+                    </h3>
+                    <p className="text-sm text-muted leading-relaxed">{p.tagline}</p>
+                  </a>
+                </TiltCard>
               </MotionDiv>
             ))}
           </div>

@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { MotionDiv } from '@/components/MotionWrapper';
 import RevealImage from '@/components/RevealImage';
+import TiltCard from '@/components/TiltCard';
 
 interface Project {
   n: string;
@@ -100,50 +101,52 @@ export default function Projects() {
                 transition={{ duration: 0.7 }}
                 className="group"
               >
-                <div className="flex items-end justify-between pb-3">
-                  <span className="label label-ink">{p.n} / 03</span>
-                  <span className="label">{p.kind} — {p.year}</span>
-                </div>
-                <div className="rule" />
+                <TiltCard>
+                  <div className="flex items-end justify-between pb-3">
+                    <span className="label label-ink">{p.n} / 03</span>
+                    <span className="label">{p.kind} — {p.year}</span>
+                  </div>
+                  <div className="rule" />
 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 py-10 items-start">
-                  <div className={`lg:col-span-7 ${reverse ? 'lg:order-2' : ''}`}>
-                    <div className="relative aspect-[4/3] overflow-hidden bg-surface border border-rule">
-                      <RevealImage
-                        src={p.image}
-                        alt={p.title}
-                        fill
-                        className="object-cover transition-transform duration-700 group-hover:scale-[1.02]"
-                        sizes="(max-width: 1024px) 100vw, 60vw"
-                      />
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 py-10 items-start">
+                    <div className={`lg:col-span-7 ${reverse ? 'lg:order-2' : ''}`}>
+                      <div className="relative aspect-[4/3] overflow-hidden bg-surface border border-rule">
+                        <RevealImage
+                          src={p.image}
+                          alt={p.title}
+                          fill
+                          className="object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+                          sizes="(max-width: 1024px) 100vw, 60vw"
+                        />
+                      </div>
+                    </div>
+
+                    <div className={`lg:col-span-5 space-y-5 ${reverse ? 'lg:order-1' : ''}`}>
+                      <h2 className="font-serif text-3xl sm:text-4xl leading-tight text-ink">
+                        {p.title}
+                      </h2>
+                      <p className="text-base text-ink leading-relaxed">{p.tagline}</p>
+                      <p className="text-sm text-muted leading-relaxed">{p.description}</p>
                     </div>
                   </div>
 
-                  <div className={`lg:col-span-5 space-y-5 ${reverse ? 'lg:order-1' : ''}`}>
-                    <h2 className="font-serif text-3xl sm:text-4xl leading-tight text-ink">
-                      {p.title}
-                    </h2>
-                    <p className="text-base text-ink leading-relaxed">{p.tagline}</p>
-                    <p className="text-sm text-muted leading-relaxed">{p.description}</p>
+                  <div className="rule" />
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-3">
+                    <div className="flex flex-wrap gap-2">
+                      {p.stack.map((t) => (
+                        <span key={t} className="label border border-rule px-2 py-1">{t}</span>
+                      ))}
+                    </div>
+                    <a
+                      href={p.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="label label-ink border-b border-accent pb-0.5 hover:text-accent transition-colors self-start"
+                    >
+                      VISIT SITE →
+                    </a>
                   </div>
-                </div>
-
-                <div className="rule" />
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-3">
-                  <div className="flex flex-wrap gap-2">
-                    {p.stack.map((t) => (
-                      <span key={t} className="label border border-rule px-2 py-1">{t}</span>
-                    ))}
-                  </div>
-                  <a
-                    href={p.liveUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="label label-ink border-b border-accent pb-0.5 hover:text-accent transition-colors self-start"
-                  >
-                    VISIT SITE →
-                  </a>
-                </div>
+                </TiltCard>
               </MotionDiv>
             );
           })}
