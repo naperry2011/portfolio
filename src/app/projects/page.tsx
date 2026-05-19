@@ -35,7 +35,7 @@ const projects: Project[] = [
     role: 'Design & Development',
     year: '2025',
     stack: ['Astro', 'Tailwind CSS', 'Vercel'],
-    image: '/projects/reality-saving.jpg',
+    image: '/projects/reality-saving.webp',
     liveUrl: 'https://reality-saving.vercel.app/',
   },
   {
@@ -46,7 +46,7 @@ const projects: Project[] = [
     role: 'Design & Development',
     year: '2025',
     stack: ['Next.js', 'React', 'Tailwind CSS', 'Vercel'],
-    image: '/projects/the-motions.jpg',
+    image: '/projects/the-motions.webp',
     liveUrl: 'https://the-motions.vercel.app/',
   },
 ];

@@ -40,13 +40,13 @@ const featuredProjects = [
   {
     title: "Reality Saving",
     tagline: "Financial advisory for small businesses and working professionals.",
-    image: "/projects/reality-saving.jpg",
+    image: "/projects/reality-saving.webp",
     url: "https://reality-saving.vercel.app/",
   },
   {
     title: "The Motions",
     tagline: "A solopreneur brand companion built on the Mo Town universe.",
-    image: "/projects/the-motions.jpg",
+    image: "/projects/the-motions.webp",
     url: "https://the-motions.vercel.app/",
   },
 ];
