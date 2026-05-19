@@ -186,7 +186,7 @@ export default function Home() {
                       <span className="label">{p.kind}</span>
                     </div>
                     <div className="rule" />
-                    <div className="relative aspect-[4/3] my-3 overflow-hidden bg-surface">
+                    <div className="relative aspect-square my-3 overflow-hidden bg-surface">
                       <RevealImage
                         src={p.image}
                         alt={p.title}
