@@ -1,8 +1,8 @@
 'use client';
 
-import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { MotionDiv } from '@/components/MotionWrapper';
+import RevealImage from '@/components/RevealImage';
 
 interface Project {
   n: string;
@@ -109,7 +109,7 @@ export default function Projects() {
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 py-10 items-start">
                   <div className={`lg:col-span-7 ${reverse ? 'lg:order-2' : ''}`}>
                     <div className="relative aspect-[4/3] overflow-hidden bg-surface border border-rule">
-                      <Image
+                      <RevealImage
                         src={p.image}
                         alt={p.title}
                         fill

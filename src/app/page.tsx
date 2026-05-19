@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
+import RevealImage from "@/components/RevealImage";
 import { ReactNode } from "react";
 import { FaAws, FaDocker, FaNode, FaReact, FaCogs } from "react-icons/fa";
 import {
@@ -185,7 +185,7 @@ export default function Home() {
                   </div>
                   <div className="rule" />
                   <div className="relative aspect-[4/3] my-3 overflow-hidden bg-surface">
-                    <Image
+                    <RevealImage
                       src={p.image}
                       alt={p.title}
                       fill
