@@ -14,6 +14,7 @@ import TiltCard from "@/components/TiltCard";
 import ReactiveText from "@/components/ReactiveText";
 import LeaderLine from "@/components/LeaderLine";
 import TickRule from "@/components/TickRule";
+import DirectionalArrow from "@/components/DirectionalArrow";
 
 interface Skill {
   name: string;
@@ -116,6 +117,34 @@ const approach: ApproachPrinciple[] = [
     detail: "DETAIL D",
     title: "The handoff is part of the engagement.",
     body: "When we wrap, you get the code, the docs, the operational runbook, and an exit walkthrough. No dependence on me to keep things running.",
+  },
+];
+
+interface NowRow {
+  label: string;
+  body: string;
+}
+
+const now: NowRow[] = [
+  {
+    label: "CURRENTLY SHIPPING",
+    body: "Cyberlounge.net redesign. The Architect design system + Expressive motion layer.",
+  },
+  {
+    label: "CURRENTLY LEARNING",
+    body: "Variable-font axes, View Transitions API, and where editorial systems meet product surfaces.",
+  },
+  {
+    label: "THINKING ABOUT",
+    body: "How design-engineering taste compounds across projects; the line between visible system and expressive layer.",
+  },
+  {
+    label: "OPEN TO",
+    body: "Independent engagements where craft is valued and shipping cadence matters. Audits, six-week builds, fractional engineering retainers.",
+  },
+  {
+    label: "NOT TAKING ON",
+    body: "Long fixed-bid projects without weekly checkpoints. \"Rebuild our entire stack\" jobs without a discovery phase first.",
   },
 ];
 
@@ -262,7 +291,7 @@ export default function Home() {
         {/* Selected work */}
         <Frame
           as="section"
-          topLeft="03 / SELECTED WORK"
+          topLeft="04 / SELECTED WORK"
           topRight="2025"
           bottomLeft="03 PROJECTS"
           bottomRight={<Link href="/projects" className="link-accent">VIEW ALL →</Link>}
@@ -300,6 +329,38 @@ export default function Home() {
                 </TiltCard>
               </MotionDiv>
             ))}
+          </div>
+        </Frame>
+
+        {/* Now */}
+        <Frame
+          as="section"
+          topLeft="05 / NOW"
+          topRight="REV 2026.05"
+          bottomLeft="WHAT'S ALIVE"
+          bottomRight="NEXT REFRESH 2026.08"
+          className="mt-16"
+        >
+          <div className="relative">
+            {/* Scale-rule tick marks down the left edge */}
+            <TickRule className="absolute left-0 top-0 h-full hidden sm:block" />
+
+            <div className="sm:pl-8 space-y-6">
+              {now.map((row) => (
+                <div
+                  key={row.label}
+                  className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-8 pb-6 last:pb-0 border-b border-dotted border-rule last:border-0"
+                >
+                  <div className="lg:col-span-4 flex items-center gap-3">
+                    <DirectionalArrow />
+                    <span className="label label-ink">{row.label}</span>
+                  </div>
+                  <p className="lg:col-span-8 text-sm sm:text-base text-ink leading-relaxed">
+                    {row.body}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         </Frame>
 
