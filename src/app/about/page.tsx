@@ -45,9 +45,9 @@ const timeline: TimelineEntry[] = [
     org: 'Circle K IT Retail Systems',
     dates: 'MAR 2022 — SEP 2023',
     body: [
-      'Deployed and supported retail systems software and technology',
+      'Deployed and supported retail software and the technology behind it',
       'Managed POS systems, fuel systems, and back-office infrastructure',
-      'Enhanced documentation and process improvement initiatives',
+      'Improved documentation and drove process-improvement initiatives',
     ],
   },
   {
@@ -60,7 +60,7 @@ const timeline: TimelineEntry[] = [
 
 const practice = [
   { n: '01', title: 'Clarity first', body: "A clearly scoped problem is half the solution. I start every engagement with shaping and tradeoffs." },
-  { n: '02', title: 'Quality compounds', body: "Type safety, tests, and observability aren't overhead — they're what lets future changes happen quickly." },
+  { n: '02', title: 'Quality compounds', body: "Type safety, tests, and observability aren't overhead — they're what let future changes ship quickly." },
   { n: '03', title: 'Ship, then refine', body: "Working software in production beats elegant software on a branch. Iterate from real feedback." },
 ];
 
@@ -137,8 +137,8 @@ export default function About() {
               <FaCloud className="text-2xl text-muted mb-6" />
               <h3 className="font-serif text-xl text-ink mb-3">Cloud &amp; DevOps</h3>
               <p className="text-sm text-muted leading-relaxed">
-                Building and optimizing infrastructure with AWS, Terraform, and
-                modern DevOps practices.
+                Building and optimizing infrastructure with AWS and Terraform,
+                guided by modern DevOps practices.
               </p>
             </div>
             <div className="p-8 border border-rule bg-surface">

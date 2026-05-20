@@ -23,9 +23,9 @@ const projects: Project[] = [
     n: '01',
     kind: 'BRAND',
     title: 'Rooted Legacy',
-    tagline: 'An Indianapolis urban farm growing food, classes, and gathering space.',
+    tagline: 'An Indianapolis urban farm growing food, hosting classes, and making space for the community.',
     description:
-      'A community-focused web presence for an Indianapolis-based urban farm. The site introduces the farm, surfaces gardening classes and seasonal events, distributes information about produce shares, and integrates live weather data and mapping so visitors can plan a trip. Designed to feel personal and rooted rather than corporate — the brand is about land, neighborhood, and the people who tend it.',
+      'A community-focused web presence for an Indianapolis-based urban farm. The site introduces the farm, surfaces gardening classes and seasonal events, shares details about upcoming produce distributions, and integrates live weather data and mapping so visitors can plan a trip. Designed to feel personal and rooted rather than corporate — the brand is about the land, the neighborhood, and the people who care for both.',
     role: 'DESIGN & DEVELOPMENT',
     year: '2025',
     stack: ['Next.js', 'React', 'Tailwind CSS', 'OpenWeather API', 'Google Maps', 'Vercel'],
@@ -38,7 +38,7 @@ const projects: Project[] = [
     title: 'Reality Saving',
     tagline: 'Strategic budgeting and financial systems for small businesses and professionals.',
     description:
-      'A financial advisory platform that helps clients move from reactive spending to intentional planning. The site presents a clear diagnostic → design → implementation → monitoring framework, distinct service tracks for business advisory and personal finance, and a path for prospects to start a strategy conversation. Built with Astro for a fast, content-first delivery.',
+      'A financial advisory platform that helps clients move from reactive spending to intentional planning. The site presents a clear diagnostic → design → implementation → monitoring framework, distinct service tracks for business advisory and personal finance, and a path for prospects to start a strategy conversation. Built with Astro for fast, content-first delivery.',
     role: 'DESIGN & DEVELOPMENT',
     year: '2025',
     stack: ['Astro', 'Tailwind CSS', 'Vercel'],

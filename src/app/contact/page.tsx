@@ -57,8 +57,8 @@ export default function Contact() {
                 Book a consultation.
               </h2>
               <p className="text-muted leading-relaxed">
-                Free intro call to discuss your project. We&apos;ll cover requirements,
-                possible solutions, and rough timeline.
+                A free intro call to discuss your project. We&apos;ll cover requirements,
+                possible solutions, and a rough timeline.
               </p>
               <ul className="space-y-3 text-sm text-muted">
                 <li className="flex items-start gap-3"><span className="text-accent mt-1">—</span> Discuss your project requirements</li>
