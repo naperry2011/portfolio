@@ -12,6 +12,8 @@ import SplitText from "@/components/SplitText";
 import Marquee from "@/components/Marquee";
 import TiltCard from "@/components/TiltCard";
 import ReactiveText from "@/components/ReactiveText";
+import LeaderLine from "@/components/LeaderLine";
+import TickRule from "@/components/TickRule";
 
 interface Skill {
   name: string;
@@ -78,6 +80,46 @@ const platforms: Skill[] = [
   { name: "GoHighLevel CRM Development", icon: <FaCogs /> },
 ];
 
+interface ApproachPrinciple {
+  n: string;
+  keyword: string;
+  detail: string;
+  title: string;
+  body: string;
+}
+
+const approach: ApproachPrinciple[] = [
+  {
+    n: "01",
+    keyword: "DISCOVERY",
+    detail: "DETAIL A",
+    title: "Shape before scope.",
+    body: "A clear problem statement is the first deliverable. We don't agree on a deadline until we agree on what we're actually building.",
+  },
+  {
+    n: "02",
+    keyword: "FIRST DEMO",
+    detail: "DETAIL B",
+    title: "Working surface by week one.",
+    body: "You see something deployed and clickable within the first week of any engagement. No three-week silences before the first demo.",
+  },
+  {
+    n: "03",
+    keyword: "CHANNEL",
+    detail: "DETAIL C",
+    title: "One channel, one source of truth.",
+    body: "One Slack, Discord, or email thread per project. Decisions get written down where you can find them later, not buried in DMs.",
+  },
+  {
+    n: "04",
+    keyword: "EXIT",
+    detail: "DETAIL D",
+    title: "The handoff is part of the engagement.",
+    body: "When we wrap, you get the code, the docs, the operational runbook, and an exit walkthrough. No dependence on me to keep things running.",
+  },
+];
+
+
 export default function Home() {
   return (
     <div className="min-h-screen">
@@ -125,13 +167,69 @@ export default function Home() {
         {/* Marquee */}
         <Marquee items={['INDEPENDENT', 'SHIP', 'CRAFT', 'SYSTEMS']} className="my-16" />
 
+        {/* Approach */}
+        <Frame
+          as="section"
+          topLeft="02 / APPROACH"
+          topRight="4 ITERATIONS"
+          bottomLeft="4 PRINCIPLES"
+          bottomRight="ENGAGEMENT"
+        >
+          <div className="relative">
+            {/* Scale-rule tick marks down the left edge */}
+            <TickRule className="absolute left-0 top-0 h-full hidden sm:block" />
+
+            <div className="sm:pl-8 space-y-12">
+              {approach.map((p, i) => (
+                <div
+                  key={p.n}
+                  className="relative grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 pb-12 last:pb-0 border-b border-dashed border-rule last:border-0"
+                >
+                  {/* Margin annotation block */}
+                  <div className="lg:col-span-3 space-y-2">
+                    <span className="label label-ink">FIG. {i + 1}</span>
+                    <p className="label">{p.keyword}</p>
+                  </div>
+
+                  {/* Body block */}
+                  <div className="lg:col-span-9 relative">
+                    {/* DETAIL annotation top-right */}
+                    <span className="label absolute top-0 right-0 hidden sm:inline">
+                      ─ {p.detail} ─
+                    </span>
+
+                    {/* Ghosted huge numeral */}
+                    <span
+                      aria-hidden
+                      className="absolute -top-4 -left-2 font-serif text-8xl sm:text-9xl text-ink/[0.05] leading-none select-none pointer-events-none"
+                    >
+                      {p.n}
+                    </span>
+
+                    {/* Leader line from margin to title (desktop only) */}
+                    <LeaderLine className="absolute -top-2 -left-32 w-32 h-20 hidden lg:block" />
+
+                    <h3 className="relative font-serif text-2xl sm:text-3xl text-ink leading-tight mb-4 mt-8 sm:mt-4">
+                      {p.title}
+                    </h3>
+                    <p className="relative text-sm sm:text-base text-muted leading-relaxed max-w-2xl">
+                      {p.body}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </Frame>
+
         {/* Capabilities */}
         <Frame
           as="section"
-          topLeft="02 / CAPABILITIES"
+          topLeft="03 / CAPABILITIES"
           topRight="STACK"
           bottomLeft="REV 2026.05"
           bottomRight="INDEX C"
+          className="mt-16"
         >
           <div className="space-y-12">
             <div>
