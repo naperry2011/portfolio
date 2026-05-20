@@ -4,12 +4,16 @@ import Image, { ImageProps } from 'next/image';
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 
+interface Props extends Omit<ImageProps, 'style'> {
+  fit?: 'cover' | 'contain';
+}
+
 /**
  * Project image wrapper. Starts desaturated/dim, blooms to full color
- * when scrolled into view. Passes all props (including `className`) through
- * to next/image so `object-cover` / `object-contain` actually take effect.
+ * when scrolled into view. `objectFit` is applied via inline style so it
+ * is guaranteed to take effect regardless of className specificity.
  */
-export default function RevealImage(props: ImageProps) {
+export default function RevealImage({ fit = 'contain', ...props }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: '-100px' });
 
@@ -22,7 +26,7 @@ export default function RevealImage(props: ImageProps) {
       }}
       transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
     >
-      <Image {...props} alt={props.alt} />
+      <Image {...props} alt={props.alt} style={{ objectFit: fit }} />
     </motion.div>
   );
 }

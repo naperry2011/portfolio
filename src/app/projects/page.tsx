@@ -110,12 +110,11 @@ export default function Projects() {
 
                   <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 py-10 items-start">
                     <div className={`lg:col-span-7 ${reverse ? 'lg:order-2' : ''}`}>
-                      <div className="relative aspect-[5/4] overflow-hidden bg-surface border border-rule">
+                      <div className="relative aspect-[5/4] overflow-hidden bg-surface border border-rule flex items-center justify-center p-6">
                         <RevealImage
                           src={p.image}
                           alt={p.title}
                           fill
-                          className="object-cover transition-transform duration-700 group-hover:scale-[1.02]"
                           sizes="(max-width: 1024px) 100vw, 60vw"
                         />
                       </div>

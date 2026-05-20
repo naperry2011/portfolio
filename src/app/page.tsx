@@ -186,12 +186,11 @@ export default function Home() {
                       <span className="label">{p.kind}</span>
                     </div>
                     <div className="rule" />
-                    <div className="relative aspect-square my-3 overflow-hidden bg-surface">
+                    <div className="relative aspect-square my-3 overflow-hidden bg-surface flex items-center justify-center p-4">
                       <RevealImage
                         src={p.image}
                         alt={p.title}
                         fill
-                        className="object-cover transition-transform duration-700 group-hover:scale-105"
                         sizes="(max-width: 768px) 100vw, 33vw"
                       />
                     </div>
