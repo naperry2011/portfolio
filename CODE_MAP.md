@@ -20,6 +20,9 @@ Primary Files:
 - src/components/RevealImage.tsx
 - src/components/TiltCard.tsx
 - src/components/ReactiveText.tsx
+- src/components/TickRule.tsx
+- src/components/DirectionalArrow.tsx
+- src/components/LeaderLine.tsx
 
 Supporting Files:
 - src/app/globals.css

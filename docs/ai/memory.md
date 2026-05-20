@@ -28,6 +28,11 @@ Running history of what's been built and current state. Update after major chang
 
 ## Implementation History
 
+### 2026-05-19 — Homepage depth additions
+**What was built:** Two new home-page frames pushing the Architect motif further into actual technical-drafting language: `02 / APPROACH` (architectural detail sheet with four engagement principles, FIG/DETAIL annotations, ghosted numerals, dashed hairlines, SVG leader lines that scroll-draw in) and `05 / NOW` (drawing-register-style block with five label-value rows, SVG directional arrows, dotted hairlines, REV / NEXT REFRESH metadata). Renumbered Capabilities (02 → 03) and Selected Work (03 → 04). Three new shared components: TickRule, DirectionalArrow, LeaderLine.
+**Why:** User requested the home read as more "active practice" than "showcase" — depth over breadth.
+**Files affected:** new `src/components/{TickRule,DirectionalArrow,LeaderLine}.tsx`; modified `src/app/page.tsx`. No new dependencies.
+
 ### 2026-05-19 — Tier 2 Expressive layer
 **What was built:** Bundle B (10 artistic moves) layered on top of the Architect Tier 1 foundation. Lenis smooth scroll, animated film-grain overlay, cursor-following ambient gradient, char-by-char hero reveal with Fraunces weight morph, marquee word strip between hero and capabilities, scroll-draw title-block frames (Frame component now client-side with framer-motion useInView), color-flood project images on scroll-into-view, 3D card tilt on hover, cursor-reactive body type on hero subtext, View Transitions API curtain wipe between routes (clip-path inset).
 **Why:** User judged Tier 1 alone too restrained — *"I want some animation, something that feels artistic."*

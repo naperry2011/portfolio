@@ -24,6 +24,7 @@ Active work. Update as items are completed and new work is identified.
 
 ## Recently Completed
 
+- [x] Homepage depth: APPROACH + NOW frames, three new shared components — 2026-05-19
 - [x] Architect redesign Tier 2 (Expressive): Lenis smooth scroll, grain, ambient gradient, char-by-char hero, marquee, scroll-draw frames, color-flood images, 3D tilt, reactive text, View Transitions curtain — 2026-05-19
 - [x] Architect redesign Tier 1: design tokens, type scale, Frame component, 4 page rewrites, metadataBase fix — 2026-05-19
 - [x] Real project screenshots (logo/portrait/character art) pulled from each project domain — 2026-05-19
