@@ -25,7 +25,9 @@ export default function AmbientCursor() {
     const tick = () => {
       x += (targetX - x) * 0.06;
       y += (targetY - y) * 0.06;
-      el.style.background = `radial-gradient(600px circle at ${x}px ${y}px, rgba(184,150,109,0.10), transparent 60%)`;
+      // Warm spotlight tuned for the light paper background — slightly
+      // stronger than the dark-mode value so it reads against off-white.
+      el.style.background = `radial-gradient(600px circle at ${x}px ${y}px, rgba(138,106,61,0.08), transparent 60%)`;
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);

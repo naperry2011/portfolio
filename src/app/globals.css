@@ -3,12 +3,13 @@
 @tailwind utilities;
 
 :root {
-  --background: #0a0a0c;
-  --ink: #f4f0e8;
-  --muted: #8a8a90;
-  --rule: #1c1c20;
-  --surface: #111114;
-  --accent: #b8966d;
+  /* Light mode — warm off-white paper, near-black ink, deeper brass accent */
+  --background: #fafaf7;
+  --ink: #14141a;
+  --muted: #6e6e76;
+  --rule: #d8d6cf;
+  --surface: #f1efe9;
+  --accent: #8a6a3d;
 
   /* Scroll-driven hero opsz axis (T2 will animate this; T1 sets default) */
   --hero-opsz: 144;

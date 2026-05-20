@@ -60,7 +60,12 @@ export default function ReactiveText({ text, className = '' }: Props) {
   return (
     <div ref={ref} className={className}>
       {words.map((w, i) => (
-        <span key={i} data-word className="inline-block transition-transform duration-100 ease-out will-change-transform">
+        <span
+          key={i}
+          data-word
+          className="inline-block transition-transform duration-100 ease-out will-change-transform"
+          style={{ whiteSpace: 'pre' }}
+        >
           {w}{i < words.length - 1 ? ' ' : ''}
         </span>
       ))}
