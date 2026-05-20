@@ -230,7 +230,8 @@ export default function Home() {
                     {/* Ghosted huge numeral */}
                     <span
                       aria-hidden
-                      className="absolute -top-4 -left-2 font-serif text-8xl sm:text-9xl text-ink/[0.05] leading-none select-none pointer-events-none"
+                      className="absolute -top-4 -left-2 font-serif text-8xl sm:text-9xl leading-none select-none pointer-events-none"
+                      style={{ color: 'color-mix(in srgb, var(--ink) 6%, transparent)' }}
                     >
                       {p.n}
                     </span>
