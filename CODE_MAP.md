@@ -29,7 +29,7 @@ Entry Points:
 Category: Content
 
 Primary Files:
-- src/data/projects.ts (`apps`, `sideStory`, `sites`; each entry has status, blurb, longer description, meta, image, links)
+- src/data/projects.ts (`apps`, `sideStory`, `sites`; each entry has status, blurb, longer description, meta, image, links, `color`, and for apps `artBg`)
 
 Supporting Files:
 - public/projects/*.png (app store feature graphics, 1024x500)
@@ -43,11 +43,11 @@ Entry Points:
 Category: UI
 
 Primary Files:
-- src/components/Panel.tsx (bordered comic panel; variants plain / tone / speed / ink)
+- src/components/Panel.tsx (bordered comic panel; variants plain / tone / sun / speed / ink; optional `style`)
 - src/components/StatusTag.tsx (status label colored by tone: active red, cleared green, neutral grey)
-- src/components/QuestCard.tsx (app card with store graphic; `detailed` shows the long description)
-- src/components/QuestLogRow.tsx (site row with screenshot; `detailed` shows the long description)
-- src/components/SectionHeading.tsx (display heading + pixel note + ink rule)
+- src/components/QuestCard.tsx (app card with store graphic and colored offset shadow; `detailed` shows the long description)
+- src/components/QuestLogRow.tsx (site row with screenshot, colored thumbnail shadow and hover tint; `detailed` shows the long description)
+- src/components/SectionHeading.tsx (display heading + pixel note + colored XP bar via `color` prop)
 
 ## Home Page
 
@@ -139,4 +139,5 @@ Entry Points:
 
 - No API routes, no database, no workers, no cron, no tests. All routes are static.
 - Color tokens are CSS variables in `src/app/globals.css`, mirrored as Tailwind theme colors in `tailwind.config.ts`. Change both together.
-- To add or change a project: edit `src/data/projects.ts` and drop the image in `public/projects/`. Home and Projects update together.
+- To add or change a project: edit `src/data/projects.ts` (include a `color` picked from the project's art; apps also need `artBg`) and drop the image in `public/projects/`. Home and Projects update together.
+- Project colors reach components as the CSS custom property `--c`; see "Color per project" in `docs/ai/architecture.md`.

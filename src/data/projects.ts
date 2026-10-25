@@ -12,6 +12,10 @@ export interface ProjectLink {
 
 export interface Project {
   slug: string;
+  /* Signature color from the project's art: offset shadows, hover tints */
+  color: string;
+  /* Background of the app's store graphic, shown behind it when the card has spare height */
+  artBg?: string;
   title: string;
   status: Status;
   blurb: string;
@@ -29,6 +33,8 @@ const CLEARED = (label = 'CLEARED'): Status => ({ label, tone: 'cleared' });
 export const apps: Project[] = [
   {
     slug: 'fuck-corpo',
+    color: '#d4423b',
+    artBg: '#1b1b1b',
     title: 'F*ck Corpo',
     status: ACTIVE('PRE-LAUNCH'),
     blurb:
@@ -42,6 +48,8 @@ export const apps: Project[] = [
   },
   {
     slug: 'afterword',
+    color: '#9179a6',
+    artBg: '#241f33',
     title: 'Afterword',
     status: ACTIVE('IN PROGRESS'),
     blurb: 'A small, good thing to do when you finish a book. No account, nothing leaves the phone.',
@@ -54,6 +62,8 @@ export const apps: Project[] = [
   },
   {
     slug: 'tonk',
+    color: '#f2c14e',
+    artBg: '#0b4d33',
     title: 'Tonk',
     status: ACTIVE('V2 IN PROGRESS'),
     blurb: 'The cookout card game, in your pocket.',
@@ -69,6 +79,8 @@ export const apps: Project[] = [
   },
   {
     slug: 'pitty-pat',
+    color: '#2a9d8f',
+    artBg: '#2a9d8f',
     title: 'Pitty Pat',
     status: ACTIVE('IN PROGRESS'),
     blurb: "The classic Southern card game. There's a kiddy version too.",
@@ -87,6 +99,7 @@ export const apps: Project[] = [
 /* Side story: the anime and gaming writing project. */
 export const sideStory: Project = {
   slug: 'beats-backlog',
+  color: '#e3a83a',
   title: 'Beats & Backlog',
   status: ACTIVE('IN PROGRESS'),
   blurb: 'Video games, anime and music, written for people with limited hours. No hype, no scores.',
@@ -102,6 +115,7 @@ export const sideStory: Project = {
 export const sites: Project[] = [
   {
     slug: 'reality-saving',
+    color: '#7c5cdb',
     title: 'Reality Saving',
     status: CLEARED('CLEARED / STILL LEVELING'),
     blurb: 'Financial coaching for nonprofits, small businesses and working people',
@@ -114,6 +128,7 @@ export const sites: Project[] = [
   },
   {
     slug: 'captain-diesels-dojo',
+    color: '#e2262c',
     title: "Captain Diesel's Dojo",
     status: CLEARED(),
     blurb: 'Bracket tournaments for comics, anime, movies and games',
@@ -126,6 +141,7 @@ export const sites: Project[] = [
   },
   {
     slug: 'twinkling-hearts',
+    color: '#5b7a4a',
     title: 'Twinkling Hearts',
     status: CLEARED(),
     blurb: 'In-home senior care site, built in Astro',
@@ -137,7 +153,21 @@ export const sites: Project[] = [
     links: [{ label: 'VISIT', href: 'https://twinkling-hearts.vercel.app' }],
   },
   {
+    slug: 'trainer-packages',
+    color: '#c6f432',
+    title: 'Trainer Website Packages',
+    status: CLEARED(),
+    blurb: 'Three ready-to-launch site tiers for personal trainers, each with a live demo',
+    description:
+      'A three-tier website offer for personal trainers. Starter is a link-in-bio home, Pro adds a class schedule, lead capture and pricing, and Elite adds online booking and payments, a client portal with progress tracking and a trainer dashboard. Every tier has a live demo.',
+    meta: 'TEMPLATE / 3 TIERS',
+    image: '/projects/trainer-packages.jpg',
+    imageAlt: 'Trainer Website Packages page: Pick the site that fits your business',
+    links: [{ label: 'VISIT', href: 'https://three-tier-template-zl4o.vercel.app/' }],
+  },
+  {
     slug: 'porchlight',
+    color: '#f0a830',
     title: 'Porchlight',
     status: ACTIVE('IN PROGRESS'),
     blurb: 'Foster parent recruitment that keeps in touch with the "maybe someday" people',
@@ -150,6 +180,7 @@ export const sites: Project[] = [
   },
   {
     slug: 'proctor-house',
+    color: '#c9a14a',
     title: 'Proctor House Rottweilers',
     status: ACTIVE('IN PROGRESS'),
     blurb: 'A breeder platform: bloodlines, litters and a puppy waitlist',
@@ -162,6 +193,7 @@ export const sites: Project[] = [
   },
   {
     slug: 'safe-screen-logistics',
+    color: '#3fbfae',
     title: 'Safe Screen Logistics',
     status: { label: 'CLIENT TEMPLATE', tone: 'neutral' },
     blurb: 'Site template for a client: mobile IV therapy and wellness, with booking',

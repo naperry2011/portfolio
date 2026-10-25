@@ -159,6 +159,9 @@ The Architect design (title-block frames, drawing-sheet labels, consultancy copy
 - **Negative:** Strong theme means every new section must fit the panel and quest vocabulary. Japanese characters in the nav fall back to the system font (no Japanese subset via `next/font`).
 - **Neutral:** Adding a project is now a data edit in one file plus an image in `public/projects/`.
 
+**Amendment (2026-10-25): color per project**
+The user wanted the design a little more colorful. Each project now carries a `color` taken from its own art (and `artBg` for app store graphics) in `src/data/projects.ts`, passed to components as the CSS custom property `--c` and used for offset shadows, hover tints and fills. Five site-level brights (`--sun`, `--cobalt`, `--lilac`, `--mint`, `--mustard`) color the hero panels, the XP-bar section headings, About and the Contact menu. Paper ground and black ink stay; text on colored grounds stays dark ink at 4.5:1 or better. Alternatives were a fixed 4-color anime palette rotated across panels, and full colored section bands; per-project color was chosen because it ties the color to the user's real work.
+
 **Alternatives considered**
 - Lounge (warm dark, conversational): liked, but less personal than the anime/gaming take
 - Poster (loud color, collage): too loud to live with

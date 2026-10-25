@@ -18,6 +18,11 @@ export default {
         surface: "var(--surface)",
         accent: "var(--accent)",
         cleared: "var(--cleared)",
+        sun: "var(--sun)",
+        cobalt: "var(--cobalt)",
+        lilac: "var(--lilac)",
+        mint: "var(--mint)",
+        mustard: "var(--mustard)",
       },
       fontFamily: {
         sans: ["var(--font-sans)", "ui-sans-serif", "system-ui", "sans-serif"],

@@ -26,19 +26,19 @@
 - `src/components/Navbar.tsx`: pixel-font nav (QUESTS / QUEST LOG / PLAYER / CONTACT) with a ▶ cursor on the active route and a MENU/CLOSE mobile menu
 - `src/components/Footer.tsx`: black strip with external links
 - `src/components/SmoothScroll.tsx`: Lenis smooth scroll
-- `src/app/globals.css`: color tokens (`--background`, `--ink`, `--muted`, `--body`, `--rule`, `--grid`, `--surface`, `--accent`, `--cleared`) and manga utilities (`.paper`, `.tone`, `.speed`, `.panel`), plus the View Transitions wipe
+- `src/app/globals.css`: color tokens (`--background`, `--ink`, `--muted`, `--body`, `--rule`, `--grid`, `--surface`, `--accent`, `--cleared`, plus brights `--sun`, `--cobalt`, `--lilac`, `--mint`, `--mustard`) and manga utilities (`.paper`, `.tone`, `.tone-sun`, `.speed`, `.panel`), plus the View Transitions wipe
 - `tailwind.config.ts`: theme colors mirroring the CSS variables, `font-display` / `font-pixel` / `font-sans`
 
 ### Content
-- `src/data/projects.ts`: single source of truth for projects: `apps` (main quests), `sideStory` (Beats & Backlog), `sites` (quest log). Each entry has status, blurb, longer description, meta, image and links
+- `src/data/projects.ts`: single source of truth for projects: `apps` (main quests), `sideStory` (Beats & Backlog), `sites` (quest log). Each entry has status, blurb, longer description, meta, image, links, `color` (from the project's art) and, for apps, `artBg`
 - `public/projects/`: app store feature graphics (`*.png`, 1024x500) and live-site screenshots (`*.jpg`, 16:10)
 
 ### Shared components
-- `src/components/Panel.tsx`: comic panel box (plain / tone / speed / ink)
+- `src/components/Panel.tsx`: comic panel box (plain / tone / sun / speed / ink)
 - `src/components/StatusTag.tsx`: status label colored by tone
-- `src/components/QuestCard.tsx`: app card with store graphic
-- `src/components/QuestLogRow.tsx`: site row with screenshot
-- `src/components/SectionHeading.tsx`: display heading with pixel note and ink rule
+- `src/components/QuestCard.tsx`: app card with store graphic and an offset shadow in the project's color
+- `src/components/QuestLogRow.tsx`: site row with screenshot, colored thumbnail shadow and hover tint
+- `src/components/SectionHeading.tsx`: display heading with pixel note and a colored XP bar
 
 ### Pages (all static)
 - `src/app/page.tsx`: Home: speed-line hero panels, Main Quests, Beats & Backlog side story, Quest Log, CONTINUE? call to action
@@ -52,7 +52,7 @@
 **To build:** `npm run build && npm start`
 **To lint:** `npm run lint`
 **To change colors:** edit both `src/app/globals.css` (CSS vars) and `tailwind.config.ts` (theme colors); they must stay in sync.
-**To add or change a project:** edit `src/data/projects.ts` and drop the image in `public/projects/`. Home and Projects update together. Use the project's own README or site for copy.
+**To add or change a project:** edit `src/data/projects.ts` (give it a `color` from its art; apps also need `artBg`) and drop the image in `public/projects/`. Home and Projects update together. Use the project's own README or site for copy. If you replace an image under the same file name, delete `.next/cache/images` so the dev server stops serving the old one.
 
 ## Environment Variables
 

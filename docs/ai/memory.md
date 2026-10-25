@@ -10,7 +10,8 @@ Running history of what's been built and current state. Update after major chang
 
 ### What's Working
 - Next.js 15.5.18 App Router site with 4 page routes: `/` (QUESTS), `/projects` (QUEST LOG), `/about` (PLAYER), `/contact` (CONTINUE?)
-- Quest-log notebook design system: graph-paper ground `#fbfbf9`, ink `#111111`, manga-red accent `#d42a20`, cleared-green `#1a6b33`; Dela Gothic One display, DotGothic16 pixel labels, Zen Kaku Gothic New body
+- Quest-log notebook design system: graph-paper ground `#fbfbf9`, ink `#111111`, manga-red accent `#d42a20`, cleared-green `#1a6b33`, plus brights sun / cobalt / lilac / mint / mustard; Dela Gothic One display, DotGothic16 pixel labels, Zen Kaku Gothic New body
+- Color per project: every project has a `color` from its art (offset shadows, hover tints); section headings have colored XP bars
 - Manga motifs as CSS utilities in `globals.css`: `.paper` (graph grid), `.tone` (screentone), `.speed` (speed lines), `.panel` (4px ink border)
 - All project content lives in `src/data/projects.ts` (`apps`, `sideStory`, `sites`); Home and Projects both read from it
 - Project images are the apps' store feature graphics (1024x500 PNG) and homepage screenshots of the live sites (16:10 JPG) in `public/projects/`
@@ -20,13 +21,13 @@ Running history of what's been built and current state. Update after major chang
 ### Project roster (as decided with the user, 2026-10-25)
 - Main quests (apps): F*ck Corpo (pre-launch), Afterword, Tonk v2, Pitty Pat
 - Side story: Beats & Backlog (in progress)
-- Sites: Reality Saving (live, ongoing with client), Captain Diesel's Dojo, Twinkling Hearts, Porchlight / foster care MVP (in progress), Proctor House Rottweilers (in progress), Safe Screen Logistics (client template)
+- Sites: Reality Saving (live, ongoing with client), Captain Diesel's Dojo, Twinkling Hearts, Trainer Website Packages (three-tier-template-zl4o.vercel.app, added 2026-10-25; status CLEARED is my assumption, not confirmed), Porchlight / foster care MVP (in progress), Proctor House Rottweilers (in progress), Safe Screen Logistics (client template)
 - Deliberately excluded: The Motions, Rooted Legacy, Urban Blue Zone, MedGhana, PK website, Kae Stylez, CodeLapras, all SRE/PNC project repos
 - Source of truth for current work is the user's GitHub (naperry2011), not their Vercel project list
 
 ### Known Issues
 - `public/og-cover.jpg` referenced in layout metadata but not present yet; OG/Twitter cards have no image
-- Site screenshots in `public/projects/*.jpg` are only 800px wide (captured from the browser pane); soft at large sizes, replace with full-size captures
+- Site screenshots in `public/projects/*.jpg` are only 800px wide (captured from the browser pane); soft at large sizes, replace with full-size captures. (The Beats & Backlog one was recaptured without the scrollbar on 2026-10-25.)
 - サイバーラウンジ in the nav renders in the system font: none of the three fonts ship a Japanese subset through `next/font`
 - About page has no "Currently into" section yet: waiting on the user's actual favorite anime/games (do not invent them)
 
@@ -34,6 +35,11 @@ Running history of what's been built and current state. Update after major chang
 - Quest-log redesign is uncommitted; user reviews and commits in GitHub Desktop
 
 ## Implementation History
+
+### 2026-10-25: Color pass, layout fixes, trainer project
+**What was built:** Color per project (`color` + `artBg` fields in `src/data/projects.ts`, passed to components as `--c`): colored offset shadows on app cards, colored thumbnail shadows and hover tints on quest-log rows, XP-bar section headings, sun-yellow hero panel, mustard side story, colored About shadows and SAVE badges, colored hover rows on the Contact menu. New tokens `--sun`, `--cobalt`, `--lilac`, `--mint`, `--mustard`; new `.tone-sun` utility and `sun` Panel variant. Added Trainer Website Packages to the Quest Log. Fixes: hero name and CONTINUE? sized to their boxes with container query units; nav switches to MENU below 1024px; Afterword card art fills spare height; nav background was transparent (opacity shorthand on a CSS-variable color); Beats & Backlog screenshot retaken without a scrollbar.
+**Why:** User loved the quest-log design but wanted it a little more colorful, asked for a screenshot pass to find layout issues (the name spacing on Home), and asked to add the trainer packages site.
+**Files affected:** `src/data/projects.ts`, `src/app/{page,globals.css}`, `src/app/{about,contact,projects}/page.tsx`, `src/components/{Panel,QuestCard,QuestLogRow,SectionHeading,Navbar}.tsx`, `tailwind.config.ts`, `public/projects/{beats-backlog.jpg,trainer-packages.jpg}`.
 
 ### 2026-10-25: Quest-log redesign (whole site)
 **What was built:** Full replacement of the Architect design with an anime/gaming "quest log notebook": manga panels, screentone, speed lines and pixel-font game menus over graph paper. New shared components `Panel`, `StatusTag`, `QuestCard`, `QuestLogRow`, `SectionHeading`; new data file `src/data/projects.ts`. All four pages rewritten: Home (hero panels, Main Quests, Beats & Backlog side story, Quest Log, CONTINUE? CTA), Projects (full quest log with longer write-ups), About (player profile, stats, save-history job timeline), Contact (CONTINUE? option menu). Nav and footer restyled; nav labels QUESTS / QUEST LOG / PLAYER / CONTACT with a ▶ cursor on the active route. Added `.claude/launch.json` (`dev` config).
@@ -82,3 +88,7 @@ Single Next.js 15 App Router project, deployed to Vercel. React 19, TypeScript, 
 - Don't combine the `.panel` utility with Tailwind border overrides like `border-t-0` on one element; both are utilities and their output order isn't guaranteed. Use plain `border-4 border-t-0 border-ink` instead.
 - Many of the user's sites use reveal-on-scroll animations, so screenshots taken right after load come out blank. Scroll down and back up before capturing.
 - Mocks were rejected as "AI-made" when they used stock copy and generic UI tropes (pill buttons, tilted polaroids, fake handwriting). Real project assets and the projects' own wording fixed it.
+- Tailwind's opacity shorthand (`bg-background/90`) silently produces no color when the theme color is a plain CSS variable. Use `color-mix(in srgb, var(--x) 92%, transparent)` in an arbitrary value.
+- A heading sized with `vw` can still overflow a box that has a max width. Make the box a size container and use `cqi` units, then measure the text's right edge in the browser (a Range's bounding box) instead of trusting a screenshot.
+- Next caches optimized images in `.next/cache/images`; replacing a `public/` image under the same name keeps showing the old one until that folder is deleted.
+- Running `npm run build` while the dev server runs overwrites `.next`; restart the dev server afterwards.

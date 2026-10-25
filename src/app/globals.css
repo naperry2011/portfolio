@@ -14,6 +14,13 @@
   --accent: #d42a20;
   --cleared: #1a6b33;
   --tone-dot: #c9c9c9;
+
+  /* Extra brights for panels, shadows and XP bars (project colors live in src/data/projects.ts) */
+  --sun: #ffd23f;
+  --cobalt: #2346d8;
+  --lilac: #9179a6;
+  --mint: #3fbfae;
+  --mustard: #e3a83a;
 }
 
 html {
@@ -48,6 +55,13 @@ body {
   .tone {
     background-color: var(--surface);
     background-image: radial-gradient(var(--tone-dot) 1.1px, transparent 1.5px);
+    background-size: 7px 7px;
+  }
+
+  /* Screentone on a sun-yellow ground */
+  .tone-sun {
+    background-color: var(--sun);
+    background-image: radial-gradient(rgba(17, 17, 17, 0.22) 1.1px, transparent 1.5px);
     background-size: 7px 7px;
   }
 

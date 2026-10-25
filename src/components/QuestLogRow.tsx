@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import type { CSSProperties } from 'react';
 import type { Project } from '@/data/projects';
 import StatusTag from './StatusTag';
 
@@ -11,8 +12,13 @@ interface QuestLogRowProps {
 export default function QuestLogRow({ project, detailed = false }: QuestLogRowProps) {
   const link = project.links[0];
   return (
-    <li className="flex flex-wrap items-center gap-x-6 gap-y-3 border-b-2 border-dashed border-rule px-5 py-4 last:border-b-0">
-      <div className={`relative aspect-[16/10] shrink-0 border-2 border-ink ${detailed ? 'w-full sm:w-64' : 'w-36'}`}>
+    <li
+      className="flex flex-wrap items-center gap-x-6 gap-y-3 border-b-2 border-dashed border-rule px-5 py-4 transition-colors last:border-b-0 hover:bg-[color-mix(in_srgb,var(--c)_14%,white)]"
+      style={{ '--c': project.color } as CSSProperties}
+    >
+      <div
+        className={`relative aspect-[16/10] shrink-0 border-2 border-ink shadow-[4px_4px_0_var(--c)] ${detailed ? 'w-full sm:w-64' : 'w-36'}`}
+      >
         <Image
           src={project.image}
           alt={detailed ? project.imageAlt : ''}

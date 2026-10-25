@@ -24,17 +24,17 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <nav className="fixed top-0 z-50 w-full border-b-2 border-ink bg-background/90 backdrop-blur-md">
+    <nav className="fixed top-0 z-50 w-full border-b-2 border-ink bg-[color-mix(in_srgb,var(--background)_92%,transparent)] backdrop-blur-md">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="flex h-16 items-center justify-between">
           <Link href="/" className="flex items-baseline gap-3 hover:text-accent">
             <span className="font-display text-xl sm:text-2xl">CYBERLOUNGE</span>
-            <span lang="ja" className="hidden text-xs text-muted sm:inline">
+            <span lang="ja" className="hidden text-xs text-muted lg:inline">
               サイバーラウンジ
             </span>
           </Link>
 
-          <div className="hidden items-center font-pixel md:flex">
+          <div className="hidden items-center font-pixel lg:flex">
             {navLinks.map(([name, path]) => {
               const active = pathname === path;
               return (
@@ -42,7 +42,7 @@ export default function Navbar() {
                   key={path}
                   href={path}
                   aria-current={active ? 'page' : undefined}
-                  className="px-3 py-3 hover:text-accent"
+                  className="whitespace-nowrap px-3 py-3 hover:text-accent"
                 >
                   <Cursor active={active} />
                   {name}
@@ -53,7 +53,7 @@ export default function Navbar() {
 
           <button
             onClick={() => setOpen(!open)}
-            className="px-2 py-3 font-pixel hover:text-accent md:hidden"
+            className="px-2 py-3 font-pixel hover:text-accent lg:hidden"
             aria-expanded={open}
             aria-controls="mobile-menu"
           >
@@ -63,7 +63,7 @@ export default function Navbar() {
       </div>
 
       {open && (
-        <div id="mobile-menu" className="absolute left-0 right-0 top-16 border-b-2 border-ink bg-background md:hidden">
+        <div id="mobile-menu" className="absolute left-0 right-0 top-16 border-b-2 border-ink bg-background lg:hidden">
           <div className="mx-auto max-w-6xl px-4 py-3 font-pixel text-lg sm:px-6">
             {navLinks.map(([name, path]) => {
               const active = pathname === path;

@@ -61,6 +61,9 @@ const saves: SaveEntry[] = [
   },
 ];
 
+/* Light enough to keep ink text above 4.5:1 */
+const saveColors = ['var(--sun)', 'var(--mint)', 'var(--mustard)', 'var(--lilac)', '#ff8fb1'];
+
 const stats: [string, string][] = [
   ['CLASS', 'Builder / SRE'],
   ['APPS', 'Flutter, SwiftUI'],
@@ -76,8 +79,8 @@ export default function About() {
         <h1 className="mt-3 font-display text-[clamp(44px,8vw,112px)] leading-[0.95]">PLAYER</h1>
       </header>
 
-      <section aria-label="Character sheet" className="flex flex-wrap gap-3.5 pb-24">
-        <Panel className="relative aspect-[3/4] w-full flex-[1_1_300px] sm:max-w-sm">
+      <section aria-label="Character sheet" className="flex flex-wrap gap-5 pb-24">
+        <Panel className="relative aspect-[3/4] w-full flex-[1_1_300px] shadow-[8px_8px_0_var(--lilac)] sm:max-w-sm">
           <Image
             src="/profile.jpg"
             alt="Portrait of Nicholas Perry"
@@ -87,8 +90,8 @@ export default function About() {
             className="object-cover grayscale"
           />
         </Panel>
-        <div className="flex min-w-0 flex-[999_1_420px] flex-col gap-3.5">
-          <Panel className="p-6 sm:p-8">
+        <div className="flex min-w-0 flex-[999_1_420px] flex-col gap-5">
+          <Panel className="p-6 shadow-[8px_8px_0_var(--sun)] sm:p-8">
             <h2 className="font-display text-3xl sm:text-4xl">NICHOLAS PERRY</h2>
             <div className="mt-5 space-y-4 text-lg leading-relaxed text-body">
               <p>
@@ -101,8 +104,8 @@ export default function About() {
               </p>
             </div>
           </Panel>
-          <Panel variant="ink" as="aside" className="p-6">
-            <p className="font-pixel text-accent">STATS</p>
+          <Panel variant="ink" as="aside" className="p-6 shadow-[8px_8px_0_var(--mint)]">
+            <p className="font-pixel text-sun">STATS</p>
             <dl className="mt-3 grid grid-cols-1 gap-x-8 gap-y-2 font-pixel sm:grid-cols-2">
               {stats.map(([label, value]) => (
                 <div key={label} className="flex gap-3">
@@ -116,7 +119,7 @@ export default function About() {
       </section>
 
       <section aria-labelledby="saves-h">
-        <SectionHeading id="saves-h" title="SAVE HISTORY" note="where the XP came from" />
+        <SectionHeading id="saves-h" title="SAVE HISTORY" note="where the XP came from" color="var(--lilac)" />
         <ol className="border-4 border-t-0 border-ink bg-surface">
           {saves.map((save, i) => (
             <li
@@ -124,7 +127,12 @@ export default function About() {
               className="flex flex-wrap gap-x-8 gap-y-3 border-b-2 border-dashed border-rule px-5 py-6 last:border-b-0"
             >
               <div className="w-44 shrink-0 font-pixel">
-                <p>SAVE {String(saves.length - i).padStart(2, '0')}</p>
+                <p
+                  className="inline-block border-2 border-ink px-2 py-0.5"
+                  style={{ backgroundColor: saveColors[i % saveColors.length] }}
+                >
+                  SAVE {String(saves.length - i).padStart(2, '0')}
+                </p>
                 <p className="mt-1 text-sm text-muted">{save.dates}</p>
               </div>
               <div className="min-w-0 flex-[999_1_320px]">

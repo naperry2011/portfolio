@@ -49,7 +49,7 @@ Isolation Level: Strong
 ## Project Data (src/data/projects.ts)
 
 Owns:
-- Every project's title, status, copy, meta, image path and links
+- Every project's title, status, copy, meta, image path, links, signature `color` and (apps) `artBg`
 - The `Project`, `Status`, `StatusTone`, `ProjectLink` types
 
 Does NOT Own:
@@ -63,10 +63,10 @@ Isolation Level: Strong (plain data, no imports)
 ## Shared UI Components (src/components/{Panel,StatusTag,QuestCard,QuestLogRow,SectionHeading}.tsx)
 
 Owns:
-- Panel: bordered box and its background variants
+- Panel: bordered box and its background variants (plain / tone / sun / speed / ink)
 - StatusTag: mapping a status tone to a color
-- QuestCard / QuestLogRow: how one project is laid out, with a `detailed` mode for the Projects page
-- SectionHeading: section title, note and rule
+- QuestCard / QuestLogRow: how one project is laid out, with a `detailed` mode for the Projects page, and how the project's `color` is applied (shadows, hover tint) via the `--c` custom property
+- SectionHeading: section title, note and the colored XP bar
 
 Does NOT Own:
 - Which projects appear or in what order (pages decide)

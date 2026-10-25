@@ -16,9 +16,9 @@ export default function Home() {
         {/* Hero */}
         <section className="flex flex-wrap gap-3.5 pb-24 pt-8">
           <Panel variant="speed" className="min-w-0 flex-[999_1_560px] px-[clamp(14px,4vw,40px)] py-[clamp(20px,5vw,56px)]">
-            <div className="max-w-2xl border-[3px] border-ink bg-background px-[clamp(16px,3vw,30px)] py-[clamp(18px,3vw,28px)]">
+            <div className="border-[3px] border-ink bg-background px-[clamp(16px,3vw,30px)] py-[clamp(18px,3vw,28px)] shadow-[8px_8px_0_var(--accent)] [container-type:inline-size]">
               <p className="font-pixel text-muted">FILE 01 / PLAYER</p>
-              <h1 className="mt-3 font-display text-[clamp(38px,7.5vw,104px)] leading-[0.95]">
+              <h1 className="mt-3 font-display text-[clamp(32px,13.5cqi,112px)] leading-[0.95]">
                 NICHOLAS
                 <br />
                 PERRY
@@ -29,13 +29,13 @@ export default function Home() {
             </div>
           </Panel>
           <div className="flex flex-[1_1_300px] flex-col gap-3.5">
-            <Panel variant="ink" className="px-6 py-5">
-              <p className="font-pixel text-accent">NOW PLAYING</p>
+            <Panel variant="ink" className="px-6 py-5 shadow-[6px_6px_0_var(--cobalt)]">
+              <p className="font-pixel text-sun">NOW PLAYING</p>
               <p className="mt-2 text-lg leading-relaxed">
                 Two cookout card games, a reading journal, and an app that pays you to poop.
               </p>
             </Panel>
-            <Panel variant="tone" className="flex flex-1 flex-col justify-end px-6 py-5">
+            <Panel variant="sun" className="flex flex-1 flex-col justify-end px-6 py-5">
               <p className="self-start rounded-[18px_18px_18px_4px] border-2 border-ink bg-surface px-3 py-2 font-bold">
                 SRE by day. Save point after hours.
               </p>
@@ -45,12 +45,12 @@ export default function Home() {
 
         {/* Main quests */}
         <section aria-labelledby="quests-h" className="pb-24">
-          <SectionHeading id="quests-h" title="MAIN QUESTS" note="apps in active development" />
-          <div className="mt-7 flex flex-wrap gap-3.5">
+          <SectionHeading id="quests-h" title="MAIN QUESTS" note="apps in active development" color="var(--accent)" />
+          <div className="mt-7 flex flex-wrap gap-5">
             <QuestCard project={lead} className="min-w-0 flex-[999_1_600px]" priority />
             <QuestCard project={second} className="min-w-0 flex-[1_1_340px]" />
           </div>
-          <div className="mt-3.5 flex flex-wrap gap-3.5">
+          <div className="mt-5 flex flex-wrap gap-5">
             {rest.map((app) => (
               <QuestCard key={app.slug} project={app} className="min-w-0 flex-[1_1_380px]" />
             ))}
@@ -58,8 +58,8 @@ export default function Home() {
         </section>
 
         {/* Side story */}
-        <section aria-labelledby="side-h" className="flex flex-wrap gap-3.5 pb-24">
-          <Panel className="relative aspect-[16/10] min-w-0 flex-[999_1_560px]">
+        <section aria-labelledby="side-h" className="flex flex-wrap gap-5 pb-24">
+          <Panel className="relative aspect-[16/10] min-w-0 flex-[999_1_560px] shadow-[8px_8px_0_var(--mustard)]">
             <Image
               src={sideStory.image}
               alt={sideStory.imageAlt}
@@ -68,7 +68,11 @@ export default function Home() {
               className="object-cover object-top"
             />
           </Panel>
-          <Panel variant="tone" className="flex flex-[1_1_320px] flex-col justify-center gap-4 p-7">
+          <Panel
+            variant="tone"
+            className="flex flex-[1_1_320px] flex-col justify-center gap-4 p-7 shadow-[8px_8px_0_var(--ink)]"
+            style={{ backgroundColor: 'color-mix(in srgb, var(--mustard) 45%, white)' }}
+          >
             <p className="font-pixel text-muted">SIDE STORY</p>
             <h2 id="side-h" className="self-start bg-surface px-1.5 font-display text-4xl leading-tight">
               BEATS &amp; BACKLOG
@@ -86,7 +90,7 @@ export default function Home() {
 
         {/* Quest log */}
         <section aria-labelledby="log-h" className="pb-24">
-          <SectionHeading id="log-h" title="QUEST LOG" note="sites and client work" />
+          <SectionHeading id="log-h" title="QUEST LOG" note="sites and client work" color="var(--cobalt)" />
           <ul className="border-4 border-t-0 border-ink bg-surface">
             {sites.map((site) => (
               <QuestLogRow key={site.slug} project={site} />
