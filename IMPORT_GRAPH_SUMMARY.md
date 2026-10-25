@@ -4,24 +4,35 @@ High-level coupling overview. Repo is small; graph is shallow and tree-shaped.
 
 ## Core Dependency Nodes
 
-- src/app/layout.tsx — wraps every route segment; imports Navbar, Footer, globals.css; loads three font families
-- src/components/Navbar.tsx — imported by layout; depends on next/link, next/navigation, react, react-icons
-- src/components/Footer.tsx — imported by layout; depends on next/link, react-icons
-- src/components/MotionWrapper.tsx — re-exports `motion.div` as `MotionDiv`; imported by home and projects pages
+- src/app/layout.tsx: wraps every route segment; imports SmoothScroll, Navbar, Footer, globals.css; loads three font families
+- src/data/projects.ts: leaf module (no imports); imported by the Home and Projects pages and by QuestCard, QuestLogRow, StatusTag (types)
+- src/components/Panel.tsx: imported by QuestCard, Home, About
+- src/components/StatusTag.tsx: imported by QuestCard, QuestLogRow, Home
+- src/components/SectionHeading.tsx: imported by Home, Projects, About
+- src/components/QuestCard.tsx, src/components/QuestLogRow.tsx: imported by Home and Projects
 
 ## External Library Hubs
 
-- framer-motion — used directly in about/projects/contact pages and indirectly via MotionWrapper
-- react-icons — used by every page and both layout components
-- next/image, next/link — used across pages
-- next/font/google — used in layout.tsx for Geist, Geist Mono, Fraunces
+- next/image: QuestCard, QuestLogRow, Home, About
+- next/link: Navbar, Footer, Home
+- next/navigation: Navbar
+- next/font/google: layout.tsx (Dela Gothic One, DotGothic16, Zen Kaku Gothic New)
+- lenis: SmoothScroll only
 
 ## Cross-Module Edges
 
-- Pages → `@/components/MotionWrapper` (home, projects)
-- Layout → `@/components/Navbar`, `@/components/Footer`
+- Layout → SmoothScroll, Navbar, Footer
+- Home → data, Panel, QuestCard, QuestLogRow, SectionHeading, StatusTag
+- Projects → data, QuestCard, QuestLogRow, SectionHeading
+- About → Panel, SectionHeading
+- Contact → none (self-contained)
+- QuestCard → Panel, StatusTag, data (types); QuestLogRow → StatusTag, data (types); StatusTag → data (types)
 - No page imports another page.
-- No component imports another component.
+
+## Client Boundaries
+
+- `'use client'`: Navbar, SmoothScroll, src/app/template.tsx
+- Everything else, including all pages and shared UI components, is a server component.
 
 ## Circular Dependencies
 
@@ -29,11 +40,10 @@ High-level coupling overview. Repo is small; graph is shallow and tree-shaped.
 
 ## Potential Refactor Risk Areas
 
-- framer-motion is imported both directly (about, contact, projects use `motion.X`) and via `MotionDiv` wrapper (home, projects). Inconsistent pattern but low risk — `MotionDiv` is the server-component-safe path.
-- Project image paths (`public/projects/*.jpg`) are referenced but the files themselves are user-supplied — broken images until added.
+- `src/data/projects.ts` is the one shared content hub; renaming fields there touches QuestCard, QuestLogRow and both pages.
+- Tailwind theme colors map to CSS variables in `src/app/globals.css`; both files must change together when adjusting the palette.
 
 ## Notes
 
-- Path alias `@/*` → `src/*` (per tsconfig.json) is the only non-relative import convention.
+- Path alias `@/*` → `src/*` (per tsconfig.json). Shared components import each other with relative `./` paths.
 - No barrel files; imports point directly at source modules.
-- Tailwind theme tokens (`background`, `surface`, `border`, `foreground`, `muted`, `accent`) map to CSS variables defined in `src/app/globals.css` — both files must change together when adjusting the palette.

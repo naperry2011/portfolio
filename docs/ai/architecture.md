@@ -1,10 +1,10 @@
 # Architecture
 
-System design at a glance. Pair with root-level `CODE_MAP.md`, `DATA_FLOW.md`, `ENTRY_POINTS.md`, `FEATURE_BOUNDARIES.md`.
+System design at a glance. Pair with root-level `CODE_MAP.md`, `DATA_FLOW.md`, `ENTRY_POINTS.md`, `FEATURE_BOUNDARIES.md`. Current design: quest-log notebook (ADR-007).
 
 ## System Overview
 
-Cyberlounge.net is a personal portfolio site built on Next.js 15 App Router. It serves 4 fully-static page routes. No persistent storage, no API routes, no auth, no background jobs.
+Cyberlounge.net is Nicholas Perry's personal portfolio, built on Next.js 15 App Router. It serves 4 fully static page routes. No persistent storage, no API routes, no auth, no background jobs.
 
 **Style:** Monolith (Next.js single deployable)
 **Hosting:** Vercel
@@ -12,76 +12,89 @@ Cyberlounge.net is a personal portfolio site built on Next.js 15 App Router. It 
 ## Core Components
 
 ### Root Layout
-- **Responsibility:** HTML shell, font variables (Geist sans, Geist Mono, Fraunces serif via `next/font/google`), global CSS, persistent Navbar + Footer, page metadata / OG / Twitter cards, `metadataBase`
+- **Responsibility:** HTML shell, font variables (Dela Gothic One, DotGothic16, Zen Kaku Gothic New via `next/font/google`), global CSS, graph-paper `<body>`, persistent Navbar + Footer, smooth scroll, page metadata / OG / Twitter cards, `metadataBase`
 - **Tech:** Next.js Server Component
 - **Key files:** `src/app/layout.tsx`, `src/app/globals.css`
-- **Depends on:** `src/components/Navbar.tsx`, `src/components/Footer.tsx`
+- **Depends on:** `src/components/Navbar.tsx`, `src/components/Footer.tsx`, `src/components/SmoothScroll.tsx`
 
 ### Navigation Chrome
-- **Responsibility:** Top nav (active-route accent underline + mobile menu) and footer (title-block treatment, quick links, socials, copyright)
-- **Tech:** React client components
+- **Responsibility:** Top nav (pixel-font links QUESTS / QUEST LOG / PLAYER / CONTACT, ▶ cursor on the active route, MENU/CLOSE mobile menu) and footer (black strip with copyright and external links)
+- **Tech:** Navbar is a client component (`usePathname`, `useState`); Footer is a server component
 - **Key files:** `src/components/Navbar.tsx`, `src/components/Footer.tsx`
-- **Depends on:** `next/link`, `next/navigation`, `react-icons`
+- **Depends on:** `next/link`, `next/navigation`
 
-### Frame Component (Architect title-block motif)
-- **Responsibility:** Reusable architectural drawing block — top hairline rule, `topLeft`/`topRight` corner-metadata slots, content body, bottom hairline rule, `bottomLeft`/`bottomRight` corner-metadata slots. The recurring visual signature of the redesign.
-- **Tech:** Next.js Server Component (no `'use client'`)
-- **Key file:** `src/components/Frame.tsx`
-- **Used by:** All four page segments (`/`, `/about`, `/projects` uses inline frames not the component, `/contact` uses inline)
+### Project Data
+- **Responsibility:** Single source of truth for every project shown on the site: `apps` (main quests), `sideStory` (Beats & Backlog), `sites` (quest log). Each entry carries status (label + tone), blurb, longer description, meta line, image, alt text and links.
+- **Key file:** `src/data/projects.ts`
+- **Used by:** Home and Projects pages, `QuestCard`, `QuestLogRow`, `StatusTag` (types)
+
+### Shared UI Components
+- **Responsibility:** The building blocks of the quest-log look
+  - `Panel`: comic panel box with the 4px ink border; variants plain / tone / speed / ink
+  - `StatusTag`: pixel-font status label; tone active (red), cleared (green), neutral (grey)
+  - `QuestCard`: app card (store graphic, title, status, blurb or description, meta + links)
+  - `QuestLogRow`: site row (screenshot, title link, blurb or description, status)
+  - `SectionHeading`: display heading with pixel note and thick ink rule
+- **Tech:** Server components
+- **Key files:** `src/components/{Panel,StatusTag,QuestCard,QuestLogRow,SectionHeading}.tsx`
 
 ### Page Segments
-- **Responsibility:** Page-specific content + animations for `/`, `/about`, `/projects`, `/contact`. Each page opens with a top title-block strip (page number, kind, rev date) and uses framed sections for major content blocks.
-- **Tech:** Mix of server and client components (about/projects/contact are `'use client'` because of framer-motion entry animations; home is server)
-- **Key files:** `src/app/page.tsx`, `src/app/about/page.tsx`, `src/app/projects/page.tsx`, `src/app/contact/page.tsx`
-- **Depends on:** `@/components/Frame`, `@/components/MotionWrapper`, `framer-motion`, `react-icons`, `next/image`
+- **Responsibility:** Page-specific layout and copy for `/` (quests), `/projects` (quest log), `/about` (player profile) and `/contact` (CONTINUE? menu)
+- **Tech:** All server components; each non-home page exports its own `metadata`
+- **Key files:** `src/app/page.tsx`, `src/app/projects/page.tsx`, `src/app/about/page.tsx`, `src/app/contact/page.tsx`
+- **Depends on:** `src/data/projects.ts` (home, projects), shared UI components, `next/image`, `next/link`
 
-### Motion Wrapper
-- **Responsibility:** Re-export `framer-motion`'s `motion.div` as `MotionDiv` from a `'use client'` module so server components can compose animated divs
-- **Key files:** `src/components/MotionWrapper.tsx`
+### Smooth Scroll and Route Transitions
+- **Responsibility:** Lenis smooth scrolling (client component mounted in the layout) and the View Transitions curtain wipe between routes (CSS in `globals.css`, enabled by `experimental.viewTransition` in `next.config.ts`)
+- **Key files:** `src/components/SmoothScroll.tsx`, `src/app/template.tsx`, `src/app/globals.css`, `next.config.ts`
 
 ## Design System
 
-Source of truth: CSS variables in `src/app/globals.css`, mirrored as Tailwind theme tokens in `tailwind.config.ts`. **Both files must be kept in sync** when renaming or adjusting tokens.
+Source of truth: CSS variables in `src/app/globals.css`, mirrored as Tailwind theme colors in `tailwind.config.ts`. **Both files must be kept in sync** when renaming or adjusting tokens.
 
-**Palette (Architect Tier 1):**
-- `--background`: `#0a0a0c` (near-black, slightly cooler than Minimal Dark Editorial)
-- `--ink`: `#f4f0e8` (paper-cream — body & headings; warms the whole page)
-- `--muted`: `#8a8a90` (secondary text)
-- `--rule`: `#1c1c20` (hairlines, frame strokes)
-- `--surface`: `#111114` (elevated cards)
-- `--accent`: `#b8966d` (oxidized brass — single chromatic accent; hover/active only)
-- `--hero-opsz`: `144` (Fraunces variable axis target; Tier 2 will scroll-animate this)
+**Palette:**
+- `--background`: `#fbfbf9` (paper)
+- `--ink`: `#111111` (text, panel borders, black panels)
+- `--muted`: `#55555f` (secondary labels)
+- `--body`: `#33333b` (long-form body text)
+- `--rule`: `#b9bfd0` (dashed row dividers)
+- `--grid`: `#e3e8f4` (graph-paper lines)
+- `--surface`: `#ffffff` (panel fill)
+- `--accent`: `#d42a20` (manga red: active statuses, ▶ cursor, hovers)
+- `--cleared`: `#1a6b33` (CLEARED statuses)
+- `--tone-dot`: `#c9c9c9` (screentone dots)
 
-**Typography:**
-- Display: Fraunces (variable serif, opsz axis) via `next/font/google` → `--font-serif`
-- Body / UI: Geist sans → `--font-sans`
-- Mono (labels, corner metadata): Geist Mono → `--font-mono`
-- Type scale: strict 1.250 (major third) ratio, with `9xl` (168px) added for kinetic hero
+**Typography** (all via `next/font/google`, non-variable, explicit weights):
+- Display: Dela Gothic One → `--font-display` → `font-display`
+- Pixel labels and menus: DotGothic16 → `--font-pixel` → `font-pixel`
+- Body: Zen Kaku Gothic New (400/500/700) → `--font-sans` → `font-sans`
+- Japanese characters (the katakana in the nav) fall back to the system font: none of these fonts ship a Japanese subset through `next/font`.
+- The Tailwind `fontSize` map keeps the 1.250 scale from the previous design; big headings use `clamp()` arbitrary values so they fit phone widths.
 
 **Utilities** (defined in `globals.css`):
-- `.label` — uppercase mono small-caps (corner metadata, eyebrows). Letter-spacing `0.16em`.
-- `.label-ink` — modifier; promotes a `.label` from muted to ink color
-- `.rule` — 1px hairline in `--rule` color, full width of parent
-- `.hero-opsz` — applies `font-variation-settings: "opsz" var(--hero-opsz)` to a serif heading
-- `.link-accent` — accent-colored link with hover opacity fade
+- `.paper`: graph-paper background (24px grid)
+- `.tone`: manga screentone (7px dot pattern)
+- `.speed`: manga speed lines radiating from the left third
+- `.panel`: 4px ink border (don't mix with Tailwind border overrides on the same element; use `border-4 border-ink` classes instead)
 
 ## Data Flow (Critical Path)
 
 1. Browser → Vercel edge → Next.js App Router
 2. All 4 routes prerendered as static at build time
-3. RootLayout renders → Navbar + page segment + Footer
-4. Outbound clicks (project cards, contact CTAs) navigate to external URLs
+3. RootLayout renders → SmoothScroll + Navbar + page segment + Footer
+4. Home and Projects map over `src/data/projects.ts`
+5. Outbound clicks (project links, booking, socials) navigate to external URLs
 
 ## Data Stores
 
-- None.
+- None. Project content is a TypeScript module; images live in `public/projects/`.
 
 ## External Integrations
 
-- **Cal.com** — Booking link on contact page (`cal.com/cybercap2011`)
-- **Live project sites** (rooted-legacy-phi, reality-saving, the-motions) — Outbound links only
-- **GitHub / LinkedIn / Medium / mailto** — Outbound profile links
-- **Vercel** — Hosting + build pipeline
+- **Cal.com**: booking link (`cal.com/cybercap2011`) on home and contact
+- **Live project sites and GitHub repos**: outbound links from `src/data/projects.ts`
+- **GitHub / LinkedIn / Medium / mailto**: outbound profile links (footer, contact)
+- **Vercel**: hosting + build pipeline
 
 ## Security Boundaries
 
@@ -92,9 +105,6 @@ Source of truth: CSS variables in `src/app/globals.css`, mirrored as Tailwind th
 ## Known Constraints / Trade-offs
 
 - OG image (`/og-cover.jpg`) referenced but not yet provided.
-- Site is fully static — any future dynamic content (analytics, form submissions) would require introducing a route handler.
-- `framer-motion` is imported both directly (about/projects/contact use `motion.*`) and via the `MotionDiv` wrapper (home, projects) — minor inconsistency since the wrapping pattern is only useful when the *parent* is a server component.
-
-## Planned (Tier 2)
-
-The implementation plan at `docs/plans/2026-05-19-architect-redesign-implementation.md` describes the Expressive layer (Bundle B) — ten artistic moves to be layered on top of the current foundation. New dep on landing: Lenis (~12kb).
+- Site screenshots in `public/projects/*.jpg` are 800px wide; soft when shown large.
+- Strong visual theme: new sections need to fit the panel and quest vocabulary.
+- Site is fully static. Any future dynamic content (analytics, form submissions) would require a route handler.

@@ -7,44 +7,50 @@ All execution entry points for the portfolio repo.
 Path: package.json (`scripts.dev` = `next dev`, `scripts.start` = `next start`, `scripts.build` = `next build`)
 Responsibility: Boot the Next.js 15 App Router server; serves all routes.
 Invokes: src/app/layout.tsx → each route segment
-Depends On: next, react, react-dom, next.config.ts, tsconfig.json
+Depends On: next, react, react-dom, lenis, next.config.ts, tsconfig.json
+
+## Browser Preview Config
+
+Path: .claude/launch.json (`dev` configuration: `npm run dev` on port 3000)
+Responsibility: Lets the Claude desktop browser preview start the dev server.
+Invokes: package.json `dev` script
 
 ## Root Layout
 
 Path: src/app/layout.tsx
-Responsibility: HTML shell, font variables (Geist sans, Geist Mono, Fraunces serif), global CSS, persistent Navbar/Footer chrome.
-Invokes: src/components/Navbar.tsx, src/components/Footer.tsx, src/app/globals.css
+Responsibility: HTML shell, font variables (Dela Gothic One, DotGothic16, Zen Kaku Gothic New), global CSS, graph-paper body, persistent SmoothScroll/Navbar/Footer, metadata.
+Invokes: src/components/SmoothScroll.tsx, src/components/Navbar.tsx, src/components/Footer.tsx, src/app/globals.css
 Depends On: next/font/google
 
-## Route: `/` (Home)
+## Route: `/` (Home, nav label QUESTS)
 
 Path: src/app/page.tsx
-Responsibility: Hero, capabilities (skills grouped into Web / Cloud / Database / Platforms & CRM), featured projects strip.
-Invokes: src/components/MotionWrapper.tsx (MotionDiv)
-Depends On: framer-motion, react-icons, next/image, next/link
+Responsibility: Speed-line hero panels, Main Quests (apps), Beats & Backlog side story, Quest Log (sites), CONTINUE? call to action.
+Invokes: src/data/projects.ts, src/components/{Panel,QuestCard,QuestLogRow,SectionHeading,StatusTag}.tsx
+Depends On: next/image, next/link
 
-## Route: `/about`
-
-Path: src/app/about/page.tsx
-Responsibility: Bio, expertise cards, professional timeline, principles, beyond-tech sections.
-Invokes: —
-Depends On: framer-motion, react-icons/fa, next/image
-
-## Route: `/projects`
+## Route: `/projects` (QUEST LOG)
 
 Path: src/app/projects/page.tsx
-Responsibility: Three project entries (Rooted Legacy, Reality Saving, The Motions) with alternating image/copy layout.
-Invokes: src/components/MotionWrapper.tsx
-Depends On: framer-motion, next/image
+Responsibility: Every app, the side story and every site, with their longer write-ups.
+Invokes: src/data/projects.ts, src/components/{QuestCard,QuestLogRow,SectionHeading}.tsx
+Depends On: next (Metadata type)
 
-## Route: `/contact`
+## Route: `/about` (PLAYER)
+
+Path: src/app/about/page.tsx
+Responsibility: Portrait, bio, stats panel, save-history job timeline (content inline).
+Invokes: src/components/{Panel,SectionHeading}.tsx
+Depends On: next/image
+
+## Route: `/contact` (CONTINUE?)
 
 Path: src/app/contact/page.tsx
-Responsibility: Services overview, Cal.com booking CTA, social channel list.
-Invokes: External: cal.com, github.com, linkedin.com, medium.com, mailto
-Depends On: framer-motion, react-icons/fa
+Responsibility: Option menu: book a call, email, GitHub, LinkedIn, Medium.
+Invokes: External: cal.com, mailto, github.com, linkedin.com, medium.com
+Depends On: next (Metadata type)
 
 ## Notes
 
-- No API handlers. No middleware. No CLI scripts, workers, cron, Kafka consumers, or Lambda handlers.
-- Static assets served from `public/` by Next.js. Project images expected at `public/projects/*.jpg`.
+- No API handlers. No middleware. No CLI scripts, workers, cron, queues or serverless handlers.
+- Static assets served from `public/`: `profile.jpg` and `projects/*.{png,jpg}`.

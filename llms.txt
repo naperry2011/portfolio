@@ -1,56 +1,58 @@
 # Cyberlounge Portfolio
 
-> Personal portfolio + lead-gen site (cyberlounge.net) for Nicholas Perry — positioned as a digital architect with defined taste. Built on Next.js 15 App Router.
+> Personal portfolio (cyberlounge.net) for Nicholas Perry: an anime and gaming "quest log notebook" showing the apps and sites he builds, with a Cal.com booking link. Built on Next.js 15 App Router.
 
 ## Project Overview
 
-**Tech Stack:** Next.js 15.5.18, React 19, TypeScript, Tailwind CSS 3, Framer Motion 12
-**Status:** Active (Architect Tier 1 landed on `main`; Tier 2 Expressive layer planned)
-**Purpose:** Showcase projects, communicate capabilities, route prospects to a Cal.com booking flow
+**Tech Stack:** Next.js 15.5.18, React 19, TypeScript, Tailwind CSS 3, Lenis
+**Status:** Active (quest-log redesign, ADR-007, built 2026-10-25)
+**Purpose:** Show current apps and sites in Nicholas's own voice, and route people to a Cal.com call
 
 ## Core Documentation
 
-- `README.md` — Setup and getting started
-- `CODE_MAP.md` — Feature-to-file map
-- `docs/ai/memory.md` — Project history and current state
-- `docs/ai/roadmap.md` — Forward-looking priorities
-- `docs/ai/tasks.md` — Active work + tech-debt list
-- `docs/ai/decisions.md` — Architecture decisions (ADR-001 through ADR-006)
-- `docs/ai/architecture.md` — System design + Architect design tokens
-- `docs/plans/2026-05-19-architect-redesign-design.md` — Approved design doc for the Architect direction
-- `docs/plans/2026-05-19-architect-redesign-implementation.md` — 24-task implementation plan across 3 tiers
-- `ENTRY_POINTS.md` — Where execution starts
-- `DATA_FLOW.md` — System-level data movement
-- `FEATURE_BOUNDARIES.md` — Component responsibilities
-- `IMPORT_GRAPH_SUMMARY.md` — Coupling overview
+- `README.md`: setup and getting started
+- `CODE_MAP.md`: feature-to-file map (current)
+- `docs/ai/memory.md`: project history, current state, project roster (current)
+- `docs/ai/decisions.md`: architecture decisions; ADR-007 is the current design, ADR-002/003/005/006 are superseded
+- `docs/ai/roadmap.md`, `docs/ai/tasks.md`: forward-looking priorities and tech debt (written before the redesign)
+- `docs/ai/architecture.md`: system design and design tokens (current)
+- `ENTRY_POINTS.md`, `DATA_FLOW.md`, `FEATURE_BOUNDARIES.md`, `IMPORT_GRAPH_SUMMARY.md`: entry points, data movement, responsibilities, coupling (current)
+- `docs/plans/2026-05-19-architect-redesign-*.md`: historical plans for the superseded Architect design
 
 ## Key Files by Area
 
 ### Site shell
-- `src/app/layout.tsx` — Root layout, fonts (Geist sans/mono + Fraunces serif), metadata + metadataBase, Navbar/Footer mount
-- `src/components/Navbar.tsx` — Top nav with accent underline on active route + mobile menu
-- `src/components/Footer.tsx` — Footer with title-block treatment (corner labels + hairlines)
-- `src/components/Frame.tsx` — Reusable title-block motif (corner-metadata slots + hairlines around content)
-- `src/app/globals.css` — Design tokens (`--background`, `--ink`, `--muted`, `--rule`, `--surface`, `--accent`, `--hero-opsz`) + utility classes (`.label`, `.label-ink`, `.rule`, `.hero-opsz`, `.link-accent`)
-- `tailwind.config.ts` — Tailwind theme mapping CSS variables + strict 1.250 type scale (up to `9xl` 168px)
+- `src/app/layout.tsx`: root layout, fonts (Dela Gothic One display, DotGothic16 pixel, Zen Kaku Gothic New body), metadata, Navbar/Footer mount, graph-paper body
+- `src/components/Navbar.tsx`: pixel-font nav (QUESTS / QUEST LOG / PLAYER / CONTACT) with a ▶ cursor on the active route and a MENU/CLOSE mobile menu
+- `src/components/Footer.tsx`: black strip with external links
+- `src/components/SmoothScroll.tsx`: Lenis smooth scroll
+- `src/app/globals.css`: color tokens (`--background`, `--ink`, `--muted`, `--body`, `--rule`, `--grid`, `--surface`, `--accent`, `--cleared`) and manga utilities (`.paper`, `.tone`, `.speed`, `.panel`), plus the View Transitions wipe
+- `tailwind.config.ts`: theme colors mirroring the CSS variables, `font-display` / `font-pixel` / `font-sans`
+
+### Content
+- `src/data/projects.ts`: single source of truth for projects: `apps` (main quests), `sideStory` (Beats & Backlog), `sites` (quest log). Each entry has status, blurb, longer description, meta, image and links
+- `public/projects/`: app store feature graphics (`*.png`, 1024x500) and live-site screenshots (`*.jpg`, 16:10)
+
+### Shared components
+- `src/components/Panel.tsx`: comic panel box (plain / tone / speed / ink)
+- `src/components/StatusTag.tsx`: status label colored by tone
+- `src/components/QuestCard.tsx`: app card with store graphic
+- `src/components/QuestLogRow.tsx`: site row with screenshot
+- `src/components/SectionHeading.tsx`: display heading with pixel note and ink rule
 
 ### Pages (all static)
-- `src/app/page.tsx` — Home: top title-block strip, massive Fraunces "Nicholas / Perry" hero, framed Capabilities (4 skill groups incl. Platforms & CRM / GoHighLevel), framed Selected Work
-- `src/app/about/page.tsx` — `002 / ABOUT` strip, portrait+dossier hero, framed Expertise / Experience / Practice sections
-- `src/app/projects/page.tsx` — `003 / PROJECTS — INDEX` strip, "Projects." hero, three full-width framed plates with corner metadata
-- `src/app/contact/page.tsx` — `004 / CONTACT` strip, "Let's talk." hero, two-column card (Schedule / Channels)
-
-### Shared
-- `src/components/MotionWrapper.tsx` — Client-boundary `MotionDiv` re-export
+- `src/app/page.tsx`: Home: speed-line hero panels, Main Quests, Beats & Backlog side story, Quest Log, CONTINUE? call to action
+- `src/app/projects/page.tsx`: Quest Log: every app and site with its longer write-up
+- `src/app/about/page.tsx`: Player profile: portrait, bio, stats, save-history job timeline
+- `src/app/contact/page.tsx`: CONTINUE? option menu (book a call, email, GitHub, LinkedIn, Medium)
 
 ## Common Tasks
 
-**To run locally:** `npm install && npm run dev` → http://localhost:3000
+**To run locally:** `npm install && npm run dev` (http://localhost:3000), or start the `dev` config in `.claude/launch.json`
 **To build:** `npm run build && npm start`
 **To lint:** `npm run lint`
-**To change the design system:** edit both `src/app/globals.css` (CSS vars) AND `tailwind.config.ts` (theme tokens) — they must stay in sync.
-**To add a project:** append to the `projects` array in `src/app/projects/page.tsx` and the `featuredProjects` array in `src/app/page.tsx`; drop the image at `public/projects/<slug>.{jpg,webp}`.
-**To kick off Tier 2:** follow `docs/plans/2026-05-19-architect-redesign-implementation.md` tasks 12–22.
+**To change colors:** edit both `src/app/globals.css` (CSS vars) and `tailwind.config.ts` (theme colors); they must stay in sync.
+**To add or change a project:** edit `src/data/projects.ts` and drop the image in `public/projects/`. Home and Projects update together. Use the project's own README or site for copy.
 
 ## Environment Variables
 
