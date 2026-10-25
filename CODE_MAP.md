@@ -1,6 +1,6 @@
 # CODE_MAP
 
-Feature-oriented index of the portfolio repo (Next.js 15 App Router, React 19, Tailwind, Framer Motion).
+Feature-oriented index of the portfolio repo (Next.js 15 App Router, React 19, Tailwind 3). Design: quest-log notebook (see ADR-007 in `docs/ai/decisions.md`).
 
 ## Site Shell / Layout
 
@@ -11,29 +11,43 @@ Primary Files:
 - src/app/template.tsx
 - src/components/Navbar.tsx
 - src/components/Footer.tsx
-- src/components/Frame.tsx
 - src/components/SmoothScroll.tsx
-- src/components/Grain.tsx
-- src/components/AmbientCursor.tsx
-- src/components/SplitText.tsx
-- src/components/Marquee.tsx
-- src/components/RevealImage.tsx
-- src/components/TiltCard.tsx
-- src/components/ReactiveText.tsx
-- src/components/TickRule.tsx
-- src/components/DirectionalArrow.tsx
-- src/components/LeaderLine.tsx
 
 Supporting Files:
-- src/app/globals.css
-- src/components/MotionWrapper.tsx
+- src/app/globals.css (color tokens + `.paper`, `.tone`, `.speed`, `.panel` utilities + view-transition wipe)
+- tailwind.config.ts (mirrors the color tokens; `font-display`, `font-pixel`, `font-sans`)
 
 External Integrations:
-- next/font/google (Geist sans, Geist Mono, Fraunces serif)
-- react-icons
+- next/font/google (Dela Gothic One display, DotGothic16 pixel, Zen Kaku Gothic New body)
+- lenis (smooth scroll)
 
 Entry Points:
 - RootLayout default export (wraps all route segments)
+
+## Project Data
+
+Category: Content
+
+Primary Files:
+- src/data/projects.ts (`apps`, `sideStory`, `sites`; each entry has status, blurb, longer description, meta, image, links)
+
+Supporting Files:
+- public/projects/*.png (app store feature graphics, 1024x500)
+- public/projects/*.jpg (live-site homepage screenshots, 16:10)
+
+Entry Points:
+- Imported by the Home and Projects pages
+
+## Shared Components
+
+Category: UI
+
+Primary Files:
+- src/components/Panel.tsx (bordered comic panel; variants plain / tone / speed / ink)
+- src/components/StatusTag.tsx (status label colored by tone: active red, cleared green, neutral grey)
+- src/components/QuestCard.tsx (app card with store graphic; `detailed` shows the long description)
+- src/components/QuestLogRow.tsx (site row with screenshot; `detailed` shows the long description)
+- src/components/SectionHeading.tsx (display heading + pixel note + ink rule)
 
 ## Home Page
 
@@ -43,31 +57,15 @@ Primary Files:
 - src/app/page.tsx
 
 Supporting Files:
-- src/components/MotionWrapper.tsx
-- public/projects/{rooted-legacy,reality-saving,the-motions}.jpg (referenced; user supplies actual files)
+- src/data/projects.ts
+- Panel, QuestCard, QuestLogRow, SectionHeading, StatusTag
 
 External Integrations:
-- framer-motion (via MotionDiv)
-- react-icons/{fa,si}
 - next/image, next/link
+- External link: cal.com/cybercap2011
 
 Entry Points:
-- Route: `/`
-
-## About Page
-
-Category: UI
-
-Primary Files:
-- src/app/about/page.tsx
-
-External Integrations:
-- framer-motion
-- react-icons/fa
-- next/image
-
-Entry Points:
-- Route: `/about`
+- Route: `/` (nav label QUESTS)
 
 ## Projects Page
 
@@ -77,32 +75,43 @@ Primary Files:
 - src/app/projects/page.tsx
 
 Supporting Files:
-- src/components/MotionWrapper.tsx
-- public/projects/{rooted-legacy,reality-saving,the-motions}.jpg
+- src/data/projects.ts
+- QuestCard, QuestLogRow, SectionHeading
 
 External Integrations:
-- framer-motion
-- next/image
-- Outbound: three live project URLs (rooted-legacy-phi.vercel.app, reality-saving.vercel.app, the-motions.vercel.app)
+- Outbound links to each project's live site and GitHub repo (from `projects.ts`)
 
 Entry Points:
-- Route: `/projects`
+- Route: `/projects` (nav label QUEST LOG)
+
+## About Page
+
+Category: UI
+
+Primary Files:
+- src/app/about/page.tsx (bio, stats, save-history job timeline; content inline)
+
+Supporting Files:
+- public/profile.jpg
+- Panel, SectionHeading
+
+Entry Points:
+- Route: `/about` (nav label PLAYER)
 
 ## Contact Page
 
 Category: UI
 
 Primary Files:
-- src/app/contact/page.tsx
+- src/app/contact/page.tsx (CONTINUE? option menu; options inline)
 
 External Integrations:
-- framer-motion
-- react-icons/fa
 - External link: cal.com/cybercap2011 (scheduling)
 - mailto: link (no server email path)
+- GitHub, LinkedIn, Medium profile links
 
 Entry Points:
-- Route: `/contact`
+- Route: `/contact` (nav label CONTACT)
 
 ## Build / Tooling
 
@@ -110,12 +119,13 @@ Category: Infra
 
 Primary Files:
 - package.json
-- next.config.ts
+- next.config.ts (experimental `viewTransition`)
 - tsconfig.json
 - tailwind.config.ts
 - postcss.config.mjs
 - eslint.config.mjs
 - .eslintrc.json
+- .claude/launch.json (`dev` config for the browser preview)
 
 External Integrations:
 - Next.js build/dev server
@@ -127,6 +137,6 @@ Entry Points:
 
 ## Notes
 
-- No API routes, no database, no workers, no cron, no tests.
-- Three font families loaded via next/font/google: Geist (sans), Geist Mono, Fraunces (serif).
-- Design system tokens are CSS variables in `src/app/globals.css`, mirrored as Tailwind theme colors in `tailwind.config.ts`.
+- No API routes, no database, no workers, no cron, no tests. All routes are static.
+- Color tokens are CSS variables in `src/app/globals.css`, mirrored as Tailwind theme colors in `tailwind.config.ts`. Change both together.
+- To add or change a project: edit `src/data/projects.ts` and drop the image in `public/projects/`. Home and Projects update together.

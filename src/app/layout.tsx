@@ -1,44 +1,44 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Fraunces } from "next/font/google";
+import { Dela_Gothic_One, DotGothic16, Zen_Kaku_Gothic_New } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SmoothScroll from "@/components/SmoothScroll";
-import Grain from "@/components/Grain";
-import AmbientCursor from "@/components/AmbientCursor";
 
-const sans = Geist({ subsets: ["latin"], variable: "--font-sans" });
-const mono = Geist_Mono({ subsets: ["latin"], variable: "--font-mono" });
-const serif = Fraunces({ subsets: ["latin"], variable: "--font-serif", axes: ["opsz"] });
+const display = Dela_Gothic_One({ subsets: ["latin"], weight: "400", variable: "--font-display" });
+const pixel = DotGothic16({ subsets: ["latin"], weight: "400", variable: "--font-pixel" });
+const sans = Zen_Kaku_Gothic_New({ subsets: ["latin"], weight: ["400", "500", "700"], variable: "--font-sans" });
+
+const title = "Cyberlounge | Nicholas Perry";
+const description =
+  "Nicholas Perry builds apps and websites: two cookout card games, a reading journal, and an app that pays you to poop.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://cyberlounge.net"),
-  title: "Cyberlounge | Software & Cloud Consulting",
-  description: "Independent software and cloud development for teams that need to ship.",
+  title,
+  description,
   openGraph: {
-    title: "Cyberlounge | Software & Cloud Consulting",
-    description: "Independent software and cloud development for teams that need to ship.",
+    title,
+    description,
     url: "https://cyberlounge.net",
     siteName: "Cyberlounge",
-    images: [{ url: "/og-cover.jpg", width: 1200, height: 630, alt: "Cyberlounge — Software & Cloud Consulting" }],
+    images: [{ url: "/og-cover.jpg", width: 1200, height: 630, alt: "Cyberlounge, the quest log of Nicholas Perry" }],
     locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Cyberlounge | Software & Cloud Consulting",
-    description: "Independent software and cloud development for teams that need to ship.",
+    title,
+    description,
     images: ["/og-cover.jpg"],
   },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${sans.variable} ${mono.variable} ${serif.variable}`}>
-      <body className="antialiased">
+    <html lang="en" className={`${display.variable} ${pixel.variable} ${sans.variable}`}>
+      <body className="paper antialiased">
         <SmoothScroll />
-        <Grain />
-        <AmbientCursor />
         <Navbar />
         <main className="pt-16">{children}</main>
         <Footer />

@@ -11,16 +11,18 @@ export default {
       colors: {
         background: "var(--background)",
         ink: "var(--ink)",
-        foreground: "var(--ink)",   // alias for any leftover references
         muted: "var(--muted)",
+        body: "var(--body)",
         rule: "var(--rule)",
+        grid: "var(--grid)",
         surface: "var(--surface)",
         accent: "var(--accent)",
+        cleared: "var(--cleared)",
       },
       fontFamily: {
         sans: ["var(--font-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
-        serif: ["var(--font-serif)", "Georgia", "serif"],
-        mono: ["var(--font-mono)", "ui-monospace", "SFMono-Regular", "monospace"],
+        display: ["var(--font-display)", "ui-sans-serif", "system-ui", "sans-serif"],
+        pixel: ["var(--font-pixel)", "ui-monospace", "monospace"],
       },
       // Strict 1.250 (major third) scale
       fontSize: {

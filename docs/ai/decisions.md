@@ -29,7 +29,7 @@ Use Next.js 15 (App Router) deployed to Vercel. TypeScript, Tailwind, React 19.
 ## ADR-002: Client-boundary re-export for Framer Motion
 
 **Date:** 2025
-**Status:** Accepted
+**Status:** Superseded by ADR-007 (2026-10-25: `MotionWrapper` and `framer-motion` removed)
 
 **Context**
 `framer-motion`'s `motion.*` components need a client boundary, but pages that are otherwise server-component-friendly want animated wrappers.
@@ -51,7 +51,7 @@ Use Next.js 15 (App Router) deployed to Vercel. TypeScript, Tailwind, React 19.
 ## ADR-003: Minimal dark editorial design system
 
 **Date:** 2026-05-19
-**Status:** Accepted (supersedes the original cyberpunk visual direction)
+**Status:** Superseded by ADR-007 (originally superseded the cyberpunk visual direction)
 
 **Context**
 The original portfolio used a cyberpunk aesthetic (neon green/cyan, bracket-wrapped wordmark, grid backgrounds, glow text effects). For a consultancy/portfolio surface, this read as unserious and dated. Goal: present as a mature independent consultant.
@@ -96,7 +96,7 @@ Delete `src/app/blog/`, `src/app/api/medium-posts/`, and uninstall `rss-parser`,
 ## ADR-005: Architect redesign — visible system motif
 
 **Date:** 2026-05-19
-**Status:** Accepted (extends ADR-003)
+**Status:** Superseded by ADR-007 (originally extended ADR-003)
 
 **Context**
 After ADR-003 (minimal dark editorial) shipped, the result read as competent but generic. User wanted a sharper, more distinctive identity — positioning as a "digital architect with defined taste" rather than another minimalist consultancy.
@@ -119,7 +119,7 @@ Adopt a *visible-system* aesthetic centered on three signature elements: (1) a t
 ## ADR-006: Expressive layer over Architect foundation (Tier 2)
 
 **Date:** 2026-05-19
-**Status:** Accepted (extends ADR-005) — *planned, not yet shipped*
+**Status:** Superseded by ADR-007 (shipped 2026-05-19; only Lenis smooth scroll and the View Transitions wipe were kept)
 
 **Context**
 After designing the Architect foundation, the user judged it still too restrained: *"I want some animation, something that feels artistic."* The Architect's discipline needed expressive layers to feel authored rather than designed-by-template.
@@ -137,3 +137,29 @@ Adopt **Bundle B (Expressive)**: ten artistic moves layered on top of Architect,
 - Bundle C (Maximalist with sticky scroll storytelling + word-swap) — too much; risk of feeling like Too Much
 
 ---
+
+## ADR-007: Quest-log notebook design (anime and gaming)
+
+**Date:** 2026-10-25
+**Status:** Accepted (supersedes ADR-002, ADR-003, ADR-005, ADR-006)
+
+**Context**
+The Architect design (title-block frames, drawing-sheet labels, consultancy copy) read as "too corpo." The user wanted the site to feel free and personal, and to reflect that they are an anime and gaming nerd. Five directions were mocked on a claude.ai design canvas; mocks built from stock copy and generic UI tropes were rejected as looking AI-made. The user picked a Lab/Notebook direction restyled as a manga sketchbook crossed with a game quest log.
+
+**Decision**
+- **Ground and palette:** graph-paper background `#fbfbf9`, ink `#111111`, one manga-red accent `#d42a20`, cleared-green `#1a6b33`.
+- **Type:** Dela Gothic One for display, DotGothic16 pixel font for menus and labels (matches the pixel art in the user's apps), Zen Kaku Gothic New for body.
+- **Manga motifs:** CSS utilities in `globals.css`: `.paper`, `.tone` (screentone), `.speed` (speed lines), `.panel` (4px ink border).
+- **Game framing:** apps are MAIN QUESTS; sites are the QUEST LOG with statuses (CLEARED, IN PROGRESS, CLIENT TEMPLATE); About is a PLAYER profile with a save-history timeline; Contact is a CONTINUE? menu.
+- **Content:** all project content moves into `src/data/projects.ts` as the single source for Home and Projects. Copy is drawn from each project's README or live site.
+- **Removed:** the Architect components, the expressive layer (grain, ambient cursor, tilt and similar), `framer-motion` and `react-icons`. Lenis smooth scroll and the View Transitions wipe are kept.
+
+**Consequences**
+- **Positive:** Distinctive and personal; the site shows the user's real apps and their own voice instead of a consultancy pitch. Fewer dependencies, every page is a server component except the nav and smooth scroll.
+- **Negative:** Strong theme means every new section must fit the panel and quest vocabulary. Japanese characters in the nav fall back to the system font (no Japanese subset via `next/font`).
+- **Neutral:** Adding a project is now a data edit in one file plus an image in `public/projects/`.
+
+**Alternatives considered**
+- Lounge (warm dark, conversational): liked, but less personal than the anime/gaming take
+- Poster (loud color, collage): too loud to live with
+- Lab + Lounge mix: an intermediate step; folded into this direction
