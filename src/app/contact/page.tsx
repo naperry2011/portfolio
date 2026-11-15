@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import type { CSSProperties } from 'react';
+import Countdown from '@/components/Countdown';
 
 export const metadata: Metadata = {
   title: 'Continue? | Cyberlounge',
@@ -21,6 +22,9 @@ export default function Contact() {
       <div className="mx-auto max-w-3xl text-center [container-type:inline-size]">
         <p className="font-pixel text-[#a8a8b3]">FILE 04 / CONTINUE</p>
         <h1 className="mt-4 font-display text-[clamp(32px,12.5cqi,112px)] leading-none">CONTINUE?</h1>
+        <p className="mt-4">
+          <Countdown className="text-[clamp(48px,8vw,96px)] text-sun" />
+        </p>
         <p className="mx-auto mt-6 max-w-lg text-lg leading-relaxed text-[#d8d8de]">
           Got an app, a site, or an idea you can&apos;t stop thinking about? Pick an option. A quick call is
           the fastest way in.
@@ -42,7 +46,7 @@ export default function Contact() {
                 <span className="font-pixel text-xl sm:text-2xl">
                   <span
                     aria-hidden
-                    className={`text-accent ${i === 0 ? '' : 'invisible group-hover:visible group-focus-visible:visible'}`}
+                    className={`text-accent ${i === 0 ? 'blink' : 'invisible group-hover:visible group-focus-visible:visible'}`}
                   >
                     ▶{' '}
                   </span>

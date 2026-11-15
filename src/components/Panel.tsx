@@ -16,12 +16,14 @@ interface PanelProps {
   className?: string;
   /* Used to pass a project's color as the `--c` custom property */
   style?: CSSProperties;
+  /* Fade and rise in when scrolled into view (see RevealObserver) */
+  reveal?: boolean;
   children: ReactNode;
 }
 
-export default function Panel({ variant = 'plain', as: Tag = 'div', className = '', style, children }: PanelProps) {
+export default function Panel({ variant = 'plain', as: Tag = 'div', className = '', style, reveal, children }: PanelProps) {
   return (
-    <Tag className={`panel ${variants[variant]} ${className}`} style={style}>
+    <Tag className={`panel ${variants[variant]} ${className}`} style={style} data-reveal={reveal ? '' : undefined}>
       {children}
     </Tag>
   );

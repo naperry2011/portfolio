@@ -21,17 +21,18 @@ High-level coupling overview. Repo is small; graph is shallow and tree-shaped.
 
 ## Cross-Module Edges
 
-- Layout → SmoothScroll, Navbar, Footer
-- Home → data, Panel, QuestCard, QuestLogRow, SectionHeading, StatusTag
+- Layout → SmoothScroll, RevealObserver, Navbar, Footer
+- Home → data, Panel, QuestCard, QuestLogRow, SectionHeading, StatusTag, TypeLine, Countdown
 - Projects → data, QuestCard, QuestLogRow, SectionHeading
 - About → Panel, SectionHeading
-- Contact → none (self-contained)
+- Contact → Countdown
+- opengraph-image → next/og only
 - QuestCard → Panel, StatusTag, data (types); QuestLogRow → StatusTag, data (types); StatusTag → data (types)
 - No page imports another page.
 
 ## Client Boundaries
 
-- `'use client'`: Navbar, SmoothScroll, src/app/template.tsx
+- `'use client'`: Navbar, SmoothScroll, RevealObserver, TypeLine, src/app/template.tsx
 - Everything else, including all pages and shared UI components, is a server component.
 
 ## Circular Dependencies

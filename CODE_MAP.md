@@ -12,6 +12,8 @@ Primary Files:
 - src/components/Navbar.tsx
 - src/components/Footer.tsx
 - src/components/SmoothScroll.tsx
+- src/components/RevealObserver.tsx (scroll reveals: sets data-in on [data-reveal] elements)
+- src/app/opengraph-image.tsx (generated share card)
 
 Supporting Files:
 - src/app/globals.css (color tokens + `.paper`, `.tone`, `.speed`, `.panel` utilities + view-transition wipe)
@@ -44,10 +46,12 @@ Category: UI
 
 Primary Files:
 - src/components/Panel.tsx (bordered comic panel; variants plain / tone / sun / speed / ink; optional `style`)
-- src/components/StatusTag.tsx (status label colored by tone: active red, cleared green, neutral grey)
+- src/components/StatusTag.tsx (status label colored by tone: active red, cleared green, neutral grey; `stamp` renders CLEARED as a tilted stamp)
 - src/components/QuestCard.tsx (app card with store graphic and colored offset shadow; `detailed` shows the long description)
 - src/components/QuestLogRow.tsx (site row with screenshot, colored thumbnail shadow and hover tint; `detailed` shows the long description)
-- src/components/SectionHeading.tsx (display heading + pixel note + colored XP bar via `color` prop)
+- src/components/SectionHeading.tsx (display heading + pixel note + colored XP bar that fills on scroll; optional `ghost` katakana)
+- src/components/TypeLine.tsx (client; types the hero dialogue line)
+- src/components/Countdown.tsx (9 to 0 arcade counter on CONTINUE? screens)
 
 ## Home Page
 

@@ -19,15 +19,21 @@ Invokes: package.json `dev` script
 
 Path: src/app/layout.tsx
 Responsibility: HTML shell, font variables (Dela Gothic One, DotGothic16, Zen Kaku Gothic New), global CSS, graph-paper body, persistent SmoothScroll/Navbar/Footer, metadata.
-Invokes: src/components/SmoothScroll.tsx, src/components/Navbar.tsx, src/components/Footer.tsx, src/app/globals.css
+Invokes: src/components/SmoothScroll.tsx, src/components/RevealObserver.tsx, src/components/Navbar.tsx, src/components/Footer.tsx, src/app/globals.css
 Depends On: next/font/google
 
 ## Route: `/` (Home, nav label QUESTS)
 
 Path: src/app/page.tsx
-Responsibility: Speed-line hero panels, Main Quests (apps), Beats & Backlog side story, Quest Log (sites), CONTINUE? call to action.
+Responsibility: Manga splash hero (portrait panel, typed dialogue), Main Quests (apps), Beats & Backlog side story, Quest Log (sites), CONTINUE? call to action.
 Invokes: src/data/projects.ts, src/components/{Panel,QuestCard,QuestLogRow,SectionHeading,StatusTag}.tsx
 Depends On: next/image, next/link
+
+## Route: `/opengraph-image`
+
+Path: src/app/opengraph-image.tsx
+Responsibility: Generates the 1200x630 share card at build time.
+Depends On: next/og
 
 ## Route: `/projects` (QUEST LOG)
 

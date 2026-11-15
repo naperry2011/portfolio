@@ -77,6 +77,22 @@ Communicates With:
 
 Isolation Level: Strong
 
+## Motion (src/components/{RevealObserver,TypeLine,Countdown}.tsx + globals.css)
+
+Owns:
+- RevealObserver: deciding when a `[data-reveal]` element has entered the viewport (sets `data-in`, adds `.reveal-ready` to `<html>`)
+- TypeLine: the typed hero dialogue line
+- Countdown: the CONTINUE? counter
+- globals.css: every keyframe, transition and the reduced-motion switch
+
+Does NOT Own:
+- Which elements animate (components opt in with `data-reveal`, `.slam`, `.pressable`)
+
+Communicates With:
+- next/navigation (RevealObserver re-scans on route change)
+
+Isolation Level: Strong
+
 ## SmoothScroll (src/components/SmoothScroll.tsx)
 
 Owns:

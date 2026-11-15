@@ -21,7 +21,7 @@ export default function Projects() {
       </header>
 
       <section aria-labelledby="apps-h" className="pb-24">
-        <SectionHeading id="apps-h" title="MAIN QUESTS" note="apps in active development" color="var(--accent)" />
+        <SectionHeading id="apps-h" title="MAIN QUESTS" note="apps in active development" color="var(--accent)" ghost="クエスト" />
         <div className="mt-7 grid grid-cols-1 gap-5 md:grid-cols-2">
           {apps.map((app, i) => (
             <QuestCard key={app.slug} project={app} detailed priority={i < 2} />
@@ -30,14 +30,14 @@ export default function Projects() {
       </section>
 
       <section aria-labelledby="side-h" className="pb-24">
-        <SectionHeading id="side-h" title="SIDE STORY" note="anime, games and music" color="var(--mustard)" />
+        <SectionHeading id="side-h" title="SIDE STORY" note="anime, games and music" color="var(--mustard)" ghost="サイド" />
         <ul className="border-4 border-t-0 border-ink bg-surface">
           <QuestLogRow project={sideStory} detailed />
         </ul>
       </section>
 
       <section aria-labelledby="sites-h">
-        <SectionHeading id="sites-h" title="SITES" note="live, in progress and client work" color="var(--cobalt)" />
+        <SectionHeading id="sites-h" title="SITES" note="live, in progress and client work" color="var(--cobalt)" ghost="ログ" />
         <ul className="border-4 border-t-0 border-ink bg-surface">
           {sites.map((site) => (
             <QuestLogRow key={site.slug} project={site} detailed />

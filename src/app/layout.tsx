@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SmoothScroll from "@/components/SmoothScroll";
+import RevealObserver from "@/components/RevealObserver";
 
 const display = Dela_Gothic_One({ subsets: ["latin"], weight: "400", variable: "--font-display" });
 const pixel = DotGothic16({ subsets: ["latin"], weight: "400", variable: "--font-pixel" });
@@ -22,7 +23,6 @@ export const metadata: Metadata = {
     description,
     url: "https://cyberlounge.net",
     siteName: "Cyberlounge",
-    images: [{ url: "/og-cover.jpg", width: 1200, height: 630, alt: "Cyberlounge, the quest log of Nicholas Perry" }],
     locale: "en_US",
     type: "website",
   },
@@ -30,7 +30,6 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title,
     description,
-    images: ["/og-cover.jpg"],
   },
 };
 
@@ -39,6 +38,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en" className={`${display.variable} ${pixel.variable} ${sans.variable}`}>
       <body className="paper antialiased">
         <SmoothScroll />
+        <RevealObserver />
         <Navbar />
         <main className="pt-16">{children}</main>
         <Footer />

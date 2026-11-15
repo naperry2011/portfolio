@@ -11,6 +11,7 @@ Running history of what's been built and current state. Update after major chang
 ### What's Working
 - Next.js 15.5.18 App Router site with 4 page routes: `/` (QUESTS), `/projects` (QUEST LOG), `/about` (PLAYER), `/contact` (CONTINUE?)
 - Quest-log notebook design system: graph-paper ground `#fbfbf9`, ink `#111111`, manga-red accent `#d42a20`, cleared-green `#1a6b33`, plus brights sun / cobalt / lilac / mint / mustard; Dela Gothic One display, DotGothic16 pixel labels, Zen Kaku Gothic New body
+- Motion pass (2026-11-14): manga splash hero with the portrait as a halftone panel, drifting speed lines, slam-in entrance, typed dialogue box; scroll reveals, XP bars that fill, press-able cards, ghost katakana, halftone fades and an arcade countdown on CONTINUE? screens; generated share image at `/opengraph-image`
 - Color per project: every project has a `color` from its art (offset shadows, hover tints); section headings have colored XP bars
 - Manga motifs as CSS utilities in `globals.css`: `.paper` (graph grid), `.tone` (screentone), `.speed` (speed lines), `.panel` (4px ink border)
 - All project content lives in `src/data/projects.ts` (`apps`, `sideStory`, `sites`); Home and Projects both read from it
@@ -26,15 +27,22 @@ Running history of what's been built and current state. Update after major chang
 - Source of truth for current work is the user's GitHub (naperry2011), not their Vercel project list
 
 ### Known Issues
-- `public/og-cover.jpg` referenced in layout metadata but not present yet; OG/Twitter cards have no image
+- Share image (`src/app/opengraph-image.tsx`) uses the default `next/og` font, not the display font
+- Reduced-motion styles are written but untested; tablet width, Projects and About were not re-checked by eye after the motion pass
 - Site screenshots in `public/projects/*.jpg` are only 800px wide (captured from the browser pane); soft at large sizes, replace with full-size captures. (The Beats & Backlog one was recaptured without the scrollbar on 2026-10-25.)
 - サイバーラウンジ in the nav renders in the system font: none of the three fonts ship a Japanese subset through `next/font`
 - About page has no "Currently into" section yet: waiting on the user's actual favorite anime/games (do not invent them)
 
 ### In Progress
-- Quest-log redesign is uncommitted; user reviews and commits in GitHub Desktop
+- Motion pass and its doc updates are uncommitted; user reviews and commits in GitHub Desktop
 
 ## Implementation History
+
+### 2026-11-14: Motion pass ("make it a scroll-stopper")
+**What was built:** Hero rebuilt as a manga splash page: `profile.jpg` as a tilted halftone portrait panel with a red shadow and PLAYER 1 tag, speed lines that drift (`.speed-spin`), panels that slam in staggered (`.slam` + `--i`), a ドン! sound effect, and the intro typed into an RPG dialogue box (`TypeLine`). Site-wide: `RevealObserver` + `[data-reveal]` scroll reveals, XP bars that fill, `.pressable` cards, ghost katakana behind headings, halftone fade into the black sections, `Countdown` on CONTINUE? screens, blinking ▶ cursors, CLEARED stamps on the Projects page. Added `src/app/opengraph-image.tsx` and removed the `og-cover.jpg` references.
+**Why:** User asked to make it stunning enough that a stranger stops scrolling. Higgsfield was not available in the session, so the pass uses the real portrait and app art plus CSS; no new dependencies.
+**Removed on request:** a scrolling ticker band under the hero. The user did not care for it; do not add it back.
+**Files affected:** `src/app/{page,globals.css,layout}`, `src/app/{contact,projects}/page.tsx`, `src/components/{Panel,QuestCard,QuestLogRow,SectionHeading,StatusTag,Navbar}.tsx`; new `src/components/{RevealObserver,TypeLine,Countdown}.tsx`, `src/app/opengraph-image.tsx`.
 
 ### 2026-10-25: Color pass, layout fixes, trainer project
 **What was built:** Color per project (`color` + `artBg` fields in `src/data/projects.ts`, passed to components as `--c`): colored offset shadows on app cards, colored thumbnail shadows and hover tints on quest-log rows, XP-bar section headings, sun-yellow hero panel, mustard side story, colored About shadows and SAVE badges, colored hover rows on the Contact menu. New tokens `--sun`, `--cobalt`, `--lilac`, `--mint`, `--mustard`; new `.tone-sun` utility and `sun` Panel variant. Added Trainer Website Packages to the Quest Log. Fixes: hero name and CONTINUE? sized to their boxes with container query units; nav switches to MENU below 1024px; Afterword card art fills spare height; nav background was transparent (opacity shorthand on a CSS-variable color); Beats & Backlog screenshot retaken without a scrollbar.
@@ -91,4 +99,8 @@ Single Next.js 15 App Router project, deployed to Vercel. React 19, TypeScript, 
 - Tailwind's opacity shorthand (`bg-background/90`) silently produces no color when the theme color is a plain CSS variable. Use `color-mix(in srgb, var(--x) 92%, transparent)` in an arbitrary value.
 - A heading sized with `vw` can still overflow a box that has a max width. Make the box a size container and use `cqi` units, then measure the text's right edge in the browser (a Range's bounding box) instead of trusting a screenshot.
 - Next caches optimized images in `.next/cache/images`; replacing a `public/` image under the same name keeps showing the old one until that folder is deleted.
+- An entrance animation owns `transform`, so static tilts and hover shifts on the same element must use the individual `rotate` / `translate` properties.
+- For scroll reveals without a no-JS penalty: mark what is already on screen first, then switch on the hidden state with a class on `<html>`.
+- A screenshot taken seconds after a dev-server first load can catch entrance animations mid-play; check `getAnimations()` before calling it a bug.
+- Long multi-file heredocs in one Bash call failed on this Windows setup; write files with the Write tool.
 - Running `npm run build` while the dev server runs overwrites `.next`; restart the dev server afterwards.

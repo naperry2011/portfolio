@@ -13,7 +13,7 @@ const navLinks: [string, string][] = [
 
 function Cursor({ active }: { active: boolean }) {
   return (
-    <span aria-hidden className={`text-accent ${active ? 'visible' : 'invisible'}`}>
+    <span aria-hidden className={`text-accent ${active ? 'blink' : 'invisible'}`}>
       ▶{' '}
     </span>
   );

@@ -16,7 +16,8 @@ export default function QuestCard({ project, className = '', detailed = false, p
   return (
     <Panel
       as="article"
-      className={`flex flex-col shadow-[8px_8px_0_var(--c)] ${className}`}
+      className={`pressable flex flex-col shadow-[8px_8px_0_var(--c)] ${className}`}
+      reveal
       style={{ '--c': project.color } as CSSProperties}
     >
       {/* Grows past 1024:500 when the card is stretched, so spare height shows more art instead of white space */}

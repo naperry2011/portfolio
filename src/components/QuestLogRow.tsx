@@ -15,6 +15,7 @@ export default function QuestLogRow({ project, detailed = false }: QuestLogRowPr
     <li
       className="flex flex-wrap items-center gap-x-6 gap-y-3 border-b-2 border-dashed border-rule px-5 py-4 transition-colors last:border-b-0 hover:bg-[color-mix(in_srgb,var(--c)_14%,white)]"
       style={{ '--c': project.color } as CSSProperties}
+      data-reveal=""
     >
       <div
         className={`relative aspect-[16/10] shrink-0 border-2 border-ink shadow-[4px_4px_0_var(--c)] ${detailed ? 'w-full sm:w-64' : 'w-36'}`}
@@ -39,7 +40,7 @@ export default function QuestLogRow({ project, detailed = false }: QuestLogRowPr
         <p className="mt-1 leading-relaxed text-body">{detailed ? project.description : project.blurb}</p>
         {detailed && <p className="mt-2 font-pixel text-sm text-muted">{project.meta}</p>}
       </div>
-      <StatusTag status={project.status} className="shrink-0" />
+      <StatusTag status={project.status} stamp={detailed} className="shrink-0" />
     </li>
   );
 }

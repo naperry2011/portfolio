@@ -26,6 +26,8 @@
 - `src/components/Navbar.tsx`: pixel-font nav (QUESTS / QUEST LOG / PLAYER / CONTACT) with a ▶ cursor on the active route and a MENU/CLOSE mobile menu
 - `src/components/Footer.tsx`: black strip with external links
 - `src/components/SmoothScroll.tsx`: Lenis smooth scroll
+- `src/components/RevealObserver.tsx`: scroll reveals (sets `data-in` on `[data-reveal]` elements; CSS animates)
+- `src/app/opengraph-image.tsx`: generated share card (`next/og`)
 - `src/app/globals.css`: color tokens (`--background`, `--ink`, `--muted`, `--body`, `--rule`, `--grid`, `--surface`, `--accent`, `--cleared`, plus brights `--sun`, `--cobalt`, `--lilac`, `--mint`, `--mustard`) and manga utilities (`.paper`, `.tone`, `.tone-sun`, `.speed`, `.panel`), plus the View Transitions wipe
 - `tailwind.config.ts`: theme colors mirroring the CSS variables, `font-display` / `font-pixel` / `font-sans`
 
@@ -38,10 +40,12 @@
 - `src/components/StatusTag.tsx`: status label colored by tone
 - `src/components/QuestCard.tsx`: app card with store graphic and an offset shadow in the project's color
 - `src/components/QuestLogRow.tsx`: site row with screenshot, colored thumbnail shadow and hover tint
-- `src/components/SectionHeading.tsx`: display heading with pixel note and a colored XP bar
+- `src/components/SectionHeading.tsx`: display heading with pixel note, a colored XP bar that fills on scroll, optional ghost katakana
+- `src/components/TypeLine.tsx`: typed hero dialogue line (client)
+- `src/components/Countdown.tsx`: arcade 9 to 0 counter
 
 ### Pages (all static)
-- `src/app/page.tsx`: Home: speed-line hero panels, Main Quests, Beats & Backlog side story, Quest Log, CONTINUE? call to action
+- `src/app/page.tsx`: Home: manga splash hero (portrait panel, drifting speed lines, slam-in entrance, typed dialogue box), Main Quests, Beats & Backlog side story, Quest Log, CONTINUE? call to action
 - `src/app/projects/page.tsx`: Quest Log: every app and site with its longer write-up
 - `src/app/about/page.tsx`: Player profile: portrait, bio, stats, save-history job timeline
 - `src/app/contact/page.tsx`: CONTINUE? option menu (book a call, email, GitHub, LinkedIn, Medium)

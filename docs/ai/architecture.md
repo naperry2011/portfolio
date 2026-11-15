@@ -44,6 +44,19 @@ Cyberlounge.net is Nicholas Perry's personal portfolio, built on Next.js 15 App 
 - **Key files:** `src/app/page.tsx`, `src/app/projects/page.tsx`, `src/app/about/page.tsx`, `src/app/contact/page.tsx`
 - **Depends on:** `src/data/projects.ts` (home, projects), shared UI components, `next/image`, `next/link`
 
+### Motion
+- **Responsibility:** Everything that moves. CSS in `globals.css` does the animating; three small pieces of JS only add state.
+  - `RevealObserver` (client, mounted in the layout): marks `[data-reveal]` elements with `data-in` as they scroll into view. It marks anything already on screen first, then adds `.reveal-ready` to `<html>`, so nothing flashes and content stays visible without JS. `data-reveal="xp"` is the XP-bar fill variant.
+  - `TypeLine` (client): types the hero dialogue. The full text is always in the DOM (`sr-only` copy plus an invisible remainder), so layout never shifts.
+  - `Countdown` (server): the 9 to 0 arcade counter on the CONTINUE? screens, a stepped CSS animation.
+- **Hero entrance:** `.slam` keyframes staggered by the `--i` custom property; `.speed-spin` rotates an oversized conic-gradient layer by one 7deg period for a seamless loop (transform only, cheap).
+- **Cards:** `.pressable` lifts on hover and presses into its `--c` shadow on click, using the individual `translate` property so it never fights the reveal's `transform`.
+- **Reduced motion:** one `prefers-reduced-motion` block in `globals.css` turns off every animation and reveal; `TypeLine` checks the same media query. Not yet tested in a browser.
+- **Key files:** `src/components/{RevealObserver,TypeLine,Countdown}.tsx`, `src/app/globals.css`
+
+### Share Image
+- **Responsibility:** `src/app/opengraph-image.tsx` generates the 1200x630 social card at build time with `ImageResponse` from `next/og` (name panel, speed lines, NOW PLAYING strip). Uses the default font; the display font is not loaded there.
+
 ### Smooth Scroll and Route Transitions
 - **Responsibility:** Lenis smooth scrolling (client component mounted in the layout) and the View Transitions curtain wipe between routes (CSS in `globals.css`, enabled by `experimental.viewTransition` in `next.config.ts`)
 - **Key files:** `src/components/SmoothScroll.tsx`, `src/app/template.tsx`, `src/app/globals.css`, `next.config.ts`
@@ -83,6 +96,10 @@ Source of truth: CSS variables in `src/app/globals.css`, mirrored as Tailwind th
 - `.paper`: graph-paper background (24px grid)
 - `.tone`: manga screentone (7px dot pattern)
 - `.tone-sun`: screentone on a sun-yellow ground
+- `.halftone`: multiply-blended dots laid over a photo (hero portrait)
+- `.halftone-fade`: dotted band that dissolves paper into the black sections
+- `.sfx`: outlined manga sound-effect lettering
+- `.slam`, `.speed-spin`, `.blink`, `.countdown`, `.pressable`, `[data-reveal]`: motion (see Motion above)
 - `.speed`: manga speed lines radiating from the left third
 - `.panel`: 4px ink border (don't mix with Tailwind border overrides on the same element; use `border-4 border-ink` classes instead)
 - Tailwind's opacity shorthand (`bg-background/90`) produces no color for these tokens, because they are plain CSS variables. Use `bg-[color-mix(in_srgb,var(--background)_92%,transparent)]` instead (as the Navbar does).
@@ -114,7 +131,8 @@ Source of truth: CSS variables in `src/app/globals.css`, mirrored as Tailwind th
 
 ## Known Constraints / Trade-offs
 
-- OG image (`/og-cover.jpg`) referenced but not yet provided.
+- The share image uses the default `next/og` font, not Dela Gothic One.
+- When an element needs both a static tilt and an entrance animation, set the tilt with the individual `rotate` property (`[rotate:1.5deg]`), because the animation owns `transform`.
 - Site screenshots in `public/projects/*.jpg` are 800px wide; soft when shown large.
 - Next caches optimized images in `.next/cache/images`. After replacing a file in `public/projects/` under the same name, delete that folder or the dev server keeps serving the old image.
 - Strong visual theme: new sections need to fit the panel and quest vocabulary.
