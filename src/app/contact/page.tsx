@@ -1,11 +1,13 @@
 import type { Metadata } from 'next';
+import { pageMeta } from '@/lib/seo';
 import type { CSSProperties } from 'react';
 import Countdown from '@/components/Countdown';
 
-export const metadata: Metadata = {
-  title: 'Continue? | Cyberlounge',
-  description: 'Book a call with Nicholas Perry, or reach out by email, GitHub, LinkedIn or Medium.',
-};
+export const metadata: Metadata = pageMeta(
+  '/contact',
+  'Contact Nicholas Perry | Cyberlounge',
+  'Book a free 15 minute call with Nicholas Perry, or reach out by email, GitHub, LinkedIn or Medium.',
+);
 
 /* Hover colors are light enough for ink text */
 const options = [

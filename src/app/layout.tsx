@@ -5,32 +5,35 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SmoothScroll from "@/components/SmoothScroll";
 import RevealObserver from "@/components/RevealObserver";
+import JsonLd from "@/components/JsonLd";
+import { SITE_NAME, SITE_URL, pageMeta, personJsonLd } from "@/lib/seo";
 
 const display = Dela_Gothic_One({ subsets: ["latin"], weight: "400", variable: "--font-display" });
 const pixel = DotGothic16({ subsets: ["latin"], weight: "400", variable: "--font-pixel" });
 const sans = Zen_Kaku_Gothic_New({ subsets: ["latin"], weight: ["400", "500", "700"], variable: "--font-sans" });
 
-const title = "Cyberlounge | Nicholas Perry";
-const description =
-  "Nicholas Perry builds apps and websites: two cookout card games, a reading journal, and an app that pays you to poop.";
-
 export const metadata: Metadata = {
-  metadataBase: new URL("https://cyberlounge.net"),
-  title,
-  description,
-  openGraph: {
-    title,
-    description,
-    url: "https://cyberlounge.net",
-    siteName: "Cyberlounge",
-    locale: "en_US",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title,
-    description,
-  },
+  metadataBase: new URL(SITE_URL),
+  ...pageMeta(
+    "/",
+    "Nicholas Perry | Apps and websites | Cyberlounge",
+    "Nicholas Perry builds apps and websites: two cookout card games, a reading journal, and an app that pays you to poop.",
+  ),
+};
+
+const siteJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    personJsonLd,
+    {
+      "@type": "WebSite",
+      "@id": SITE_URL + "/#website",
+      url: SITE_URL,
+      name: SITE_NAME,
+      inLanguage: "en",
+      publisher: { "@id": personJsonLd["@id"] },
+    },
+  ],
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
@@ -42,6 +45,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <Navbar />
         <main className="pt-16">{children}</main>
         <Footer />
+        <JsonLd data={siteJsonLd} />
       </body>
     </html>
   );

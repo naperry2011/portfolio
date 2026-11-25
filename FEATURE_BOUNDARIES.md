@@ -5,7 +5,7 @@ Responsibility boundaries between components.
 ## Root Layout (src/app/layout.tsx)
 
 Owns:
-- HTML document shell, graph-paper `<body>` class, metadata/OpenGraph/Twitter tags
+- HTML document shell, graph-paper `<body>` class, home metadata (via `pageMeta`), site-wide Person + WebSite structured data
 - Mounting SmoothScroll, Navbar and Footer around every route
 - Loading global CSS and font variables (Dela Gothic One, DotGothic16, Zen Kaku Gothic New)
 
@@ -90,6 +90,21 @@ Does NOT Own:
 
 Communicates With:
 - next/navigation (RevealObserver re-scans on route change)
+
+Isolation Level: Strong
+
+## Search Metadata (src/lib/seo.ts, src/app/{sitemap,robots}.ts, src/components/JsonLd.tsx)
+
+Owns:
+- The canonical host (`SITE_URL`), per-page title / description / canonical / share tags (`pageMeta`)
+- The sitemap, robots.txt and structured data (Person, WebSite, ProfilePage)
+
+Does NOT Own:
+- Page copy or visible headings (pages keep their game labels)
+- The share image itself (src/app/opengraph-image.tsx)
+
+Communicates With:
+- Layout and pages (they call `pageMeta` and render `JsonLd`)
 
 Isolation Level: Strong
 

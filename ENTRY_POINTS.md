@@ -35,6 +35,12 @@ Path: src/app/opengraph-image.tsx
 Responsibility: Generates the 1200x630 share card at build time.
 Depends On: next/og
 
+## Routes: `/sitemap.xml`, `/robots.txt`
+
+Path: src/app/sitemap.ts, src/app/robots.ts
+Responsibility: Generated at build time. Sitemap lists the four pages on the www host; robots allows all crawlers and names the sitemap.
+Depends On: src/lib/seo.ts
+
 ## Route: `/projects` (QUEST LOG)
 
 Path: src/app/projects/page.tsx

@@ -1,12 +1,15 @@
 import type { Metadata } from 'next';
+import JsonLd from '@/components/JsonLd';
+import { SITE_URL, pageMeta, personJsonLd } from '@/lib/seo';
 import Image from 'next/image';
 import Panel from '@/components/Panel';
 import SectionHeading from '@/components/SectionHeading';
 
-export const metadata: Metadata = {
-  title: 'Player | Cyberlounge',
-  description: 'Nicholas Perry: SRE by day, building apps and websites after hours.',
-};
+export const metadata: Metadata = pageMeta(
+  '/about',
+  'About Nicholas Perry | Cyberlounge',
+  'Nicholas Perry: Site Reliability Engineer by day, building apps and websites after hours. Bio, skills and work history.',
+);
 
 interface SaveEntry {
   title: string;
@@ -152,6 +155,16 @@ export default function About() {
           ))}
         </ol>
       </section>
+      <JsonLd
+        data={{
+          '@context': 'https://schema.org',
+          '@type': 'ProfilePage',
+          '@id': SITE_URL + '/about#profile',
+          url: SITE_URL + '/about',
+          name: 'About Nicholas Perry',
+          mainEntity: { '@id': personJsonLd['@id'] },
+        }}
+      />
     </div>
   );
 }

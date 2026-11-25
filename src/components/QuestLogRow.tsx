@@ -22,7 +22,7 @@ export default function QuestLogRow({ project, detailed = false }: QuestLogRowPr
       >
         <Image
           src={project.image}
-          alt={detailed ? project.imageAlt : ''}
+          alt={project.imageAlt}
           fill
           sizes={detailed ? '(max-width: 640px) 100vw, 256px' : '144px'}
           className="object-cover object-top"

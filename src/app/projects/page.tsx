@@ -1,13 +1,15 @@
 import type { Metadata } from 'next';
+import { pageMeta } from '@/lib/seo';
 import QuestCard from '@/components/QuestCard';
 import QuestLogRow from '@/components/QuestLogRow';
 import SectionHeading from '@/components/SectionHeading';
 import { apps, sideStory, sites } from '@/data/projects';
 
-export const metadata: Metadata = {
-  title: 'Quest Log | Cyberlounge',
-  description: 'Every app and site Nicholas Perry is building or has shipped.',
-};
+export const metadata: Metadata = pageMeta(
+  '/projects',
+  'Projects: apps and websites by Nicholas Perry | Cyberlounge',
+  'Every app and website Nicholas Perry is building or has shipped: mobile apps, card games, and sites for clients.',
+);
 
 export default function Projects() {
   return (

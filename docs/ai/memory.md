@@ -6,7 +6,7 @@ Running history of what's been built and current state. Update after major chang
 
 **Status:** Active Development (personal portfolio site, deployed to Vercel)
 **Last Updated:** 2026-10-25
-**Version:** main (uncommitted): quest-log redesign (ADR-007)
+**Version:** main: quest-log redesign (ADR-007), committed; SEO pass of 2026-11-24 uncommitted
 
 ### What's Working
 - Next.js 15.5.18 App Router site with 4 page routes: `/` (QUESTS), `/projects` (QUEST LOG), `/about` (PLAYER), `/contact` (CONTINUE?)
@@ -34,9 +34,17 @@ Running history of what's been built and current state. Update after major chang
 - About page has no "Currently into" section yet: waiting on the user's actual favorite anime/games (do not invent them)
 
 ### In Progress
-- Motion pass and its doc updates are uncommitted; user reviews and commits in GitHub Desktop
+- SEO pass (2026-11-24) is uncommitted and not deployed; user reviews and commits in GitHub Desktop
+- After deploy, Perry still has to verify the site in Google Search Console and submit `https://www.cyberlounge.net/sitemap.xml`. Structured data has not been run through Google's Rich Results Test (needs the live URL).
+- `SEO-Operating-Standard.pdf` in the repo root is an internal QuasarSeed document; keep it out of commits
 
 ## Implementation History
+
+### 2026-11-24: SEO pass
+**What was built:** Audited the live site against the QuasarSeed SEO Operating Standard PDF (only its technical and content sections apply to a four-page portfolio). Fixed: metadata pointed at the bare domain while the site serves on www; no canonical tags; every page reported the homepage as its share URL; no sitemap or robots.txt; no structured data; vague titles; blank alt text on homepage Quest Log thumbnails. Added `src/lib/seo.ts`, `src/app/sitemap.ts`, `src/app/robots.ts`, `src/components/JsonLd.tsx`; layout and the Projects, About and Contact pages now use `pageMeta()`.
+**Why:** User asked to update SEO using the standard.
+**Not done:** content work to rank for anything beyond the name and "Cyberlounge" (the standard says to pick target searches first); Search Console and Bing setup (needs Perry's accounts).
+**Assumption to confirm:** structured data gives the job title as "Site Reliability Engineer", taken from the About page.
 
 ### 2026-11-14: Motion pass ("make it a scroll-stopper")
 **What was built:** Hero rebuilt as a manga splash page: `profile.jpg` as a tilted halftone portrait panel with a red shadow and PLAYER 1 tag, speed lines that drift (`.speed-spin`), panels that slam in staggered (`.slam` + `--i`), a ドン! sound effect, and the intro typed into an RPG dialogue box (`TypeLine`). Site-wide: `RevealObserver` + `[data-reveal]` scroll reveals, XP bars that fill, `.pressable` cards, ghost katakana behind headings, halftone fade into the black sections, `Countdown` on CONTINUE? screens, blinking ▶ cursors, CLEARED stamps on the Projects page. Added `src/app/opengraph-image.tsx` and removed the `og-cover.jpg` references.
@@ -86,6 +94,10 @@ Running history of what's been built and current state. Update after major chang
 Single Next.js 15 App Router project, deployed to Vercel. React 19, TypeScript, Tailwind 3, Framer Motion 12. No API routes, no database, no auth, no middleware. All content is hardcoded in page components; all four routes are static. See `docs/ai/architecture.md` and root-level `CODE_MAP.md` / `DATA_FLOW.md` for detail.
 
 ## Lessons Learned
+
+- Next merges metadata shallowly: a page that sets its own `openGraph` loses the parent's fields and the file-based `opengraph-image`. Set the image explicitly (done in `pageMeta`).
+- Check built SEO output in `.next/server/app/*.html` and `*.body` after `npm run build`; it is exactly what crawlers receive.
+- Bash mangles `${...}` and backticks inside `node -e "..."`. Write a script file to the scratchpad and run it, or use the Write tool.
 
 - `framer-motion`'s `motion.*` cannot be used directly inside a server component, so `src/components/MotionWrapper.tsx` re-exports `motion.div` as `MotionDiv` behind a `'use client'` boundary.
 - `next/font/google` rejects an explicit `weight` array when `axes` is specified for a variable font (Fraunces in this case). The fix is to omit `weight` so the variable axis takes over.

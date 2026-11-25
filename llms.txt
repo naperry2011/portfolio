@@ -28,6 +28,9 @@
 - `src/components/SmoothScroll.tsx`: Lenis smooth scroll
 - `src/components/RevealObserver.tsx`: scroll reveals (sets `data-in` on `[data-reveal]` elements; CSS animates)
 - `src/app/opengraph-image.tsx`: generated share card (`next/og`)
+- `src/lib/seo.ts`: `SITE_URL` (www is the canonical host), `pageMeta()` for per-page title / description / canonical / share tags, Person structured data
+- `src/app/sitemap.ts`, `src/app/robots.ts`: generated `/sitemap.xml` and `/robots.txt`
+- `src/components/JsonLd.tsx`: JSON-LD script (Person + WebSite site-wide, ProfilePage on About)
 - `src/app/globals.css`: color tokens (`--background`, `--ink`, `--muted`, `--body`, `--rule`, `--grid`, `--surface`, `--accent`, `--cleared`, plus brights `--sun`, `--cobalt`, `--lilac`, `--mint`, `--mustard`) and manga utilities (`.paper`, `.tone`, `.tone-sun`, `.speed`, `.panel`), plus the View Transitions wipe
 - `tailwind.config.ts`: theme colors mirroring the CSS variables, `font-display` / `font-pixel` / `font-sans`
 
@@ -56,6 +59,7 @@
 **To build:** `npm run build && npm start`
 **To lint:** `npm run lint`
 **To change colors:** edit both `src/app/globals.css` (CSS vars) and `tailwind.config.ts` (theme colors); they must stay in sync.
+**To add a page:** export `metadata = pageMeta(path, title, description)` from `src/lib/seo.ts` and add the path to `src/app/sitemap.ts`.
 **To add or change a project:** edit `src/data/projects.ts` (give it a `color` from its art; apps also need `artBg`) and drop the image in `public/projects/`. Home and Projects update together. Use the project's own README or site for copy. If you replace an image under the same file name, delete `.next/cache/images` so the dev server stops serving the old one.
 
 ## Environment Variables

@@ -162,6 +162,9 @@ The Architect design (title-block frames, drawing-sheet labels, consultancy copy
 **Amendment (2026-10-25): color per project**
 The user wanted the design a little more colorful. Each project now carries a `color` taken from its own art (and `artBg` for app store graphics) in `src/data/projects.ts`, passed to components as the CSS custom property `--c` and used for offset shadows, hover tints and fills. Five site-level brights (`--sun`, `--cobalt`, `--lilac`, `--mint`, `--mustard`) color the hero panels, the XP-bar section headings, About and the Contact menu. Paper ground and black ink stay; text on colored grounds stays dark ink at 4.5:1 or better. Alternatives were a fixed 4-color anime palette rotated across panels, and full colored section bands; per-project color was chosen because it ties the color to the user's real work.
 
+**Amendment (2026-11-24): search metadata**
+The canonical host is `https://www.cyberlounge.net`, because the bare domain 308-redirects to www on Vercel. All metadata goes through `pageMeta()` in `src/lib/seo.ts`. Search-result titles describe the page plainly ("Projects: apps and websites by Nicholas Perry") while the on-page headings keep the game labels (QUEST LOG, PLAYER, CONTINUE?). Structured data states only facts visible on the site. No `lastmod` in the sitemap, since there is no real per-page change date to report.
+
 **Amendment (2026-11-14): motion pass**
 The site gained motion and a portrait-led hero (see the Motion section in `architecture.md`). Rules that came out of it: CSS does the animating and JS only sets state (`RevealObserver`, `TypeLine`); content must be visible without JS; every animation is switched off under `prefers-reduced-motion`; no animation library (framer-motion stays removed). A scrolling ticker band was built and then removed at the user's request.
 

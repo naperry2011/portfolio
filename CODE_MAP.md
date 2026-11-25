@@ -14,6 +14,9 @@ Primary Files:
 - src/components/SmoothScroll.tsx
 - src/components/RevealObserver.tsx (scroll reveals: sets data-in on [data-reveal] elements)
 - src/app/opengraph-image.tsx (generated share card)
+- src/lib/seo.ts (SITE_URL, pageMeta() for titles / canonicals / share tags, Person structured data)
+- src/app/sitemap.ts, src/app/robots.ts (generated /sitemap.xml and /robots.txt)
+- src/components/JsonLd.tsx (emits a JSON-LD script)
 
 Supporting Files:
 - src/app/globals.css (color tokens + `.paper`, `.tone`, `.speed`, `.panel` utilities + view-transition wipe)

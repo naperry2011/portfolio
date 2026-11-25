@@ -57,6 +57,14 @@ Cyberlounge.net is Nicholas Perry's personal portfolio, built on Next.js 15 App 
 ### Share Image
 - **Responsibility:** `src/app/opengraph-image.tsx` generates the 1200x630 social card at build time with `ImageResponse` from `next/og` (name panel, speed lines, NOW PLAYING strip). Uses the default font; the display font is not loaded there.
 
+### Search Metadata (SEO)
+- **Responsibility:** Everything search engines and link previews read.
+  - `src/lib/seo.ts`: `SITE_URL` (`https://www.cyberlounge.net`; the bare domain redirects to www, so www is the canonical host), `pageMeta(path, title, description)` (title, description, canonical, Open Graph and Twitter tags including the share image), and `personJsonLd` (the Person entry).
+  - `src/app/sitemap.ts` and `src/app/robots.ts`: generate `/sitemap.xml` (the four pages, no `lastmod`) and `/robots.txt` (allow all, sitemap line).
+  - `src/components/JsonLd.tsx`: emits one JSON-LD script. The layout emits Person + WebSite on every page; About adds a ProfilePage pointing at the Person.
+- **Rules:** every page sets its metadata through `pageMeta`. A page that defines its own `openGraph` replaces the parent's whole object (Next merges metadata shallowly), which also drops the file-based share image, so `pageMeta` sets the image explicitly. Structured data may only state facts that are visible on the site.
+- **Key files:** `src/lib/seo.ts`, `src/app/{sitemap,robots}.ts`, `src/components/JsonLd.tsx`
+
 ### Smooth Scroll and Route Transitions
 - **Responsibility:** Lenis smooth scrolling (client component mounted in the layout) and the View Transitions curtain wipe between routes (CSS in `globals.css`, enabled by `experimental.viewTransition` in `next.config.ts`)
 - **Key files:** `src/components/SmoothScroll.tsx`, `src/app/template.tsx`, `src/app/globals.css`, `next.config.ts`
@@ -107,7 +115,7 @@ Source of truth: CSS variables in `src/app/globals.css`, mirrored as Tailwind th
 ## Data Flow (Critical Path)
 
 1. Browser → Vercel edge → Next.js App Router
-2. All 4 routes prerendered as static at build time
+2. All 4 routes, plus `/sitemap.xml`, `/robots.txt` and `/opengraph-image`, prerendered as static at build time
 3. RootLayout renders → SmoothScroll + Navbar + page segment + Footer
 4. Home and Projects map over `src/data/projects.ts`
 5. Outbound clicks (project links, booking, socials) navigate to external URLs
