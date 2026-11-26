@@ -30,6 +30,8 @@
 - `src/app/opengraph-image.tsx`: generated share card (`next/og`)
 - `src/lib/seo.ts`: `SITE_URL` (www is the canonical host), `pageMeta()` for per-page title / description / canonical / share tags, Person structured data
 - `src/app/sitemap.ts`, `src/app/robots.ts`: generated `/sitemap.xml` and `/robots.txt`
+- `src/app/trainer-websites/page.tsx`: `/trainer-websites` (nav label SHOP), the sales page for the trainer website packages: hero, three package cards, compare table, how it works, call button
+- `src/data/packages.ts`: the three packages (features, demo link, `price`), the compare table rows, the steps and `BOOKING_URL`
 - `src/components/JsonLd.tsx`: JSON-LD script (Person + WebSite site-wide, ProfilePage on About)
 - `src/app/globals.css`: color tokens (`--background`, `--ink`, `--muted`, `--body`, `--rule`, `--grid`, `--surface`, `--accent`, `--cleared`, plus brights `--sun`, `--cobalt`, `--lilac`, `--mint`, `--mustard`) and manga utilities (`.paper`, `.tone`, `.tone-sun`, `.speed`, `.panel`), plus the View Transitions wipe
 - `tailwind.config.ts`: theme colors mirroring the CSS variables, `font-display` / `font-pixel` / `font-sans`
@@ -60,6 +62,7 @@
 **To lint:** `npm run lint`
 **To change colors:** edit both `src/app/globals.css` (CSS vars) and `tailwind.config.ts` (theme colors); they must stay in sync.
 **To add a page:** export `metadata = pageMeta(path, title, description)` from `src/lib/seo.ts` and add the path to `src/app/sitemap.ts`.
+**To set or change a package price:** edit `price` in `src/data/packages.ts` (for example `'$499'`). `null` makes the card say the price is quoted on the call. The card and the structured data both read it.
 **To add or change a project:** edit `src/data/projects.ts` (give it a `color` from its art; apps also need `artBg`) and drop the image in `public/projects/`. Home and Projects update together. Use the project's own README or site for copy. If you replace an image under the same file name, delete `.next/cache/images` so the dev server stops serving the old one.
 
 ## Environment Variables

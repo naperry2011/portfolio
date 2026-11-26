@@ -6,7 +6,7 @@ Running history of what's been built and current state. Update after major chang
 
 **Status:** Active Development (personal portfolio site, deployed to Vercel)
 **Last Updated:** 2026-10-25
-**Version:** main: quest-log redesign (ADR-007), committed; SEO pass of 2026-11-24 uncommitted
+**Version:** main: quest-log redesign (ADR-007) and SEO pass committed and live; shop page of 2026-11-24 uncommitted
 
 ### What's Working
 - Next.js 15.5.18 App Router site with 4 page routes: `/` (QUESTS), `/projects` (QUEST LOG), `/about` (PLAYER), `/contact` (CONTINUE?)
@@ -34,11 +34,20 @@ Running history of what's been built and current state. Update after major chang
 - About page has no "Currently into" section yet: waiting on the user's actual favorite anime/games (do not invent them)
 
 ### In Progress
-- SEO pass (2026-11-24) is uncommitted and not deployed; user reviews and commits in GitHub Desktop
+- SEO pass (2026-11-24) is committed and live (robots.txt, sitemap.xml, canonical and structured data confirmed on www.cyberlounge.net)
+- Shop page `/trainer-websites` (2026-11-24) is uncommitted and not deployed; user reviews and commits in GitHub Desktop
+- Shop page is waiting on Perry for: a price per tier (`price` in `src/data/packages.ts`, currently `null`), turnaround times, what is included after launch (hosting, domain, changes), and whether Elite (booking, payments, client portal) can be delivered to a real client today. No questions section exists yet for the same reason.
+- Goal stated by Perry on 2026-11-24: start making money from the site. Agreed order: sell the trainer packages by direct outreach first, content SEO for trainer searches after. Outreach messages have been offered but not written.
 - After deploy, Perry still has to verify the site in Google Search Console and submit `https://www.cyberlounge.net/sitemap.xml`. Structured data has not been run through Google's Rich Results Test (needs the live URL).
 - `SEO-Operating-Standard.pdf` in the repo root is an internal QuasarSeed document; keep it out of commits
 
 ## Implementation History
+
+### 2026-11-24: Shop page for the trainer website packages
+**What was built:** `/trainer-websites` (nav label SHOP): hero with a call button, three package cards with live demo links, a compare table, three steps, and a CONTINUE? closer. Package names, features and demo URLs were read from the live demo site. Added a sun panel under the Quest Log on Home, a second on-site link on the Trainer Website Packages row, the sitemap entry, `pageMeta()` and Service structured data.
+**Why:** Perry asked what comes next to start making money; the site showed work but had no page selling a specific service.
+**Files affected:** new `src/app/trainer-websites/page.tsx`, `src/data/packages.ts`; edits to `src/components/{Navbar,QuestLogRow}.tsx`, `src/app/{page.tsx,sitemap.ts}`, `src/data/projects.ts`.
+**Checked:** lint and build; the page at desktop and phone widths, the Home panel at phone width. Not checked: tablet width, the compare table by eye on a phone.
 
 ### 2026-11-24: SEO pass
 **What was built:** Audited the live site against the QuasarSeed SEO Operating Standard PDF (only its technical and content sections apply to a four-page portfolio). Fixed: metadata pointed at the bare domain while the site serves on www; no canonical tags; every page reported the homepage as its share URL; no sitemap or robots.txt; no structured data; vague titles; blank alt text on homepage Quest Log thumbnails. Added `src/lib/seo.ts`, `src/app/sitemap.ts`, `src/app/robots.ts`, `src/components/JsonLd.tsx`; layout and the Projects, About and Contact pages now use `pageMeta()`.

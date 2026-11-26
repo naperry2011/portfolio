@@ -6,7 +6,8 @@ High-level coupling overview. Repo is small; graph is shallow and tree-shaped.
 
 - src/app/layout.tsx: wraps every route segment; imports SmoothScroll, Navbar, Footer, globals.css; loads three font families
 - src/data/projects.ts: leaf module (no imports); imported by the Home and Projects pages and by QuestCard, QuestLogRow, StatusTag (types)
-- src/lib/seo.ts: leaf module (imports only the `Metadata` type); imported by the layout, Projects, About, Contact, sitemap and robots
+- src/lib/seo.ts: leaf module (imports only the `Metadata` type); imported by the layout, Projects, Trainer Websites, About, Contact, sitemap and robots
+- src/data/packages.ts: leaf module (no imports); imported only by the Trainer Websites page
 - src/components/Panel.tsx: imported by QuestCard, Home, About
 - src/components/StatusTag.tsx: imported by QuestCard, QuestLogRow, Home
 - src/components/SectionHeading.tsx: imported by Home, Projects, About
@@ -26,10 +27,11 @@ High-level coupling overview. Repo is small; graph is shallow and tree-shaped.
 - Home → data, Panel, QuestCard, QuestLogRow, SectionHeading, StatusTag, TypeLine, Countdown
 - Projects → data, QuestCard, QuestLogRow, SectionHeading, lib/seo
 - About → Panel, SectionHeading, JsonLd, lib/seo
+- Trainer Websites → data/packages, Panel, SectionHeading, Countdown, JsonLd, lib/seo
 - Contact → Countdown, lib/seo
 - sitemap, robots → lib/seo
 - opengraph-image → next/og only
-- QuestCard → Panel, StatusTag, data (types); QuestLogRow → StatusTag, data (types); StatusTag → data (types)
+- QuestCard → Panel, StatusTag, data (types); QuestLogRow → StatusTag, next/link, data (types); StatusTag → data (types)
 - No page imports another page.
 
 ## Client Boundaries

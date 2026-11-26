@@ -162,6 +162,9 @@ The Architect design (title-block frames, drawing-sheet labels, consultancy copy
 **Amendment (2026-10-25): color per project**
 The user wanted the design a little more colorful. Each project now carries a `color` taken from its own art (and `artBg` for app store graphics) in `src/data/projects.ts`, passed to components as the CSS custom property `--c` and used for offset shadows, hover tints and fills. Five site-level brights (`--sun`, `--cobalt`, `--lilac`, `--mint`, `--mustard`) color the hero panels, the XP-bar section headings, About and the Contact menu. Paper ground and black ink stay; text on colored grounds stays dark ink at 4.5:1 or better. Alternatives were a fixed 4-color anime palette rotated across panels, and full colored section bands; per-project color was chosen because it ties the color to the user's real work.
 
+**Amendment (2026-11-24): the shop page**
+The site gains one sales page, `/trainer-websites`, labelled SHOP in the nav. Reason: Perry wants the site to bring in paying work, and the trainer website packages are the one offer with a defined buyer and live demos. The URL and search title are plain ("Websites for personal trainers") while the nav and page keep the game vocabulary (SHOP, ITEM SHOP, STAGE 01). Prices live in `src/data/packages.ts` and are never invented: unset prices show as quoted on the call. This is one page for one offer, not a general services section.
+
 **Amendment (2026-11-24): search metadata**
 The canonical host is `https://www.cyberlounge.net`, because the bare domain 308-redirects to www on Vercel. All metadata goes through `pageMeta()` in `src/lib/seo.ts`. Search-result titles describe the page plainly ("Projects: apps and websites by Nicholas Perry") while the on-page headings keep the game labels (QUEST LOG, PLAYER, CONTINUE?). Structured data states only facts visible on the site. No `lastmod` in the sitemap, since there is no real per-page change date to report.
 

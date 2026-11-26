@@ -38,7 +38,7 @@ Depends On: next/og
 ## Routes: `/sitemap.xml`, `/robots.txt`
 
 Path: src/app/sitemap.ts, src/app/robots.ts
-Responsibility: Generated at build time. Sitemap lists the four pages on the www host; robots allows all crawlers and names the sitemap.
+Responsibility: Generated at build time. Sitemap lists the five pages on the www host; robots allows all crawlers and names the sitemap.
 Depends On: src/lib/seo.ts
 
 ## Route: `/projects` (QUEST LOG)
@@ -47,6 +47,12 @@ Path: src/app/projects/page.tsx
 Responsibility: Every app, the side story and every site, with their longer write-ups.
 Invokes: src/data/projects.ts, src/components/{QuestCard,QuestLogRow,SectionHeading}.tsx
 Depends On: next (Metadata type)
+
+## Route: `/trainer-websites` (SHOP)
+
+Path: src/app/trainer-websites/page.tsx
+Responsibility: Sells the trainer website packages. Hero, three package cards with live demo links, compare table, how it works, and a call button to Cal.com. Emits Service structured data.
+Invokes: src/data/packages.ts, src/lib/seo.ts, src/components/{Panel,SectionHeading,Countdown,JsonLd}.tsx
 
 ## Route: `/about` (PLAYER)
 

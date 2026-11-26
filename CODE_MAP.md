@@ -16,6 +16,8 @@ Primary Files:
 - src/app/opengraph-image.tsx (generated share card)
 - src/lib/seo.ts (SITE_URL, pageMeta() for titles / canonicals / share tags, Person structured data)
 - src/app/sitemap.ts, src/app/robots.ts (generated /sitemap.xml and /robots.txt)
+- src/app/trainer-websites/page.tsx (route `/trainer-websites`, nav label SHOP: the page that sells the trainer website packages)
+- src/data/packages.ts (`packages`, `comparison`, `steps`, `BOOKING_URL`; each package has a `price` that is `null` until Perry sets it)
 - src/components/JsonLd.tsx (emits a JSON-LD script)
 
 Supporting Files:
@@ -51,7 +53,7 @@ Primary Files:
 - src/components/Panel.tsx (bordered comic panel; variants plain / tone / sun / speed / ink; optional `style`)
 - src/components/StatusTag.tsx (status label colored by tone: active red, cleared green, neutral grey; `stamp` renders CLEARED as a tilted stamp)
 - src/components/QuestCard.tsx (app card with store graphic and colored offset shadow; `detailed` shows the long description)
-- src/components/QuestLogRow.tsx (site row with screenshot, colored thumbnail shadow and hover tint; `detailed` shows the long description)
+- src/components/QuestLogRow.tsx (site row with screenshot, colored thumbnail shadow and hover tint; `detailed` shows the long description; a second link starting with "/" renders as an on-site link)
 - src/components/SectionHeading.tsx (display heading + pixel note + colored XP bar that fills on scroll; optional `ghost` katakana)
 - src/components/TypeLine.tsx (client; types the hero dialogue line)
 - src/components/Countdown.tsx (9 to 0 arcade counter on CONTINUE? screens)

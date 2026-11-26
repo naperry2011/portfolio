@@ -163,7 +163,10 @@ export const sites: Project[] = [
     meta: 'TEMPLATE / 3 TIERS',
     image: '/projects/trainer-packages.jpg',
     imageAlt: 'Trainer Website Packages page: Pick the site that fits your business',
-    links: [{ label: 'VISIT', href: 'https://three-tier-template-zl4o.vercel.app/' }],
+    links: [
+      { label: 'VISIT', href: 'https://three-tier-template-zl4o.vercel.app/' },
+      { label: 'GET ONE FOR YOUR BUSINESS', href: '/trainer-websites' },
+    ],
   },
   {
     slug: 'porchlight',

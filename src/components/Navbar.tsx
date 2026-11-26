@@ -7,6 +7,7 @@ import { useState } from 'react';
 const navLinks: [string, string][] = [
   ['QUESTS', '/'],
   ['QUEST LOG', '/projects'],
+  ['SHOP', '/trainer-websites'],
   ['PLAYER', '/about'],
   ['CONTACT', '/contact'],
 ];

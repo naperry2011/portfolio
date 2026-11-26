@@ -57,10 +57,17 @@ Cyberlounge.net is Nicholas Perry's personal portfolio, built on Next.js 15 App 
 ### Share Image
 - **Responsibility:** `src/app/opengraph-image.tsx` generates the 1200x630 social card at build time with `ImageResponse` from `next/og` (name panel, speed lines, NOW PLAYING strip). Uses the default font; the display font is not loaded there.
 
+### Trainer Website Shop
+- **Responsibility:** The one page that sells a service: `/trainer-websites`, nav label SHOP. Hero, three package cards (Starter, Pro, Elite) each linking to its live demo, a compare table, three steps, and a call button to Cal.com.
+- **Data:** `src/data/packages.ts` holds the packages, the compare rows (`[feature, lowest tier index that includes it]`), the steps and `BOOKING_URL`. `price` is `null` until set; the card then reads "PRICE: QUOTED ON THE CALL" and the structured data omits the price.
+- **Rules:** package names and features mirror the demo site (three-tier-template-zl4o.vercel.app); keep the two in step. The page states nothing about hosting, domains, turnaround or revisions until Perry supplies the facts.
+- **Entry points:** nav SHOP link, a sun panel under the Quest Log on Home, and the Trainer Website Packages row (its second link in `src/data/projects.ts`; `QuestLogRow` renders a second link that starts with "/" as an on-site link).
+- **Key files:** `src/app/trainer-websites/page.tsx`, `src/data/packages.ts`
+
 ### Search Metadata (SEO)
 - **Responsibility:** Everything search engines and link previews read.
   - `src/lib/seo.ts`: `SITE_URL` (`https://www.cyberlounge.net`; the bare domain redirects to www, so www is the canonical host), `pageMeta(path, title, description)` (title, description, canonical, Open Graph and Twitter tags including the share image), and `personJsonLd` (the Person entry).
-  - `src/app/sitemap.ts` and `src/app/robots.ts`: generate `/sitemap.xml` (the four pages, no `lastmod`) and `/robots.txt` (allow all, sitemap line).
+  - `src/app/sitemap.ts` and `src/app/robots.ts`: generate `/sitemap.xml` (the five pages, no `lastmod`) and `/robots.txt` (allow all, sitemap line).
   - `src/components/JsonLd.tsx`: emits one JSON-LD script. The layout emits Person + WebSite on every page; About adds a ProfilePage pointing at the Person.
 - **Rules:** every page sets its metadata through `pageMeta`. A page that defines its own `openGraph` replaces the parent's whole object (Next merges metadata shallowly), which also drops the file-based share image, so `pageMeta` sets the image explicitly. Structured data may only state facts that are visible on the site.
 - **Key files:** `src/lib/seo.ts`, `src/app/{sitemap,robots}.ts`, `src/components/JsonLd.tsx`
@@ -115,7 +122,7 @@ Source of truth: CSS variables in `src/app/globals.css`, mirrored as Tailwind th
 ## Data Flow (Critical Path)
 
 1. Browser → Vercel edge → Next.js App Router
-2. All 4 routes, plus `/sitemap.xml`, `/robots.txt` and `/opengraph-image`, prerendered as static at build time
+2. All 5 routes, plus `/sitemap.xml`, `/robots.txt` and `/opengraph-image`, prerendered as static at build time
 3. RootLayout renders → SmoothScroll + Navbar + page segment + Footer
 4. Home and Projects map over `src/data/projects.ts`
 5. Outbound clicks (project links, booking, socials) navigate to external URLs

@@ -147,6 +147,23 @@ export default function Home() {
               FULL QUEST LOG ▶
             </Link>
           </p>
+          <Panel
+            reveal
+            variant="sun"
+            as="aside"
+            className="mt-10 flex flex-wrap items-center justify-between gap-x-8 gap-y-4 px-6 py-5 shadow-[8px_8px_0_var(--ink)]"
+          >
+            <div className="min-w-0">
+              <p className="font-pixel">ITEM SHOP / NOW OPEN</p>
+              <p className="mt-1 text-xl font-bold">Personal trainer? I&apos;ll build your website.</p>
+            </div>
+            <Link
+              href="/trainer-websites"
+              className="border-[3px] border-ink bg-surface px-4 py-2.5 font-pixel text-lg hover:bg-ink hover:text-background"
+            >
+              SEE THE PACKAGES ▶
+            </Link>
+          </Panel>
         </section>
       </div>
 

@@ -93,11 +93,27 @@ Communicates With:
 
 Isolation Level: Strong
 
+## Trainer Website Shop (src/app/trainer-websites/page.tsx, src/data/packages.ts)
+
+Owns:
+- The offer: package names, features, demo links, prices, the compare table and the steps (all in src/data/packages.ts)
+- The sales page layout and its Service structured data
+
+Does NOT Own:
+- The demo sites themselves (separate Vercel projects)
+- Booking (the button links out to Cal.com)
+- The Quest Log entry for the project (src/data/projects.ts, which links here)
+
+Communicates With:
+- Shared UI components, Search Metadata (`pageMeta`, `JsonLd`)
+
+Isolation Level: Strong
+
 ## Search Metadata (src/lib/seo.ts, src/app/{sitemap,robots}.ts, src/components/JsonLd.tsx)
 
 Owns:
 - The canonical host (`SITE_URL`), per-page title / description / canonical / share tags (`pageMeta`)
-- The sitemap, robots.txt and structured data (Person, WebSite, ProfilePage)
+- The sitemap, robots.txt and site-wide structured data (Person, WebSite, ProfilePage); the shop page builds its own Service entry
 
 Does NOT Own:
 - Page copy or visible headings (pages keep their game labels)

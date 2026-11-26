@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import type { CSSProperties } from 'react';
 import type { Project } from '@/data/projects';
 import StatusTag from './StatusTag';
@@ -38,6 +39,14 @@ export default function QuestLogRow({ project, detailed = false }: QuestLogRowPr
           {project.title}
         </a>
         <p className="mt-1 leading-relaxed text-body">{detailed ? project.description : project.blurb}</p>
+        {/* A second link that starts with "/" is a page on this site */}
+        {project.links[1]?.href.startsWith('/') && (
+          <p className="mt-2 font-pixel">
+            <Link href={project.links[1].href} className="underline hover:text-accent">
+              {project.links[1].label} ▶
+            </Link>
+          </p>
+        )}
         {detailed && <p className="mt-2 font-pixel text-sm text-muted">{project.meta}</p>}
       </div>
       <StatusTag status={project.status} stamp={detailed} className="shrink-0" />
